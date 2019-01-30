@@ -19,10 +19,6 @@ void setup()
 {
   /*first = new Sensor(1, 0);
   second = new Sensor(1, 1);*/
-
-  for (int i = 0; i < 6; i++)
-    sensors[i] = new Sensor(1, i);
-
  
   Serial.begin(9600);
 }
@@ -49,6 +45,14 @@ void loop()
       case 2:
         GettingData = false;
       break;
+      case 3:
+        *sensors = new Sensor[arg1];
+
+        for (int i = 0; i < sensors.Length; i++)
+        {
+          
+        }
+      break;
     }
     
   }
@@ -69,6 +73,14 @@ void ReadCommand()
     delay(1);    
     arg4 = Serial.read(); 
 }
+
+Sensor ReaadSensor()
+{
+  Sensor *ret = new Sensor();
+  
+}
+
+
 
 void SendData()
 {

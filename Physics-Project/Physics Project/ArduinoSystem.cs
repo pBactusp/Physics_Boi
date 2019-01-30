@@ -24,7 +24,7 @@ namespace Physics_Project
         public bool HasData = false;
         //
         #endregion
-        
+
         private byte[] buffer_1B = new byte[1];
         private byte[] buffer_5BCommand = new byte[5];
 
@@ -70,6 +70,29 @@ namespace Physics_Project
         {
             buffer_1B[0] = Convert.ToByte(arg);
             Port.Write(buffer_1B, 0, 1);
+        }
+        //
+        public void SendSensor(params Sensor[] sensors)
+        {
+            SendCommand(3, sensors.Length);
+
+            foreach (Sensor sensor in sensors)
+            {
+                /*byte[] tempBuffer = new byte[]
+                    {
+                        Convert.ToByte(sensor.Type),
+                        Convert.ToByte(sensor.Con.digPin1),
+                        Convert.ToByte(sensor.Con.digPin2),
+                        Convert.ToByte(sensor.Con.digPin3),
+                        Convert.ToByte(sensor.Con.interruptPin),
+                        Convert.ToByte(sensor.Con.anPin1),
+                        Convert.ToByte(sensor.Con.anPin2)
+                    };
+                Port.Write(tempBuffer, 0, tempBuffer.Length);*/
+
+                byte[] tempBuffer = new byte[] { Convert.ToByte(sensor.Type), Convert.ToByte(sensor.ConnectionNumber) };
+            }
+
         }
         //
         /// <summary>

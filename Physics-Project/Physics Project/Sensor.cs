@@ -9,12 +9,14 @@ namespace Physics_Project
     {
         int _Type;
         public int Type { get { return _Type; } }
-        Connection Con;
+        public int ConnectionNumber;
+        public Connection Con;
 
 
         public Sensor(int type, int connection_num)
         {
             _Type = type;
+            ConnectionNumber = connection_num;
             Con = new Connection(connection_num);
         }
         public Sensor(int type, Connection connection)
