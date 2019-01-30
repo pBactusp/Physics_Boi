@@ -11,164 +11,90 @@ namespace Physics_Project
 {
     public partial class SensorSetup : Form
     {
-        private float quarter { get { return systemImagePIBO.Width / 4; } }
-        private Color clearColor { get { return Color.FromArgb(0, 0, 0, 0); } }
+        Sensor[] Sensors = new Sensor[6];
+        float divisionDistance { get { return selectionPA.Width / Sensors.Length; } }
 
-        private int _SelectedSensor;
-        public Sensor[] Sensors;
-        public Sensor SelectedSensor
-        {
-            get { return Sensors[_SelectedSensor]; }
-            set { Sensors[_SelectedSensor] = value; }
-        }
-        
+        Bitmap bm;
+        Graphics bmGraphics;
+
+        int selectedDivision = 0;
 
         public SensorSetup()
         {
             InitializeComponent();
 
-            systemImagePIBO.BackgroundImage = new Bitmap(systemImagePIBO.Width, systemImagePIBO.Height);
-            DrawQuarters();
+            for (int i = 0; i < Sensors.Length; i++)
+                Sensors[i] = new Sensor(0, i);
 
 
-            Sensor tempSensor1 = new Sensor();
-            Sensor tempSensor2 = new Sensor();
-            Sensor tempSensor3 = new Sensor();
-            Sensor tempSensor4 = new Sensor();
+            bm = new Bitmap(selectionPA.Width, selectionPA.Height);
+            selectionPA.BackgroundImage = bm;
 
-            Sensors = new Sensor[] 
-            {
-                tempSensor1,
-                tempSensor2,
-                tempSensor3,
-                tempSensor4
-            };
-            _SelectedSensor = 0;
 
-            foreach (string sensorName in GlobalData.SensorTypes)
-                sensorCOBO.Items.Add(sensorName);
-            sensorCOBO.SelectedIndex = 0;
+            bmGraphics = Graphics.FromImage(bm);
+            DrawDivisions(bmGraphics);
 
+
+
+            sensorTypeLIBO.Items.AddRange(GlobalData.SensorTypes);
+            sensorTypeLIBO.SelectedIndex = Sensors[selectedDivision].Type;
 
         }
 
 
-        private void DrawQuarters()
+
+        public void DrawDivisions(Graphics g)
         {
-            Graphics g = Graphics.FromImage(systemImagePIBO.BackgroundImage);
-            g.Clear(clearColor);
+            g.Clear(GlobalData.ClearColor);
 
-            for (int i = 1; i < 4; i++)
-                g.DrawLine(Pens.Black, i * quarter, 0, i * quarter, systemImagePIBO.Height);
-            g.FillEllipse(Brushes.Red, quarter * _SelectedSensor + quarter / 2 - 5, systemImagePIBO.Height / 2 - 5, 10, 10);
+            g.FillEllipse(new SolidBrush(Color.Yellow), selectedDivision * divisionDistance, 0, divisionDistance, selectionPA.Height);
 
-            systemImagePIBO.Refresh();
+            for (int i = 1; i < Sensors.Length; i++)
+                g.DrawLine(Pens.Black, divisionDistance * i, 0, divisionDistance * i, selectionPA.Height);
+
+            selectionPA.Refresh();
+
+            tabsTACO.Controls.Clear();
+            tabsTACO.Controls.Add(CreateMeasurmantsTabPage());
         }
 
-        private void systemImagePIBO_SizeChanged(object sender, EventArgs e)
+        public TabPage CreateMeasurmantsTabPage()
         {
-            DrawQuarters();
+            TabPage ret = new TabPage("Measurements");
+
+            Label tempLabel = new Label();
+            tempLabel.Text = GlobalData.DataNames[Sensors[selectedDivision].Type];
+            tempLabel.Dock = DockStyle.Left;
+
+            ComboBox tempCOBO = new ComboBox();
+            foreach (string s in GlobalData.MeasurmentsNames[Sensors[selectedDivision].Type])
+                tempCOBO.Items.Add(s);
+            tempCOBO.SelectedIndex = 0;
+            tempCOBO.Dock = DockStyle.Right;
+
+            ret.Controls.Add(tempLabel);
+            ret.Controls.Add(tempCOBO);
+
+            return ret;
         }
-        private void systemImagePIBO_MouseClick(object sender, MouseEventArgs e)
+
+
+        private void selectionPA_MouseClick(object sender, MouseEventArgs e)
         {
-            if (e.Button == MouseButtons.Left)
-            {
-                if (e.X < quarter)
-                    _SelectedSensor = 0;
-                else if (e.X < quarter * 2)
-                    _SelectedSensor = 1;
-                else if (e.X < quarter * 3)
-                    _SelectedSensor = 2;
-                else
-                    _SelectedSensor = 3;
-            }
+            selectedDivision = (int)(e.X / divisionDistance);
 
-            Update2();
+            DrawDivisions(bmGraphics);
+            sensorTypeLIBO.SelectedIndex = Sensors[selectedDivision].Type;
+
+            //MessageBox.Show(selectedDivision.ToString());
         }
 
-
-
-        #region Sensor setup functions
-
-        private void Update2()
+        private void sensorTypeLIBO_SelectedIndexChanged(object sender, EventArgs e)
         {
-            samplingRateNUPDO.Value = SelectedSensor.SampleRate;
-            sensorCOBO.SelectedIndex = SelectedSensor.Type;
-
-            switch (SelectedSensor.TypeS)
-            {
-                case "Empty":
-                    EmptySensor();
-
-                    break;
-
-
-                case "Ultrasonic":
-                    SetupUltrasonic();
-
-                    break;
-
-
-                default:
-
-
-                    break;
-            }
-
-
-            DrawQuarters();
+            Sensors[selectedDivision].SetType(sensorTypeLIBO.SelectedIndex);
+            DrawDivisions(bmGraphics);
+            //MessageBox.Show(Sensors[selectedDivision].Type.ToString());
         }
 
-        private void EmptySensor()
-        {
-            connectionsLIBO.Items.Clear();
-
-            connectionsGRBO.Enabled = false;
-            samplingGRBO.Enabled = false;
-        }
-
-        private void SetupUltrasonic()
-        {
-            connectionsGRBO.Enabled = true;
-            samplingGRBO.Enabled = true;
-
-            connectionsLIBO.Items.Clear();
-            foreach (Pin pin in SelectedSensor.Pins)
-            {
-                connectionsLIBO.Items.Add(pin.Name + ": " + pin.Number.ToString());
-            }
-
-
-
-
-        }
-
-
-
-
-        #endregion
-
-        private void sensorCOBO_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            if (SelectedSensor.Type != sensorCOBO.SelectedIndex)
-                SelectedSensor = new Sensor(sensorCOBO.SelectedIndex);
-            Update2();
-        }
-
-        private void setPinNumBU_Click(object sender, EventArgs e)
-        {
-            Pin tempPin = new Pin() {
-                Name = SelectedSensor.Pins[connectionsLIBO.SelectedIndex].Name,
-                Number = (int)pinNumNUPDO.Value
-            };
-
-            SelectedSensor.Pins[connectionsLIBO.SelectedIndex] = tempPin;
-            Update2();
-        }
-
-        private void samplingRateNUPDO_ValueChanged(object sender, EventArgs e)
-        {
-            SelectedSensor.SampleRate = (int)samplingRateNUPDO.Value;
-        }
     }
 }
