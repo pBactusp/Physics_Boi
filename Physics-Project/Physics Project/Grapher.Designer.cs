@@ -45,6 +45,8 @@
             this.zoomModeCB = new System.Windows.Forms.ComboBox();
             this.treeViewMEST = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.changeColorToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.addDatasetBU = new System.Windows.Forms.Button();
+            this.deleteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.displayPB)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.powerValueNUD)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.polyResNUD)).BeginInit();
@@ -180,6 +182,7 @@
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 32.47423F));
             this.tableLayoutPanel1.Controls.Add(this.tableLayoutPanel2, 1, 1);
             this.tableLayoutPanel1.Controls.Add(this.displayPB, 0, 1);
+            this.tableLayoutPanel1.Controls.Add(this.addDatasetBU, 1, 0);
             this.tableLayoutPanel1.Location = new System.Drawing.Point(12, 12);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
             this.tableLayoutPanel1.RowCount = 2;
@@ -271,9 +274,10 @@
             // treeViewMEST
             // 
             this.treeViewMEST.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.changeColorToolStripMenuItem});
+            this.changeColorToolStripMenuItem,
+            this.deleteToolStripMenuItem});
             this.treeViewMEST.Name = "treeViewMEST";
-            this.treeViewMEST.Size = new System.Drawing.Size(148, 26);
+            this.treeViewMEST.Size = new System.Drawing.Size(181, 70);
             // 
             // changeColorToolStripMenuItem
             // 
@@ -281,6 +285,24 @@
             this.changeColorToolStripMenuItem.Size = new System.Drawing.Size(147, 22);
             this.changeColorToolStripMenuItem.Text = "Change Color";
             this.changeColorToolStripMenuItem.Click += new System.EventHandler(this.changeColorToolStripMenuItem_Click);
+            // 
+            // addDatasetBU
+            // 
+            this.addDatasetBU.Dock = System.Windows.Forms.DockStyle.Left;
+            this.addDatasetBU.Location = new System.Drawing.Point(526, 3);
+            this.addDatasetBU.Name = "addDatasetBU";
+            this.addDatasetBU.Size = new System.Drawing.Size(75, 59);
+            this.addDatasetBU.TabIndex = 18;
+            this.addDatasetBU.Text = "Add a dataset";
+            this.addDatasetBU.UseVisualStyleBackColor = true;
+            this.addDatasetBU.Click += new System.EventHandler(this.addDatasetBU_Click);
+            // 
+            // deleteToolStripMenuItem
+            // 
+            this.deleteToolStripMenuItem.Name = "deleteToolStripMenuItem";
+            this.deleteToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.deleteToolStripMenuItem.Text = "Delete";
+            this.deleteToolStripMenuItem.Click += new System.EventHandler(this.deleteToolStripMenuItem_Click);
             // 
             // Grapher
             // 
@@ -325,5 +347,7 @@
         private System.Windows.Forms.ComboBox zoomModeCB;
         private System.Windows.Forms.ContextMenuStrip treeViewMEST;
         private System.Windows.Forms.ToolStripMenuItem changeColorToolStripMenuItem;
+        private System.Windows.Forms.Button addDatasetBU;
+        private System.Windows.Forms.ToolStripMenuItem deleteToolStripMenuItem;
     }
 }

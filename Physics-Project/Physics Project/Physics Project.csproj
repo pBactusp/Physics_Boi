@@ -81,6 +81,12 @@
     <Compile Include="ColorPicker.Designer.cs">
       <DependentUpon>ColorPicker.cs</DependentUpon>
     </Compile>
+    <Compile Include="DatasetSelector.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="DatasetSelector.Designer.cs">
+      <DependentUpon>DatasetSelector.cs</DependentUpon>
+    </Compile>
     <Compile Include="ExportWindow.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -128,6 +134,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="ColorPicker.resx">
       <DependentUpon>ColorPicker.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DatasetSelector.resx">
+      <DependentUpon>DatasetSelector.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="ExportWindow.resx">
       <DependentUpon>ExportWindow.cs</DependentUpon>

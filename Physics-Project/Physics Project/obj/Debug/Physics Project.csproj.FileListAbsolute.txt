@@ -85,3 +85,4 @@ D:\C#\Physics Project\Physics_Boi\Physics-Project\Physics Project\obj\Debug\Phys
 D:\C#\Physics Project\Physics_Boi\Physics-Project\Physics Project\obj\Debug\Physics Project.csproj.CopyComplete
 D:\C#\Physics Project\Physics_Boi\Physics-Project\Physics Project\obj\Debug\Physics Project.exe
 D:\C#\Physics Project\Physics_Boi\Physics-Project\Physics Project\obj\Debug\Physics Project.pdb
+D:\C#\Physics Project\Physics_Boi\Physics-Project\Physics Project\obj\Debug\Physics_Project.DatasetSelector.resources

@@ -8,6 +8,8 @@ namespace Physics_Project
 {
     public static class GlobalData
     {
+        public static List<RunData> allRuns;
+
         public static string[] SensorTypes = new string[]
         {
             "Empty",

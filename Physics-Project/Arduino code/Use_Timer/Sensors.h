@@ -91,7 +91,7 @@ class Sensor
     Sensor(int type, int con, int sample_rate)
     {
         SampleRate = sample_rate;
-        SampleRateCounter = 0;
+        SampleRateCounter = 1;
         Con = new Connection(con);
         Type = type;
         

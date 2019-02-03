@@ -12,15 +12,11 @@ namespace Physics_Project
 {
     public partial class mainForm : Form
     {
-        List<RunData> allRuns = new List<RunData>();
         ArduinoSystem arSystem;
         SensorSetup sensorSetup;
 
         Grapher tempGrapher;
         Table tempTable;
-        //Charter tempCharter;
-        //CharterC tempCharterC;
-        AllRunsTreeView tempAllRunsTreeView;
 
         BackgroundWorker bgw;
         bool cd = false; // Collecting data
@@ -29,6 +25,8 @@ namespace Physics_Project
         public mainForm()
         {
             InitializeComponent();
+
+            GlobalData.allRuns = new List<RunData>();
 
             arSystem = new ArduinoSystem();
 
@@ -56,7 +54,7 @@ namespace Physics_Project
             runData.AddDataList("Temporary List 3", tempFloatArr3);
             runData.AddDataList("Temporary List 4", tempFloatArr4);
 
-            allRuns.Add(runData);
+            GlobalData.allRuns.Add(runData);
 
             #region Visualize fake initial data
 
@@ -82,6 +80,11 @@ namespace Physics_Project
             tempTable.AddColumn(runData.AllData[2]);
             tempTable.AddColumn(runData.AllData[3]);*/
             tempTable.Show();
+
+
+            //AllRunsTreeView tempARTV = new AllRunsTreeView();
+            //tempARTV.Show();
+
 
             #endregion
 
@@ -125,17 +128,17 @@ namespace Physics_Project
             runTime = 0;
 
             RunData ret = new RunData();
-            allRuns.Add(ret);
+            GlobalData.allRuns.Add(ret);
 
             ret.AddDataList(new NamedList("Time (s)"));
             ret.AddDataList(new NamedList("Distance (cm)"));
-
+            ret.AddDataList(new NamedList("Velocity cm/s"));
             //tempGrapher.RealTimeMode = true;
             tempGrapher.AddDataSet(ret.AllData[0], ret.AllData[1]);
 
             tempTable.AddColumn(ret.AllData[0]);
             tempTable.AddColumn(ret.AllData[1]);
-
+            tempTable.AddColumn(ret.AllData[2]);
 
             System.Timers.Timer t = new System.Timers.Timer();
             t.Interval = 10;
@@ -176,6 +179,7 @@ namespace Physics_Project
                     debug_i += 0.1f;
                     ret.AllData[1].Add(ars.ReadPortFloat());
 
+                    ret.AllData[2].Add(ret.AllData[1][ret.AllData[1].Count] / ret.AllData[0][ret.AllData[0].Count]);
 
 
                     ars.SendCommand_1B(0);
@@ -204,12 +208,14 @@ namespace Physics_Project
             ars.PortClose();
         }
 
+
+
         public void NewRun_Better(ArduinoSystem ars)
         {
             runTime = 0;
 
             RunData ret = new RunData();
-            allRuns.Add(ret);
+            GlobalData.allRuns.Add(ret);
 
             foreach (Sensor sensor in sensorSetup.Sensors)
             {
@@ -293,6 +299,7 @@ namespace Physics_Project
             Thread.Sleep(10);
             ars.PortClose();
         }
+
 
 
         private void Bgw_ProgressChanged(object sender, ProgressChangedEventArgs e)

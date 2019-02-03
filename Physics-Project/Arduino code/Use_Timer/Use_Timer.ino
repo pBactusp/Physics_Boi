@@ -2,6 +2,7 @@
 #include "Sensors.h"
 
 volatile static unsigned long counter;
+int counter_growth = 16000;
 
 bool GettingData = false;
 byte commandNum;
@@ -18,6 +19,7 @@ Sensor *sensors[6];
 
 bool sensor_has_input[6];
 float sensor_inputs[6];
+int time_stamps[6];
 
 Sensor* ReadSensor()
 {
@@ -25,9 +27,15 @@ Sensor* ReadSensor()
   int con = Serial.read() - '0';
   int sample_rate = Serial.read();
   Sensor *ret = new Sensor(type, con, sample_rate);
-
+  attachInterrupt(digitalPinToInterrupt(ret->interruptPin), UltrasonicInterrupt, HIGH);
   return ret;
 }
+
+void UltrasonicInterrupt()
+{
+  
+}
+
 
 void ReadCommand()
 {
@@ -41,8 +49,6 @@ void ReadCommand()
     delay(1);    
     arg4 = Serial.read(); 
 }
-
-
 
 void SendSensorData(int index)
 {
@@ -72,6 +78,7 @@ void loop()
       case 2:
         GettingData = false;
       break;
+      
       case 3:
 
         for (int i = 0; i < 6; i++)
@@ -81,6 +88,9 @@ void loop()
         
         for (int i = 0; i < sensor_num; i++)
           sensors[i] = ReadSensor();
+
+        StartMain();
+        
       break;
     }
     
@@ -93,7 +103,7 @@ void loop()
 
 void setup()
 {
-  Timer1.initialize(500000);
+  Timer1.initialize(16000);
   Timer1.attachInterrupt(Main);
   Serial.begin(9600);
 }
@@ -102,22 +112,45 @@ void setup()
 void StartMain()
 {
   counter = 0;
+  GettingData = true;
   for (int i = 0; i < 6; i++)
     sensor_has_input[i] = false;
   Timer1.start();
 }
 
+
 void Main()
 {
   for (int i = 0; i < 6; i++)
-    if (sensor_has_input[i])
+  {
+    sensors[i]->SampleRateCounter++;
+    if (sensor_has_input[i] && sensors[i]->SampleRateCounter < sensors[i]->SampleRate)
     {
       SendSensorData(i);
       
-      
+      sensors[i]->SampleRateCounter = 1;
       sensor_has_input[i] = false;
       sensor_inputs[i] = 0;
-    }
 
-  
+      
+      switch (sensors[i]->Type)
+      {
+        case 1:
+          time_stamps[i] = counter;
+          
+          break;
+      }
+      
+      
+      while(Serial.available() == 0){delay(1);}
+      commandNum = Serial.read();
+      if (commandNum == 1)
+      {
+        GettingData = false;
+        Timer1.stop();
+      }
+    }
+  }
+
+  counter += counter_growth;
 }

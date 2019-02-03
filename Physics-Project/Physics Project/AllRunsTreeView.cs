@@ -11,15 +11,12 @@ namespace Physics_Project
 {
     public partial class AllRunsTreeView : Form
     {
-        private List<RunData> allData = new List<RunData>();
+        public NamedList Selected_NamedList;
 
-        public AllRunsTreeView(List<RunData> list)
+        public AllRunsTreeView()
         {
             InitializeComponent();
-            allData = list;
             Update2();
-
-            Show();
         }
 
         
@@ -28,10 +25,10 @@ namespace Physics_Project
             tv.Nodes.Clear();
 
             TreeNode tempTreeNode;
-            for (int i = 0; i < allData.Count; i++)
+            for (int i = 0; i < GlobalData.allRuns.Count; i++)
             {
                 tempTreeNode = new TreeNode("Run #" + (i + 1).ToString());
-                foreach (NamedList namedList in allData[i].AllData)
+                foreach (NamedList namedList in GlobalData.allRuns[i].AllData)
                     tempTreeNode.Nodes.Add(namedList.Name);
 
                 tv.Nodes.Add(tempTreeNode);
@@ -40,7 +37,20 @@ namespace Physics_Project
             tv.Refresh();
         }
 
+        private void selectBU_Click(object sender, EventArgs e)
+        {
+            if (tv.SelectedNode.Parent != null)
+                Selected_NamedList = GlobalData.allRuns[tv.SelectedNode.Parent.Index].AllData[tv.SelectedNode.Index];
 
+            Close();
+        }
 
+        private void tv_NodeMouseDoubleClick(object sender, TreeNodeMouseClickEventArgs e)
+        {
+            if (tv.SelectedNode.Parent != null)
+                Selected_NamedList = GlobalData.allRuns[tv.SelectedNode.Parent.Index].AllData[tv.SelectedNode.Index];
+
+            Close();
+        }
     }
 }

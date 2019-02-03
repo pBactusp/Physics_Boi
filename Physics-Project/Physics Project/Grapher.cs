@@ -825,6 +825,13 @@ namespace Physics_Project
             Update2();
         }
 
+        private void deleteToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            DataSets.Remove(DataSets[dataSetsTV.SelectedNode.Index]);
+            dataSetsTV.Nodes.Remove(dataSetsTV.Nodes[dataSetsTV.SelectedNode.Index]);
+            Update2();
+        }
+
         private void dataSetsTV_NodeMouseClick(object sender, TreeNodeMouseClickEventArgs e)
         {
             if (e.Button == MouseButtons.Right)
@@ -945,6 +952,9 @@ namespace Physics_Project
             AutoScale = false;
             Update2();
         }
+
+
+
         private void displayPB_MouseDoubleClick(object sender, MouseEventArgs e)
         {
             if (e.Button == MouseButtons.Left)
@@ -974,5 +984,12 @@ namespace Physics_Project
             Update2();
         }
 
+
+        private void addDatasetBU_Click(object sender, EventArgs e)
+        {
+            DatasetSelector ds = new DatasetSelector();
+            ds.ShowDialog();
+            AddDataSet(ds.vert, ds.hori);
+        }
     }
 }
