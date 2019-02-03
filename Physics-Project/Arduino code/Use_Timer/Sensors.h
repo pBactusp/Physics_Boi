@@ -8,7 +8,7 @@ class Connection
     
     int anPin1;
     int anPin2;
-
+    
     Connection(int connection_num)
     {
       switch (connection_num)
@@ -84,10 +84,14 @@ class Sensor
 	public:
 		int Type;
 		Connection *Con;
+    int SampleRate; // Sample every x ticks
+    int SampleRateCounter;
     
     //Sensor::Sensor(int type, Connection con);
-    Sensor(int type, int con)
+    Sensor(int type, int con, int sample_rate)
     {
+        SampleRate = sample_rate;
+        SampleRateCounter = 0;
         Con = new Connection(con);
         Type = type;
         

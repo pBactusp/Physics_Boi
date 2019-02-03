@@ -74,6 +74,7 @@
       <DependentUpon>AllRunsTreeView.cs</DependentUpon>
     </Compile>
     <Compile Include="ArduinoSystem.cs" />
+    <Compile Include="BinTreeNode.cs" />
     <Compile Include="ColorPicker.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -99,6 +100,7 @@
     <Compile Include="Grapher.Designer.cs">
       <DependentUpon>Grapher.cs</DependentUpon>
     </Compile>
+    <Compile Include="NamedVariable.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RunData.cs" />
@@ -108,6 +110,12 @@
     </Compile>
     <Compile Include="SensorSetup.Designer.cs">
       <DependentUpon>SensorSetup.cs</DependentUpon>
+    </Compile>
+    <Compile Include="SetVariables.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="SetVariables.designer.cs">
+      <DependentUpon>SetVariables.cs</DependentUpon>
     </Compile>
     <Compile Include="Table.cs">
       <SubType>Form</SubType>

@@ -1,5 +1,7 @@
+#include <TimerOne.h>
 #include "Sensors.h"
 
+volatile static unsigned long counter;
 
 bool GettingData = false;
 byte commandNum;
@@ -8,20 +10,46 @@ byte arg2;
 byte arg3;
 byte arg4;
 
-const int trigPin = 23;
-const int echoPin = 22;
 
 /*Sensor *first;
 Sensor *second;*/
+int sensor_num;
 Sensor *sensors[6];
 
-void setup()
+bool sensor_has_input[6];
+float sensor_inputs[6];
+
+Sensor* ReadSensor()
 {
-  /*first = new Sensor(1, 0);
-  second = new Sensor(1, 1);*/
- 
-  Serial.begin(9600);
+  int type = Serial.read() - '0';
+  int con = Serial.read() - '0';
+  int sample_rate = Serial.read();
+  Sensor *ret = new Sensor(type, con, sample_rate);
+
+  return ret;
 }
+
+void ReadCommand()
+{
+    commandNum = Serial.read();
+    delay(1);    
+    arg1 = Serial.read();
+    delay(1);    
+    arg2 = Serial.read();
+    delay(1);    
+    arg3 = Serial.read();
+    delay(1);    
+    arg4 = Serial.read(); 
+}
+
+
+
+void SendSensorData(int index)
+{
+  Serial.print(index);
+  Serial.print(sensor_inputs[index]);
+}
+
 
 void loop() 
 {
@@ -39,19 +67,20 @@ void loop()
 
       case 1:
         GettingData = true;
-        SendData();
       break;
 
       case 2:
         GettingData = false;
       break;
       case 3:
-        *sensors = new Sensor[arg1];
 
-        for (int i = 0; i < sensors.Length; i++)
-        {
-          
-        }
+        for (int i = 0; i < 6; i++)
+          sensors[i] = new Sensor(0, -1, 0);
+
+        sensor_num = arg1 - '0';
+        
+        for (int i = 0; i < sensor_num; i++)
+          sensors[i] = ReadSensor();
       break;
     }
     
@@ -61,83 +90,34 @@ void loop()
 }
 
 
-void ReadCommand()
-{
-    commandNum = Serial.read();
-    delay(1);    
-    arg1 = Serial.read();
-    delay(1);    
-    arg2 = Serial.read();
-    delay(1);    
-    arg3 = Serial.read();
-    delay(1);    
-    arg4 = Serial.read(); 
-}
 
-Sensor ReaadSensor()
+void setup()
 {
-  Sensor *ret = new Sensor();
-  
+  Timer1.initialize(500000);
+  Timer1.attachInterrupt(Main);
+  Serial.begin(9600);
 }
 
 
-
-void SendData()
+void StartMain()
 {
-  float duration;
-  
-  for (int i = 2; i > 0 && GettingData; i--)
-  {
-    digitalWrite(trigPin, LOW);
-    digitalWrite(echoPin, LOW);
-    delayMicroseconds(2);
-    
-    // Sets the trigPin on HIGH state for 10 micro seconds
-    digitalWrite(trigPin, HIGH);
-    delayMicroseconds(10);
-    digitalWrite(trigPin, LOW);
-    
-    // Reads the echoPin, returns the sound wave travel time in microseconds
-    duration = pulseIn(echoPin, HIGH);
-  }
-  
-  while (GettingData)
-  {
-    /*if (digitalRead(InputPin) == HIGH)
+  counter = 0;
+  for (int i = 0; i < 6; i++)
+    sensor_has_input[i] = false;
+  Timer1.start();
+}
+
+void Main()
+{
+  for (int i = 0; i < 6; i++)
+    if (sensor_has_input[i])
     {
-      //Serial.print(50, DEC);
-      Serial.print(2.031f, 5);
-      digitalWrite(LedPin, HIGH);
+      SendSensorData(i);
+      
+      
+      sensor_has_input[i] = false;
+      sensor_inputs[i] = 0;
     }
-    else
-    {
-      Serial.print(0);
-      digitalWrite(LedPin, LOW);
-    }*/
 
-    // Clears the trigPin
-    digitalWrite(trigPin, LOW);
-    digitalWrite(echoPin, LOW);
-    delayMicroseconds(2);
-    
-    // Sets the trigPin on HIGH state for 10 micro seconds
-    digitalWrite(trigPin, HIGH);
-    delayMicroseconds(10);
-    digitalWrite(trigPin, LOW);
-    
-    // Reads the echoPin, returns the sound wave travel time in microseconds
-    duration = pulseIn(echoPin, HIGH);
-    
-    Serial.print(duration*0.017);
-
-    
-    while(Serial.available() == 0){delay(1);}
-    commandNum = Serial.read();
-
-    if (commandNum == 1)
-    {
-      GettingData = false;
-    }
-    delay(10);
-  }
+  
 }

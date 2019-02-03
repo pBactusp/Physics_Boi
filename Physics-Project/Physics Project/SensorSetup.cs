@@ -11,7 +11,7 @@ namespace Physics_Project
 {
     public partial class SensorSetup : Form
     {
-        Sensor[] Sensors = new Sensor[6];
+        public Sensor[] Sensors = new Sensor[6];
         float divisionDistance { get { return selectionPA.Width / Sensors.Length; } }
 
         Bitmap bm;
@@ -71,6 +71,8 @@ namespace Physics_Project
                 tempCOBO.Items.Add(s);
             tempCOBO.SelectedIndex = 0;
             tempCOBO.Dock = DockStyle.Right;
+            tempCOBO.SelectedIndexChanged += TempCOBO_SelectedIndexChanged;
+
 
             ret.Controls.Add(tempLabel);
             ret.Controls.Add(tempCOBO);
@@ -78,6 +80,11 @@ namespace Physics_Project
             return ret;
         }
 
+        private void TempCOBO_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            ComboBox tempCOBO = (ComboBox)sender;
+            Sensors[selectedDivision].Measurement = tempCOBO.SelectedIndex;
+        }
 
         private void selectionPA_MouseClick(object sender, MouseEventArgs e)
         {

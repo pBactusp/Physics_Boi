@@ -58,29 +58,29 @@ namespace Physics_Project
 
             allRuns.Add(runData);
 
-                        #region Visualize fake initial data
+            #region Visualize fake initial data
 
             //tempAllRunsTreeView = new AllRunsTreeView(allRuns);
 
-            
+
             /*Table tempTable = new Table();
             tempTable.DisplayData(runData);
             tempTable.Show();*/
-            
+
 
 
             tempGrapher = new Grapher();
 
-            //tempGrapher.AddDataSet(runData.AllData[0], runData.AllData[1]);
-            //tempGrapher.AddDataSet(runData.AllData[2], runData.AllData[3]);
-            tempGrapher.Update2();
+            /*tempGrapher.AddDataSet(runData.AllData[0], runData.AllData[1]);
+            tempGrapher.AddDataSet(runData.AllData[2], runData.AllData[3]);
+            tempGrapher.Update2();*/
             tempGrapher.Show();
 
             tempTable = new Table();
-            //tempTable.AddColumn(runData.AllData[0]);
-            //tempTable.AddColumn(runData.AllData[1]);
-            //tempTable.AddColumn(runData.AllData[2]);
-            //tempTable.AddColumn(runData.AllData[3]);
+            /*tempTable.AddColumn(runData.AllData[0]);
+            tempTable.AddColumn(runData.AllData[1]);
+            tempTable.AddColumn(runData.AllData[2]);
+            tempTable.AddColumn(runData.AllData[3]);*/
             tempTable.Show();
 
             #endregion
@@ -118,6 +118,7 @@ namespace Physics_Project
         {
             runTime++;
         }
+
 
         public void NewRun(ArduinoSystem ars)
         {
@@ -163,7 +164,7 @@ namespace Physics_Project
 
             if (ars.HasData)
                 ars.ReadPortString();
-            
+
             while (cd)
             {
                 if (ars.HasData)
@@ -202,6 +203,97 @@ namespace Physics_Project
             Thread.Sleep(10);
             ars.PortClose();
         }
+
+        public void NewRun_Better(ArduinoSystem ars)
+        {
+            runTime = 0;
+
+            RunData ret = new RunData();
+            allRuns.Add(ret);
+
+            foreach (Sensor sensor in sensorSetup.Sensors)
+            {
+                ret.AddDataList(new NamedList("Time (s)"));
+                ret.AddDataList(new NamedList(GlobalData.DataNames[sensor.Type] + " (" + GlobalData.MeasurmentsNames[sensor.Type][sensor.Measurement]));
+
+                tempGrapher.AddDataSet(ret.AllData[ret.AllData.Count - 2], ret.AllData[ret.AllData.Count - 1]);
+
+                tempTable.AddColumn(ret.AllData[ret.AllData.Count - 2]);
+                tempTable.AddColumn(ret.AllData[ret.AllData.Count - 1]);
+            }
+
+            //tempGrapher.RealTimeMode = true;
+
+
+
+
+            System.Timers.Timer t = new System.Timers.Timer();
+            t.Interval = 10;
+            t.Elapsed += T_Elapsed;
+
+
+            bgw = new BackgroundWorker();
+            bgw.WorkerReportsProgress = true;
+            bgw.WorkerSupportsCancellation = true;
+            bgw.ProgressChanged += Bgw_ProgressChanged;
+            bgw.RunWorkerCompleted += Bgw_RunWorkerCompleted;
+
+            bgw.DoWork += (obj, ea) => DataCollectLoop_Better(arSystem, ret, t);
+            bgw.RunWorkerAsync();
+        }
+
+        private void DataCollectLoop_Better(ArduinoSystem ars, RunData ret, System.Timers.Timer t, int updateEvery = 10)
+        {
+            int updateIndex = 0;
+            //float countPoints = 0;
+            ars.PortOpen();
+            ars.SendCommand(1);
+            //t.Start();
+
+            float debug_i = 0;
+
+            if (ars.HasData)
+                ars.ReadPortString();
+
+            while (cd)
+            {
+                if (ars.HasData)
+                {
+                    // ret.AllData[0].AddData(runTime);
+
+
+                    ret.AllData[0].Add(debug_i);
+                    debug_i += 0.1f;
+                    ret.AllData[1].Add(ars.ReadPortFloat());
+
+
+
+                    ars.SendCommand_1B(0);
+
+                    updateIndex++;
+                    if (updateIndex >= updateEvery)
+                    {
+                        updateIndex = 0;
+
+                        bgw.ReportProgress(0);
+                    }
+                }
+            }
+
+            if (ars.HasData)
+            {
+                Thread.Sleep(10);
+                ret.AllData[0].Add(debug_i);
+                debug_i += 0.1f;
+                ret.AllData[1].Add(ars.ReadPortFloat());
+            }
+            //t.Stop();
+            Thread.Sleep(10);
+            ars.SendCommand_1B(1);
+            Thread.Sleep(10);
+            ars.PortClose();
+        }
+
 
         private void Bgw_ProgressChanged(object sender, ProgressChangedEventArgs e)
         {
