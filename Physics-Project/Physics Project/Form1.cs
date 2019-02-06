@@ -109,7 +109,6 @@ namespace Physics_Project
             startB.Enabled = false;
             stopB.Enabled = true;
 
-            //NewRun(arSystem);
             NewRun_Better(arSystem);
         }
 
