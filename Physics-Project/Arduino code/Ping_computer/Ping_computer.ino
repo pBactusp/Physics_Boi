@@ -6,8 +6,8 @@ byte arg2;
 byte arg3;
 byte arg4;
 
-const int trigPin = 23;
-const int echoPin = 22;
+const int trigPin = 24;
+const int echoPin = 23;
 
 void setup()
 {

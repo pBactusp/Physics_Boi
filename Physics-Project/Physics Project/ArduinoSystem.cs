@@ -15,7 +15,6 @@ namespace Physics_Project
         // Private
         //
         private SerialPort Port;
-        private int SerialSpeed = 9600;
         private byte[] bufferF = new byte[12];
         //
         // Public
@@ -25,7 +24,7 @@ namespace Physics_Project
         //
         #endregion
 
-        private byte[] buffer_1B = new byte[1];
+        private byte[] buffer_1B = new byte[1]; 
         private byte[] buffer_5BCommand = new byte[5];
 
 

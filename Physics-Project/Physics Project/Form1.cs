@@ -39,22 +39,22 @@ namespace Physics_Project
                     MessageBox.Show("The system is connected to: " + arSystem.GetPortName());
                 }
 
-            sensorSetup = new SensorSetup();
-            sensorSetup.Show();
+            //sensorSetup = new SensorSetup();
+            //sensorSetup.Show();
 
-            float[] tempFloatArr1 = new float[8] { -12, -2, 3, 4.6f, 9.1f, 13, 15.3f, 50 };
-            float[] tempFloatArr2 = new float[8] { 0, -2, 3, 2.4f, 9.1f, 4, 2.7f, -50 };
-            float[] tempFloatArr3 = new float[8] { -3, -1, 4, 9, 15.1f, 20, 24, 61 };
-            float[] tempFloatArr4 = new float[8] { 0, -2, 3, 2.4f, 9.1f, 4, 2.7f, 3 };
+            //float[] tempFloatArr1 = new float[8] { -12, -2, 3, 4.6f, 9.1f, 13, 15.3f, 50 };
+            //float[] tempFloatArr2 = new float[8] { 0, -2, 3, 2.4f, 9.1f, 4, 2.7f, -50 };
+            //float[] tempFloatArr3 = new float[8] { -3, -1, 4, 9, 15.1f, 20, 24, 61 };
+            //float[] tempFloatArr4 = new float[8] { 0, -2, 3, 2.4f, 9.1f, 4, 2.7f, 3 };
 
-            RunData runData = new RunData();
+            //RunData runData = new RunData();
 
-            runData.AddDataList("Temporary List 1", tempFloatArr1);
-            runData.AddDataList("Temporary List 2", tempFloatArr2);
-            runData.AddDataList("Temporary List 3", tempFloatArr3);
-            runData.AddDataList("Temporary List 4", tempFloatArr4);
+            //runData.AddDataList("Temporary List 1", tempFloatArr1);
+            //runData.AddDataList("Temporary List 2", tempFloatArr2);
+            //runData.AddDataList("Temporary List 3", tempFloatArr3);
+            //runData.AddDataList("Temporary List 4", tempFloatArr4);
 
-            GlobalData.allRuns.Add(runData);
+            //GlobalData.allRuns.Add(runData);
 
             #region Visualize fake initial data
 
@@ -68,7 +68,7 @@ namespace Physics_Project
 
 
             tempGrapher = new Grapher();
-
+            tempGrapher.Update2();
             /*tempGrapher.AddDataSet(runData.AllData[0], runData.AllData[1]);
             tempGrapher.AddDataSet(runData.AllData[2], runData.AllData[3]);
             tempGrapher.Update2();*/
@@ -114,12 +114,12 @@ namespace Physics_Project
 
 
         #region Get data from arduino
-        float runTime;
+        static float runTime;
 
 
-        private void T_Elapsed(object sender, System.Timers.ElapsedEventArgs e)
+        public static void T_Elapsed(object sender, System.Timers.ElapsedEventArgs e)
         {
-            runTime++;
+            runTime += 0.01f;
         }
 
 
@@ -132,13 +132,11 @@ namespace Physics_Project
 
             ret.AddDataList(new NamedList("Time (s)"));
             ret.AddDataList(new NamedList("Distance (cm)"));
-            ret.AddDataList(new NamedList("Velocity cm/s"));
             //tempGrapher.RealTimeMode = true;
             tempGrapher.AddDataSet(ret.AllData[0], ret.AllData[1]);
 
             tempTable.AddColumn(ret.AllData[0]);
             tempTable.AddColumn(ret.AllData[1]);
-            tempTable.AddColumn(ret.AllData[2]);
 
             System.Timers.Timer t = new System.Timers.Timer();
             t.Interval = 10;
@@ -161,7 +159,7 @@ namespace Physics_Project
             //float countPoints = 0;
             ars.PortOpen();
             ars.SendCommand(1);
-            //t.Start();
+            t.Start();
 
             float debug_i = 0;
 
@@ -175,11 +173,11 @@ namespace Physics_Project
                     // ret.AllData[0].AddData(runTime);
 
 
-                    ret.AllData[0].Add(debug_i);
+                    ret.AllData[0].Add(runTime);
                     debug_i += 0.1f;
                     ret.AllData[1].Add(ars.ReadPortFloat());
 
-                    ret.AllData[2].Add(ret.AllData[1][ret.AllData[1].Count] / ret.AllData[0][ret.AllData[0].Count]);
+                    //ret.AllData[2].Add(ret.AllData[1][ret.AllData[1].Count - 1] / ret.AllData[0][ret.AllData[0].Count - 1]);
 
 
                     ars.SendCommand_1B(0);
@@ -197,17 +195,37 @@ namespace Physics_Project
             if (ars.HasData)
             {
                 Thread.Sleep(10);
-                ret.AllData[0].Add(debug_i);
+                ret.AllData[0].Add(runTime);
                 debug_i += 0.1f;
                 ret.AllData[1].Add(ars.ReadPortFloat());
             }
-            //t.Stop();
+            t.Stop();
             Thread.Sleep(10);
             ars.SendCommand_1B(1);
             Thread.Sleep(10);
             ars.PortClose();
+
+            ret.AddDataList(Get_V(ret.AllData[1], ret.AllData[0]));
+            ret.AddDataList(Get_VCheat(ret.AllData[1], ret.AllData[0]));
+
+
         }
 
+        public NamedList Get_V(NamedList x, NamedList t)
+        {
+            NamedList v = new NamedList("Velocity");
+            for (int i = 0; i < x.Count - 1; i++)
+                v.Add((x[i + 1] - x[i]) / (t[i + 1] - t[i]));
+
+            return v;
+        }
+        public NamedList Get_VCheat(NamedList x, NamedList t)
+        {
+            NamedList v = new NamedList("VelocityCheat");
+            for (int i = 1; i < x.Count - 2; i++)
+                v.Add(((x[i] + x[i + 2]) / 2 - (x[i + 1] + x[i - 1]) / 2) / ((t[i] + t[i + 2]) / 2 - (t[i + 1] + t[i - 1]) / 2));
+            return v;
+        }
 
 
         public void NewRun_Better(ArduinoSystem ars)

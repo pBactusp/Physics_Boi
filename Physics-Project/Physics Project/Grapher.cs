@@ -40,7 +40,7 @@ namespace Physics_Project
         public Color GridColor = Color.LightGray;
 
         public int ZoomInterval = 10;
-        public bool AutoScale = true;
+        public bool _AutoScale = true;
         #endregion
 
 
@@ -445,12 +445,13 @@ namespace Physics_Project
             List<float> AllXandY = new List<float>();
             List<float> AllX = new List<float>();
 
+            int min = Math.Min(data.DataX.Count(), data.DataY.Count()) - 1;
             float tempPow;
             for (int i = 0; i <= n * 2; i++)
             {
                 AllX.Add(0);
                 AllXandY.Add(0);
-                for (int j = 0; j < data.DataX.Count(); j++)
+                for (int j = 0; j < min; j++)
                 {
                     tempPow = (float)Math.Pow(data.DataX[j], i);
                     AllX[i] += tempPow;
@@ -619,7 +620,7 @@ namespace Physics_Project
 
         private void SetScale(Size size)
         {
-            if (AutoScale)
+            if (_AutoScale)
             {
                 minX = 0; maxX = 0;
                 minY = 0; maxY = 0;
@@ -777,7 +778,7 @@ namespace Physics_Project
         {
             if (e.Button == MouseButtons.Left)
             {
-                AutoScale = false;
+                _AutoScale = false;
                 _dragging = true;
                 _xPosDragging = e.X;
                 _yPosDragging = e.Y;
@@ -949,7 +950,7 @@ namespace Physics_Project
                 }
             }
 
-            AutoScale = false;
+            _AutoScale = false;
             Update2();
         }
 
@@ -959,7 +960,7 @@ namespace Physics_Project
         {
             if (e.Button == MouseButtons.Left)
             {
-                AutoScale = true;
+                _AutoScale = true;
                 Update2();
             }
         }
@@ -989,7 +990,7 @@ namespace Physics_Project
         {
             DatasetSelector ds = new DatasetSelector();
             ds.ShowDialog();
-            AddDataSet(ds.vert, ds.hori);
+            AddDataSet(ds.hori, ds.vert);
         }
     }
 }
