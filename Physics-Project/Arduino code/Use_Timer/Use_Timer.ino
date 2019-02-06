@@ -21,19 +21,23 @@ bool sensor_has_input[6];
 float sensor_inputs[6];
 int time_stamps[6];
 
+
 Sensor* ReadSensor()
 {
   int type = Serial.read() - '0';
   int con = Serial.read() - '0';
   int sample_rate = Serial.read();
   Sensor *ret = new Sensor(type, con, sample_rate);
-  attachInterrupt(digitalPinToInterrupt(ret->interruptPin), UltrasonicInterrupt, HIGH);
-  return ret;
-}
 
-void UltrasonicInterrupt()
-{
-  switch (
+  pinMode(ret->Con->digPin1, INPUT);
+  pinMode(ret->Con->digPin2, INPUT);
+  pinMode(ret->Con->digPin3, INPUT);
+  pinMode(ret->Con->interruptPin, INPUT);
+  
+  pinMode(ret->Con->anPin1, INPUT);
+  pinMode(ret->Con->anPin2, INPUT);
+      
+  return ret;
 }
 
 
@@ -54,6 +58,46 @@ void SendSensorData(int index)
 {
   Serial.print(index);
   Serial.print(sensor_inputs[index]);
+}
+
+
+void Interrupt_Pin2()
+{
+  Interrupt_General(0);
+}
+void Interrupt_Pin3()
+{
+  Interrupt_General(1);
+}
+void Interrupt_Pin21()
+{
+  Interrupt_General(5);
+}
+void Interrupt_Pin20()
+{
+  Interrupt_General(4);
+}
+void Interrupt_Pin19()
+{
+  Interrupt_General(3);
+}
+void Interrupt_Pin18()
+{
+  Interrupt_General(2);
+}
+
+void Interrupt_General(int num)
+{
+  switch (sensors[num]->Type)
+  {
+    case 1:
+      sensor_inputs[num] = counter - time_stamps[num];
+      sensor_has_input[num] = true;
+      break;
+
+    default:
+      break;
+  }
 }
 
 
@@ -103,6 +147,14 @@ void loop()
 
 void setup()
 {
+  attachInterrupt(0, Interrupt_Pin2, HIGH);
+  attachInterrupt(1, Interrupt_Pin3, HIGH);
+  attachInterrupt(2, Interrupt_Pin21, HIGH);
+  attachInterrupt(3, Interrupt_Pin20, HIGH);
+  attachInterrupt(4, Interrupt_Pin19, HIGH);
+  attachInterrupt(5, Interrupt_Pin18, HIGH);
+
+  
   Timer1.initialize(16000);
   Timer1.attachInterrupt(Main);
   Serial.begin(9600);

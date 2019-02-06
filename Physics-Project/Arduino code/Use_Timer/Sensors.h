@@ -74,6 +74,7 @@ class Connection
         anPin2 = 11;
         break;
       }
+
     }
   private:
   
