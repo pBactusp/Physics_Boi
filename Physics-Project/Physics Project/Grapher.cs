@@ -954,8 +954,6 @@ namespace Physics_Project
             Update2();
         }
 
-
-
         private void displayPB_MouseDoubleClick(object sender, MouseEventArgs e)
         {
             if (e.Button == MouseButtons.Left)
@@ -990,7 +988,8 @@ namespace Physics_Project
         {
             DatasetSelector ds = new DatasetSelector();
             ds.ShowDialog();
-            AddDataSet(ds.hori, ds.vert);
+            if (ds.hori != null && ds.vert != null)
+                AddDataSet(ds.hori, ds.vert);
         }
     }
 }

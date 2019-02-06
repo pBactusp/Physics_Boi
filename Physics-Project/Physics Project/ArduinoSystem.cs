@@ -24,7 +24,7 @@ namespace Physics_Project
         //
         #endregion
 
-        private byte[] buffer_1B = new byte[1]; 
+        private byte[] buffer_1B = new byte[1];
         private byte[] buffer_5BCommand = new byte[5];
 
 
@@ -89,7 +89,14 @@ namespace Physics_Project
                     };
                 Port.Write(tempBuffer, 0, tempBuffer.Length);*/
 
-                byte[] tempBuffer = new byte[] { Convert.ToByte(sensor.Type), Convert.ToByte(sensor.ConnectionNumber) };
+
+                int byteCounter = 0;
+                while ((byteCounter + 1) * 255 < sensor.SampleRate)
+                    byteCounter++;
+
+                byte[] tempBuffer = new byte[] { Convert.ToByte(sensor.Type), Convert.ToByte(sensor.ConnectionNumber), Convert.ToByte(byteCounter), Convert.ToByte(sensor.SampleRate - byteCounter * 255) };
+                Port.Write(tempBuffer, 0, tempBuffer.Length);
+                
             }
 
         }

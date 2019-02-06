@@ -18,7 +18,7 @@ namespace Physics_Project
 
         public static string[] DataNames = new string[]
         {
-            "",
+            "Null",
             "Distance"
         };
 

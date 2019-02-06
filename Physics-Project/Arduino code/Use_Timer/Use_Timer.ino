@@ -19,14 +19,17 @@ Sensor *sensors[6];
 
 bool sensor_has_input[6];
 float sensor_inputs[6];
-int time_stamps[6];
+float time_stamps[6];
 
 
 Sensor* ReadSensor()
 {
   int type = Serial.read() - '0';
   int con = Serial.read() - '0';
-  int sample_rate = Serial.read();
+  
+  int sample_rate = Serial.read() * 255;
+  sample_rate += Serial.read();
+  
   Sensor *ret = new Sensor(type, con, sample_rate);
 
   pinMode(ret->Con->digPin1, INPUT);
@@ -57,6 +60,9 @@ void ReadCommand()
 void SendSensorData(int index)
 {
   Serial.print(index);
+  delay(5);
+  Serial.print(time_stamps[index]);
+  delay(5);
   Serial.print(sensor_inputs[index]);
 }
 
@@ -91,7 +97,8 @@ void Interrupt_General(int num)
   switch (sensors[num]->Type)
   {
     case 1:
-      sensor_inputs[num] = counter - time_stamps[num];
+      sensor_inputs[num] = (counter - time_stamps[num]) * 0.017f;
+      time_stamps[num] = counter;
       sensor_has_input[num] = true;
       break;
 
@@ -103,7 +110,7 @@ void Interrupt_General(int num)
 
 void loop() 
 {
-  while(Serial.available() != 5){delay(1);}
+  while(Serial.available() != 5){delay(5);}
   
   if (Serial.available() == 5)
   {
@@ -123,7 +130,7 @@ void loop()
         GettingData = false;
       break;
       
-      case 3:
+      case 50:
 
         for (int i = 0; i < 6; i++)
           sensors[i] = new Sensor(0, -1, 0);
@@ -147,6 +154,12 @@ void loop()
 
 void setup()
 {
+  Serial.begin(9600);
+}
+
+
+void StartMain()
+{
   attachInterrupt(0, Interrupt_Pin2, HIGH);
   attachInterrupt(1, Interrupt_Pin3, HIGH);
   attachInterrupt(2, Interrupt_Pin21, HIGH);
@@ -157,12 +170,7 @@ void setup()
   
   Timer1.initialize(16000);
   Timer1.attachInterrupt(Main);
-  Serial.begin(9600);
-}
-
-
-void StartMain()
-{
+  
   counter = 0;
   GettingData = true;
   for (int i = 0; i < 6; i++)
@@ -188,6 +196,9 @@ void Main()
       switch (sensors[i]->Type)
       {
         case 1:
+          digitalWrite(sensors[i]->Con->digPin1, HIGH);
+          delayMicroseconds(10);
+          digitalWrite(sensors[i]->Con->digPin1, LOW);
           time_stamps[i] = counter;
           
           break;

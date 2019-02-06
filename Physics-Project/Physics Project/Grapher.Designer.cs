@@ -41,11 +41,11 @@
             this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
             this.tableLayoutPanel3 = new System.Windows.Forms.TableLayoutPanel();
             this.tableLayoutPanel4 = new System.Windows.Forms.TableLayoutPanel();
+            this.addDatasetBU = new System.Windows.Forms.Button();
             this.tableLayoutPanel5 = new System.Windows.Forms.TableLayoutPanel();
             this.zoomModeCB = new System.Windows.Forms.ComboBox();
             this.treeViewMEST = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.changeColorToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.addDatasetBU = new System.Windows.Forms.Button();
             this.deleteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.displayPB)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.powerValueNUD)).BeginInit();
@@ -244,6 +244,17 @@
             this.tableLayoutPanel4.Size = new System.Drawing.Size(241, 24);
             this.tableLayoutPanel4.TabIndex = 18;
             // 
+            // addDatasetBU
+            // 
+            this.addDatasetBU.Dock = System.Windows.Forms.DockStyle.Left;
+            this.addDatasetBU.Location = new System.Drawing.Point(526, 3);
+            this.addDatasetBU.Name = "addDatasetBU";
+            this.addDatasetBU.Size = new System.Drawing.Size(75, 59);
+            this.addDatasetBU.TabIndex = 18;
+            this.addDatasetBU.Text = "Add a dataset";
+            this.addDatasetBU.UseVisualStyleBackColor = true;
+            this.addDatasetBU.Click += new System.EventHandler(this.addDatasetBU_Click);
+            // 
             // tableLayoutPanel5
             // 
             this.tableLayoutPanel5.ColumnCount = 1;
@@ -282,20 +293,9 @@
             // changeColorToolStripMenuItem
             // 
             this.changeColorToolStripMenuItem.Name = "changeColorToolStripMenuItem";
-            this.changeColorToolStripMenuItem.Size = new System.Drawing.Size(147, 22);
+            this.changeColorToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.changeColorToolStripMenuItem.Text = "Change Color";
             this.changeColorToolStripMenuItem.Click += new System.EventHandler(this.changeColorToolStripMenuItem_Click);
-            // 
-            // addDatasetBU
-            // 
-            this.addDatasetBU.Dock = System.Windows.Forms.DockStyle.Left;
-            this.addDatasetBU.Location = new System.Drawing.Point(526, 3);
-            this.addDatasetBU.Name = "addDatasetBU";
-            this.addDatasetBU.Size = new System.Drawing.Size(75, 59);
-            this.addDatasetBU.TabIndex = 18;
-            this.addDatasetBU.Text = "Add a dataset";
-            this.addDatasetBU.UseVisualStyleBackColor = true;
-            this.addDatasetBU.Click += new System.EventHandler(this.addDatasetBU_Click);
             // 
             // deleteToolStripMenuItem
             // 

@@ -26,16 +26,24 @@ namespace Physics_Project
         {
             tv = new AllRunsTreeView();
             tv.ShowDialog();
-            vert = tv.Selected_NamedList;
-            verticalBU.Text = vert.Name;
+            if (tv.Selected_NamedList != null)
+            {
+                vert = tv.Selected_NamedList;
+                verticalBU.Text = vert.Name;
+            }
+
         }
 
         private void horizontalBU_Click(object sender, EventArgs e)
         {
             tv = new AllRunsTreeView();
             tv.ShowDialog();
-            hori = tv.Selected_NamedList;
-            horizontalBU.Text = hori.Name;
+            if (tv.Selected_NamedList != null)
+            {
+                hori = tv.Selected_NamedList;
+                horizontalBU.Text = hori.Name;
+            }
+
         }
 
 

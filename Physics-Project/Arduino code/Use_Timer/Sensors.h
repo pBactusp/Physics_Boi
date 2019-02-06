@@ -38,7 +38,7 @@ class Connection
         digPin1 = 10;
         digPin2 = 11;
         digPin3 = 12;
-        interruptPin = 18;
+        interruptPin = 21;
         
         anPin1 = 4;
         anPin2 = 5;
@@ -48,7 +48,7 @@ class Connection
         digPin1 = 13;
         digPin2 = 14;
         digPin3 = 15;
-        interruptPin = 19;
+        interruptPin = 20;
         
         anPin1 = 6;
         anPin2 = 7;
@@ -58,7 +58,7 @@ class Connection
         digPin1 = 23;
         digPin2 = 24;
         digPin3 = 25;
-        interruptPin = 20;
+        interruptPin = 19;
         
         anPin1 = 8;
         anPin2 = 9;
@@ -68,7 +68,7 @@ class Connection
         digPin1 = 26;
         digPin2 = 27;
         digPin3 = 28;
-        interruptPin = 21;
+        interruptPin = 18;
         
         anPin1 = 10;
         anPin2 = 11;

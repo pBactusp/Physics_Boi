@@ -39,8 +39,8 @@ namespace Physics_Project
                     MessageBox.Show("The system is connected to: " + arSystem.GetPortName());
                 }
 
-            //sensorSetup = new SensorSetup();
-            //sensorSetup.Show();
+            sensorSetup = new SensorSetup();
+            sensorSetup.Show();
 
             //float[] tempFloatArr1 = new float[8] { -12, -2, 3, 4.6f, 9.1f, 13, 15.3f, 50 };
             //float[] tempFloatArr2 = new float[8] { 0, -2, 3, 2.4f, 9.1f, 4, 2.7f, -50 };
@@ -109,7 +109,8 @@ namespace Physics_Project
             startB.Enabled = false;
             stopB.Enabled = true;
 
-            NewRun(arSystem);
+            //NewRun(arSystem);
+            NewRun_Better(arSystem);
         }
 
 
@@ -238,7 +239,7 @@ namespace Physics_Project
             foreach (Sensor sensor in sensorSetup.Sensors)
             {
                 ret.AddDataList(new NamedList("Time (s)"));
-                ret.AddDataList(new NamedList(GlobalData.DataNames[sensor.Type] + " (" + GlobalData.MeasurmentsNames[sensor.Type][sensor.Measurement]));
+                ret.AddDataList(new NamedList(GlobalData.DataNames[sensor.Type] + " (" + GlobalData.MeasurmentsNames[sensor.Type][sensor.Measurement] + ")"));
 
                 tempGrapher.AddDataSet(ret.AllData[ret.AllData.Count - 2], ret.AllData[ret.AllData.Count - 1]);
 
@@ -271,13 +272,14 @@ namespace Physics_Project
             int updateIndex = 0;
             //float countPoints = 0;
             ars.PortOpen();
-            ars.SendCommand(1);
+            ars.SendCommand(50);
+            ars.SendSensor(sensorSetup.Sensors);
             //t.Start();
 
             float debug_i = 0;
 
-            if (ars.HasData)
-                ars.ReadPortString();
+            /*if (ars.HasData)
+                ars.ReadPortString();*/
 
             while (cd)
             {
@@ -285,10 +287,12 @@ namespace Physics_Project
                 {
                     // ret.AllData[0].AddData(runTime);
 
-
-                    ret.AllData[0].Add(debug_i);
-                    debug_i += 0.1f;
-                    ret.AllData[1].Add(ars.ReadPortFloat());
+                    int index = (int)ars.ReadPortFloat();
+                    MessageBox.Show(index.ToString());
+                    ret.AllData[index].Add(ars.ReadPortFloat());
+                    MessageBox.Show(ret.AllData[index][ret.AllData[index].Count - 1].ToString());
+                    ret.AllData[index + 1].Add(ars.ReadPortFloat());
+                    MessageBox.Show(ret.AllData[index + 1][ret.AllData[index + 1].Count - 1].ToString());
 
 
 
@@ -306,10 +310,12 @@ namespace Physics_Project
 
             if (ars.HasData)
             {
-                Thread.Sleep(10);
-                ret.AllData[0].Add(debug_i);
-                debug_i += 0.1f;
-                ret.AllData[1].Add(ars.ReadPortFloat());
+                ars.ReadPortString();
+
+                //Thread.Sleep(10);
+                //ret.AllData[0].Add(debug_i);
+                //debug_i += 0.1f;
+                //ret.AllData[1].Add(ars.ReadPortFloat());
             }
             //t.Stop();
             Thread.Sleep(10);
@@ -317,6 +323,8 @@ namespace Physics_Project
             Thread.Sleep(10);
             ars.PortClose();
         }
+
+
 
 
 
