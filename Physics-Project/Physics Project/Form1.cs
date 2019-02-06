@@ -276,8 +276,6 @@ namespace Physics_Project
             ars.SendSensor(sensorSetup.Sensors);
             //t.Start();
 
-            float debug_i = 0;
-
             /*if (ars.HasData)
                 ars.ReadPortString();*/
 
