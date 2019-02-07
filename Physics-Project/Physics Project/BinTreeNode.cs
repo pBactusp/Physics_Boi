@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Table
+namespace Physics_Project
 {
     public class BinTreeNode<T>
     {

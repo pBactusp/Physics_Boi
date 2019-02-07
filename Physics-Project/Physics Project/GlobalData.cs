@@ -10,6 +10,8 @@ namespace Physics_Project
     {
         public static List<RunData> allRuns;
 
+        public static List<NamedVariable> allVariables;
+
         public static string[] SensorTypes = new string[]
         {
             "Empty",

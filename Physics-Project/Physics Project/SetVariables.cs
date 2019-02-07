@@ -8,7 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace Table
+namespace Physics_Project
 {
     public partial class SetVariables : Form
     {
@@ -16,14 +16,15 @@ namespace Table
         {
             InitializeComponent();
         }
-        public SetVariables(List<NamedVariable> AllVariables2, List<NamedVariable> AllConstants2, List<string> AllCommands2)
+        public SetVariables(List<NamedVariable> AllConstants, List<string> AllCommands)
         {
             InitializeComponent();
-            AllVariables = AllVariables2;
-            AllConstants = AllConstants2;
-            AllCommands = AllCommands2;
+            this.AllConstants = AllConstants;
+            this.AllCommands = AllCommands;
         }
-        public List<NamedVariable> AllVariables, AllConstants;
+
+
+        public List<NamedVariable> AllConstants;
         public List<string> AllCommands;
 
         static BinTreeNode<string> BuildTreeOfParser(String str)
@@ -202,6 +203,7 @@ namespace Table
 
             return CleanedDef;
         }
+
         public string PrintInOrder(BinTreeNode<string> t, string Print)
         {
             if (t != null)
@@ -249,10 +251,10 @@ namespace Table
                     return Math.PI;
                 else if (t.GetInfo() == "e")
                     return Math.E;
-                else for (int i = 0; i < AllVariables.Count; i++)
+                else for (int i = 0; i < GlobalData.allVariables.Count; i++)
                     {
-                        if (AllVariables[i].Name == t.GetInfo())
-                            return CalculateTreeOfParser(BuildTreeOfParser(CleanDef(AllVariables[i].Def)));
+                        if (GlobalData.allVariables[i].Name == t.GetInfo())
+                            return CalculateTreeOfParser(BuildTreeOfParser(CleanDef(GlobalData.allVariables[i].Def)));
                     }
             else for (int i = 0; i < AllConstants.Count; i++)
                 {
@@ -287,9 +289,9 @@ namespace Table
                     }
                 }
             if (!error)
-                for (int i = 0; i < AllVariables.Count; i++)
+                for (int i = 0; i < GlobalData.allVariables.Count; i++)
                 {
-                    if(AllVariables[i].Name == name)
+                    if(GlobalData.allVariables[i].Name == name)
                     {
                         MessageBox.Show("A variable with the same name already exists");
                         error = true;
@@ -348,9 +350,9 @@ namespace Table
                             }
                             j++;
                         }
-                        for (int k = 0; k < AllVariables.Count; k++)
+                        for (int k = 0; k < GlobalData.allVariables.Count; k++)
                         {
-                            if (AllVariables[k].Name == def.Substring(i, j))
+                            if (GlobalData.allVariables[k].Name == def.Substring(i, j))
                             {
                                 isVar = true;
                                 canSkip = true;
@@ -415,10 +417,10 @@ namespace Table
                 }
                 if (!error)
                 {
-                    NamedVariable a = new NamedVariable(name, def);
+                    NamedVariable a = new NamedVariable(name, int.Parse(def)); //////////////////////////////////////////////////////////
                     if (isVar)
                     {
-                        AllVariables.Add(a);
+                        GlobalData.allVariables.Add(a);
                         VariablesLB.Items.Add(name + " = " + CleanDef(def));
                     }
                     else // is const
@@ -441,9 +443,9 @@ namespace Table
             CommandsLB.Items.Add("Commands:");
             CommandsLB.Items.Add("");
 
-            for (int i = 0; i < AllVariables.Count; i++)
+            for (int i = 0; i < GlobalData.allVariables.Count; i++)
             {
-                VariablesLB.Items.Add(AllVariables[i].Name);
+                VariablesLB.Items.Add(GlobalData.allVariables[i].Name);
             }
             for (int i = 0; i < AllConstants.Count; i++)
             {

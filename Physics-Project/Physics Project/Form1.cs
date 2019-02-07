@@ -14,6 +14,7 @@ namespace Physics_Project
     {
         ArduinoSystem arSystem;
         SensorSetup sensorSetup;
+        SetVariables setVariables;
 
         Grapher tempGrapher;
         Table tempTable;
@@ -39,8 +40,15 @@ namespace Physics_Project
                     MessageBox.Show("The system is connected to: " + arSystem.GetPortName());
                 }
 
-            sensorSetup = new SensorSetup();
-            sensorSetup.Show();
+
+            GlobalData.allVariables = new List<NamedVariable>();
+            SetupVariables();
+
+            setVariables = new SetVariables();
+            setVariables.Show();
+
+            //sensorSetup = new SensorSetup();
+            //sensorSetup.Show();
 
             //float[] tempFloatArr1 = new float[8] { -12, -2, 3, 4.6f, 9.1f, 13, 15.3f, 50 };
             //float[] tempFloatArr2 = new float[8] { 0, -2, 3, 2.4f, 9.1f, 4, 2.7f, -50 };
@@ -91,6 +99,28 @@ namespace Physics_Project
 
         }
 
+        private void SetupVariables()
+        {
+            GlobalData.allVariables.Add(new NamedVariable("sin", 2));
+            GlobalData.allVariables.Add(new NamedVariable("cos", 2));
+            GlobalData.allVariables.Add(new NamedVariable("tan", 2));
+            GlobalData.allVariables.Add(new NamedVariable("sec", 2));
+            GlobalData.allVariables.Add(new NamedVariable("csc", 2));
+            GlobalData.allVariables.Add(new NamedVariable("cot", 2));
+            GlobalData.allVariables.Add(new NamedVariable("arcsin", 2));
+            GlobalData.allVariables.Add(new NamedVariable("arccos", 2));
+            GlobalData.allVariables.Add(new NamedVariable("arctan", 2));
+            GlobalData.allVariables.Add(new NamedVariable("log", 2));
+            GlobalData.allVariables.Add(new NamedVariable("abs", 2));
+            GlobalData.allVariables.Add(new NamedVariable("derivative", 2));
+
+            GlobalData.allVariables.Add(new NamedVariable("pi", Math.PI, 1));
+            GlobalData.allVariables.Add(new NamedVariable("e", Math.E, 1));
+        }
+
+
+
+
         private void startB_Click(object sender, EventArgs e)
         {
             if (!arSystem.HasPort)
@@ -109,8 +139,8 @@ namespace Physics_Project
             startB.Enabled = false;
             stopB.Enabled = true;
 
-            //NewRun(arSystem);
-            NewRun_Better(arSystem);
+            NewRun(arSystem);
+            //NewRun_Better(arSystem);
         }
 
 
@@ -175,7 +205,6 @@ namespace Physics_Project
 
 
                     ret.AllData[0].Add(runTime);
-                    debug_i += 0.1f;
                     ret.AllData[1].Add(ars.ReadPortFloat());
 
                     //ret.AllData[2].Add(ret.AllData[1][ret.AllData[1].Count - 1] / ret.AllData[0][ret.AllData[0].Count - 1]);
@@ -276,7 +305,6 @@ namespace Physics_Project
             ars.SendSensor(sensorSetup.Sensors);
             //t.Start();
 
-            float debug_i = 0;
 
             /*if (ars.HasData)
                 ars.ReadPortString();*/

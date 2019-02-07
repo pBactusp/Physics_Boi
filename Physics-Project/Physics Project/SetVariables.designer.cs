@@ -1,4 +1,4 @@
-﻿namespace Table
+﻿namespace Physics_Project
 {
     partial class SetVariables
     {
