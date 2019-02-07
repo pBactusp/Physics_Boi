@@ -11,6 +11,7 @@ byte arg2;
 byte arg3;
 byte arg4;
 
+int debug_pin = 12;
 
 /*Sensor *first;
 Sensor *second;*/
@@ -22,24 +23,39 @@ float sensor_inputs[6];
 float time_stamps[6];
 
 
+void LedBlink(int x)
+{
+  for (; x > 0; x--)
+  {
+    digitalWrite(debug_pin, HIGH);
+    delay(50);
+    digitalWrite(debug_pin, LOW);
+    delay(50);
+  }
+}
+
 Sensor* ReadSensor()
 {
+  LedBlink(2);
   int type = Serial.read() - '0';
+   LedBlink(2);
   int con = Serial.read() - '0';
+  LedBlink(2);
   
   int sample_rate = Serial.read() * 255;
   sample_rate += Serial.read();
   
   Sensor *ret = new Sensor(type, con, sample_rate);
 
-  pinMode(ret->Con->digPin1, INPUT);
+  pinMode(ret->Con->digPin1, OUTPUT);
   pinMode(ret->Con->digPin2, INPUT);
   pinMode(ret->Con->digPin3, INPUT);
   pinMode(ret->Con->interruptPin, INPUT);
   
   pinMode(ret->Con->anPin1, INPUT);
   pinMode(ret->Con->anPin2, INPUT);
-      
+
+  
   return ret;
 }
 
@@ -131,14 +147,16 @@ void loop()
       break;
       
       case 50:
-
         for (int i = 0; i < 6; i++)
           sensors[i] = new Sensor(0, -1, 0);
 
         sensor_num = arg1 - '0';
-        
+
         for (int i = 0; i < sensor_num; i++)
+        {
+          LedBlink(1);
           sensors[i] = ReadSensor();
+        }
 
         StartMain();
         
@@ -154,6 +172,7 @@ void loop()
 
 void setup()
 {
+  pinMode(debug_pin, OUTPUT);
   Serial.begin(9600);
 }
 
