@@ -271,7 +271,7 @@ namespace Physics_Project
             int updateIndex = 0;
             //float countPoints = 0;
             ars.PortOpen();
-            ars.SendCommand(50);
+            //ars.SendCommand(50);
             ars.SendSensor(sensorSetup.Sensors);
             //t.Start();
 
