@@ -28,19 +28,19 @@ void LedBlink(int x)
   for (; x > 0; x--)
   {
     digitalWrite(debug_pin, HIGH);
-    delay(50);
+    delay(100);
     digitalWrite(debug_pin, LOW);
-    delay(50);
+    delay(100);
   }
 }
 
 Sensor* ReadSensor()
 {
-  LedBlink(2);
+  LedBlink(5);
   int type = Serial.read() - '0';
-   LedBlink(2);
+   LedBlink(5);
   int con = Serial.read() - '0';
-  LedBlink(2);
+  LedBlink(5);
   
   int sample_rate = Serial.read() * 255;
   sample_rate += Serial.read();
@@ -63,14 +63,15 @@ Sensor* ReadSensor()
 void ReadCommand()
 {
     commandNum = Serial.read();
+    //Serial.write(commandNum);
     delay(1);    
-    arg1 = Serial.read();
+    arg1 = Serial.read() - '0';
     delay(1);    
-    arg2 = Serial.read();
+    arg2 = Serial.read() - '0';
     delay(1);    
-    arg3 = Serial.read();
+    arg3 = Serial.read() - '0';
     delay(1);    
-    arg4 = Serial.read(); 
+    arg4 = Serial.read() - '0'; 
 }
 
 void SendSensorData(int index)
@@ -126,12 +127,23 @@ void Interrupt_General(int num)
 
 void loop() 
 {
-  while(Serial.available() != 5){delay(5);}
+
+  //while(Serial.available() != 5){delay(5);}
   
-  if (Serial.available() == 5)
+  if (Serial.available() >= 5)
   {
-    ReadCommand(); 
-    
+    Serial.print("Available");
+    ReadCommand();
+    //Serial.write(commandNum);
+    //Serial.print("\n");
+    //Serial.write(arg1);
+    //Serial.print("\n");
+    //Serial.write(arg2);
+    //Serial.print("\n");
+    //Serial.write(arg3);
+    //Serial.print("\n");
+    //Serial.write(arg4);
+
     switch (commandNum)
     {
       case 0:
@@ -146,15 +158,19 @@ void loop()
         GettingData = false;
       break;
       
-      case 50:
+      case 5:
+
+        Serial.write("banana");
+        LedBlink(10);
+
         for (int i = 0; i < 6; i++)
           sensors[i] = new Sensor(0, -1, 0);
 
-        sensor_num = arg1 - '0';
+        sensor_num = arg1;
 
         for (int i = 0; i < sensor_num; i++)
         {
-          LedBlink(1);
+          LedBlink(10);
           sensors[i] = ReadSensor();
         }
 

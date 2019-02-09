@@ -73,7 +73,7 @@ namespace Physics_Project
         //
         public void SendSensor(params Sensor[] sensors)
         {
-            SendCommand(3, sensors.Length);
+            SendCommand(5, sensors.Length);
 
             foreach (Sensor sensor in sensors)
             {
