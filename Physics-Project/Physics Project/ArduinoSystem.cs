@@ -52,13 +52,16 @@ namespace Physics_Project
         /// <param name="arg4"></param>
         public void SendCommand(int commandNum, int arg1 = 0, int arg2 = 0, int arg3 = 0, int arg4 = 0)
         {
-            buffer_5BCommand[0] = Convert.ToByte(commandNum);
-            buffer_5BCommand[1] = Convert.ToByte(arg1);
-            buffer_5BCommand[2] = Convert.ToByte(arg2);
-            buffer_5BCommand[3] = Convert.ToByte(arg3);
-            buffer_5BCommand[4] = Convert.ToByte(arg4);
+            buffer_5BCommand[0] = (byte)commandNum;
+            buffer_5BCommand[1] = (byte)arg1;
+            buffer_5BCommand[2] = (byte)arg2;
+            buffer_5BCommand[3] = (byte)arg3;
+            buffer_5BCommand[4] = (byte)arg4;
 
             Port.Write(buffer_5BCommand, 0, 5);
+            //Port.Write(new byte[] { 48, 48, 48, 48, 48 }, 0, 5);
+
+
         }
         //
         /// <summary>
@@ -67,7 +70,7 @@ namespace Physics_Project
         /// <param name="arg"></param>
         public void SendCommand_1B(int arg)
         {
-            buffer_1B[0] = Convert.ToByte(arg);
+            buffer_1B[0] = (byte)arg;
             Port.Write(buffer_1B, 0, 1);
         }
         //
@@ -94,7 +97,7 @@ namespace Physics_Project
                 while ((byteCounter + 1) * 255 < sensor.SampleRate)
                     byteCounter++;
 
-                byte[] tempBuffer = new byte[] { Convert.ToByte(sensor.Type), Convert.ToByte(sensor.ConnectionNumber), Convert.ToByte(byteCounter), Convert.ToByte(sensor.SampleRate - byteCounter * 255) };
+                byte[] tempBuffer = new byte[] { (byte)sensor.Type, (byte)sensor.ConnectionNumber, (byte)byteCounter, (byte)(sensor.SampleRate - byteCounter * 255) };
                 Port.Write(tempBuffer, 0, tempBuffer.Length);
                 
             }
@@ -175,10 +178,11 @@ namespace Physics_Project
             {
                 if (!Port.IsOpen)
                     Port.Open();
-                SendCommand(0);
-                Thread.Sleep(1000);
+                SendCommand(9);
+                Thread.Sleep(1000); ////////////////////////////////////////
 
-                if (ReadPortString() == "boi")
+                string debug_s = ReadPortString();
+                if (debug_s.Contains("boi"))
                 {
                     Port.Close();
                     return true;

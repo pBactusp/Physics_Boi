@@ -36,15 +36,16 @@ void LedBlink(int x)
 
 Sensor* ReadSensor()
 {
-  LedBlink(5);
-  int type = Serial.read() - '0';
-   LedBlink(5);
-  int con = Serial.read() - '0';
-  LedBlink(5);
+  //LedBlink(5);
+  int type = Serial.read();
+  //LedBlink(5);
+  int con = Serial.read();
   
   int sample_rate = Serial.read() * 255;
   sample_rate += Serial.read();
   
+  //LedBlink(5);
+
   Sensor *ret = new Sensor(type, con, sample_rate);
 
   pinMode(ret->Con->digPin1, OUTPUT);
@@ -62,16 +63,16 @@ Sensor* ReadSensor()
 
 void ReadCommand()
 {
-    commandNum = Serial.read();
-    //Serial.write(commandNum);
+    commandNum = Serial.read() ;
+    //Serial.print(commandNum);
     delay(1);    
-    arg1 = Serial.read() - '0';
+    arg1 = Serial.read() ;
     delay(1);    
-    arg2 = Serial.read() - '0';
+    arg2 = Serial.read() ;
     delay(1);    
-    arg3 = Serial.read() - '0';
+    arg3 = Serial.read() ;
     delay(1);    
-    arg4 = Serial.read() - '0'; 
+    arg4 = Serial.read() ; 
 }
 
 void SendSensorData(int index)
@@ -132,7 +133,7 @@ void loop()
   
   if (Serial.available() >= 5)
   {
-    Serial.print("Available");
+    //Serial.print("Available");
     ReadCommand();
     //Serial.write(commandNum);
     //Serial.print("\n");
@@ -146,7 +147,7 @@ void loop()
 
     switch (commandNum)
     {
-      case 0:
+      case 9:
         Serial.print("boi");
       break;
 
@@ -160,19 +161,24 @@ void loop()
       
       case 5:
 
-        Serial.write("banana");
-        LedBlink(10);
+        //Serial.write("banana");
 
         for (int i = 0; i < 6; i++)
           sensors[i] = new Sensor(0, -1, 0);
 
         sensor_num = arg1;
-
+        
+        //LedBlink(5);
         for (int i = 0; i < sensor_num; i++)
         {
-          LedBlink(10);
+          //LedBlink(10);
           sensors[i] = ReadSensor();
+          
         }
+
+        if (sensors[0]->Con->digPin1 == 4)
+          LedBlink(5);
+
 
         StartMain();
         
@@ -239,14 +245,18 @@ void Main()
           break;
       }
       
-      
-      while(Serial.available() == 0){delay(1);}
-      commandNum = Serial.read();
-      if (commandNum == 1)
+
+      if (Serial.available() > 0)
       {
-        GettingData = false;
-        Timer1.stop();
+        commandNum = Serial.read();
+        if (commandNum == 1)
+        {
+          GettingData = false;
+          Timer1.stop();
+        }
       }
+      
+      
     }
   }
 

@@ -235,10 +235,12 @@ namespace Physics_Project
             RunData ret = new RunData();
             GlobalData.allRuns.Add(ret);
 
+            ret.Index = GlobalData.allRuns.Count;
+
             foreach (Sensor sensor in sensorSetup.Sensors)
             {
-                ret.AddDataList(new NamedList("Time (s)"));
-                ret.AddDataList(new NamedList(GlobalData.DataNames[sensor.Type] + " (" + GlobalData.MeasurmentsNames[sensor.Type][sensor.Measurement] + ")"));
+                ret.AddDataList(new NamedList("Time (s)" + ret.Index.ToString()));
+                ret.AddDataList(new NamedList(GlobalData.DataNames[sensor.Type] + " (" + GlobalData.MeasurmentsNames[sensor.Type][sensor.Measurement] + ")" + ret.Index.ToString()));
 
                 tempGrapher.AddDataSet(ret.AllData[ret.AllData.Count - 2], ret.AllData[ret.AllData.Count - 1]);
 
@@ -271,7 +273,6 @@ namespace Physics_Project
             int updateIndex = 0;
             //float countPoints = 0;
             ars.PortOpen();
-            //ars.SendCommand(50);
             ars.SendSensor(sensorSetup.Sensors);
             //t.Start();
 
@@ -292,8 +293,6 @@ namespace Physics_Project
                     MessageBox.Show(ret.AllData[index + 1][ret.AllData[index + 1].Count - 1].ToString());
 
 
-
-                    ars.SendCommand_1B(0);
 
                     updateIndex++;
                     if (updateIndex >= updateEvery)
