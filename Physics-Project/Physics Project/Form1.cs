@@ -45,7 +45,7 @@ namespace Physics_Project
             SetupVariables();
 
             setVariables = new SetVariables();
-            setVariables.Show();
+            //setVariables.Show();
 
             //sensorSetup = new SensorSetup();
             //sensorSetup.Show();
