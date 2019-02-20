@@ -290,6 +290,7 @@ namespace Physics_Project
                     ret.AllData[index].Add(ars.ReadPortFloat());
                     MessageBox.Show(ret.AllData[index][ret.AllData[index].Count - 1].ToString());
                     ret.AllData[index + 1].Add(ars.ReadPortFloat());
+
                     MessageBox.Show(ret.AllData[index + 1][ret.AllData[index + 1].Count - 1].ToString());
 
 

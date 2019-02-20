@@ -173,11 +173,9 @@ void loop()
         {
           //LedBlink(10);
           sensors[i] = ReadSensor();
-          
         }
-
-        if (sensors[0]->Con->digPin1 == 4)
-          LedBlink(5);
+        
+        LedBlink(5);
 
 
         StartMain();
