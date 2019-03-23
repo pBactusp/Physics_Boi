@@ -137,12 +137,13 @@ namespace Physics_Project
             return float.Parse(Encoding.ASCII.GetString(buffer));
         }
 
-        public void ReadPort_TimeAndData(ref float data, ref float time)
+        public void ReadPort_TimeAndData(ref int index, ref float data, ref float time)
         {
             string[] sBuffer = Port.ReadLine().Split(',');
 
-            data = float.Parse(sBuffer[0]);
-            time = float.Parse(sBuffer[1]);
+            index = int.Parse(sBuffer[0]);
+            data = float.Parse(sBuffer[1]);
+            time = float.Parse(sBuffer[2]);
 
             if (Port.BytesToRead == 0)
                 HasData = false;

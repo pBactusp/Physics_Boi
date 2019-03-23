@@ -74,12 +74,12 @@ namespace Physics_Project
             tempGrapher.Update2();*/
             tempGrapher.Show();
 
-            tempTable = new Table();
+            //tempTable = new Table();
             /*tempTable.AddColumn(runData.AllData[0]);
             tempTable.AddColumn(runData.AllData[1]);
             tempTable.AddColumn(runData.AllData[2]);
             tempTable.AddColumn(runData.AllData[3]);*/
-            tempTable.Show();
+            //tempTable.Show();
 
 
             //AllRunsTreeView tempARTV = new AllRunsTreeView();
@@ -135,8 +135,8 @@ namespace Physics_Project
             //tempGrapher.RealTimeMode = true;
             tempGrapher.AddDataSet(ret.AllData[0], ret.AllData[1]);
 
-            tempTable.AddColumn(ret.AllData[0]);
-            tempTable.AddColumn(ret.AllData[1]);
+            //tempTable.AddColumn(ret.AllData[0]);
+            //tempTable.AddColumn(ret.AllData[1]);
 
             System.Timers.Timer t = new System.Timers.Timer();
             t.Interval = 10;
@@ -244,14 +244,11 @@ namespace Physics_Project
 
                 tempGrapher.AddDataSet(ret.AllData[ret.AllData.Count - 2], ret.AllData[ret.AllData.Count - 1]);
 
-                tempTable.AddColumn(ret.AllData[ret.AllData.Count - 2]);
-                tempTable.AddColumn(ret.AllData[ret.AllData.Count - 1]);
+                //tempTable.AddColumn(ret.AllData[ret.AllData.Count - 2]);
+                //tempTable.AddColumn(ret.AllData[ret.AllData.Count - 1]);
             }
 
             //tempGrapher.RealTimeMode = true;
-
-
-
 
             System.Timers.Timer t = new System.Timers.Timer();
             t.Interval = 10;
@@ -273,11 +270,9 @@ namespace Physics_Project
             int updateIndex = 0;
             //float countPoints = 0;
             ars.PortOpen();
-            ars.SendSensor(sensorSetup.Sensors);
-            //t.Start();
+            //ars.SendSensor(sensorSetup.Sensors);
 
-            /*if (ars.HasData)
-                ars.ReadPortString();*/
+            ars.SendCommand(1);
 
             int sensorIndex = -1;
             float data = 0, time = 0;
@@ -286,12 +281,10 @@ namespace Physics_Project
                 if (ars.HasData)
                 {
                     // ret.AllData[0].AddData(runTime);
-                    ars.ReadPort_TimeAndData(ref data, ref time);
+                    ars.ReadPort_TimeAndData(ref sensorIndex, ref data, ref time);
 
-                    int index = (int)ars.ReadPortFloat();
-                    ret.AllData[index].Add(time);
-                    ret.AllData[index + 1].Add(data);
-
+                    ret.AllData[sensorIndex].Add(time / 1000);
+                    ret.AllData[sensorIndex + 1].Add(data);
 
 
                     updateIndex++;
@@ -314,7 +307,6 @@ namespace Physics_Project
                 //ret.AllData[1].Add(ars.ReadPortFloat());
             }
             //t.Stop();
-            Thread.Sleep(10);
             ars.SendCommand_1B(1);
             Thread.Sleep(10);
             ars.PortClose();
@@ -327,13 +319,13 @@ namespace Physics_Project
         private void Bgw_ProgressChanged(object sender, ProgressChangedEventArgs e)
         {
             tempGrapher.Update2();
-            tempTable.Update2();
+            //tempTable.Update2();
         }
         private void Bgw_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
             tempGrapher.RealTimeMode = false;
             tempGrapher.Update2();
-            tempTable.Update2();
+            //tempTable.Update2();
         }
         #endregion
 
