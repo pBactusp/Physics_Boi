@@ -9,6 +9,8 @@ byte arg4;
 const int trigPin = 4;
 const int echoPin = 2;
 
+int start_millis;
+
 void setup()
 {
   pinMode(trigPin, OUTPUT); // Sets the trigPin as an Output
@@ -33,6 +35,7 @@ void loop()
 
       case 1:
         GettingData = true;
+        start_millis = millis();
         SendData();
       break;
 
@@ -106,7 +109,9 @@ void SendData()
     // Reads the echoPin, returns the sound wave travel time in microseconds
     duration = pulseIn(echoPin, HIGH);
     
-    Serial.print(duration*0.017);
+    Serial.println(String(duration*0.017) + "," + String(millis() - start_millis));
+    //Serial.print("\t");
+    //Serial.print(millis() - start_millis);
 
     
     while(Serial.available() == 0){delay(1);}

@@ -82,12 +82,12 @@ namespace Physics_Project
             tempGrapher.Update2();*/
             tempGrapher.Show();
 
-            tempTable = new Table();
+            //tempTable = new Table();
             /*tempTable.AddColumn(runData.AllData[0]);
             tempTable.AddColumn(runData.AllData[1]);
             tempTable.AddColumn(runData.AllData[2]);
             tempTable.AddColumn(runData.AllData[3]);*/
-            tempTable.Show();
+            //tempTable.Show();
 
 
             //AllRunsTreeView tempARTV = new AllRunsTreeView();
@@ -166,8 +166,8 @@ namespace Physics_Project
             //tempGrapher.RealTimeMode = true;
             tempGrapher.AddDataSet(ret.AllData[0], ret.AllData[1]);
 
-            tempTable.AddColumn(ret.AllData[0]);
-            tempTable.AddColumn(ret.AllData[1]);
+            //tempTable.AddColumn(ret.AllData[0]);
+            //tempTable.AddColumn(ret.AllData[1]);
 
             System.Timers.Timer t = new System.Timers.Timer();
             t.Interval = 10;
@@ -192,23 +192,30 @@ namespace Physics_Project
             ars.SendCommand(1);
             t.Start();
 
-            float debug_i = 0;
+            float debug_i = 10;
 
             if (ars.HasData)
                 ars.ReadPortString();
+
+            float tempData = 0, tempTime = 0;
 
             while (cd)
             {
                 if (ars.HasData)
                 {
                     // ret.AllData[0].AddData(runTime);
+                    ars.ReadPort_TimeAndData(ref tempData, ref tempTime);
+
+                    ret.AllData[1].Add(tempData);
+                    ret.AllData[0].Add(tempTime / 1000);
 
 
-                    ret.AllData[0].Add(runTime);
-                    ret.AllData[1].Add(ars.ReadPortFloat());
+                    //ret.AllData[0].Add(runTime);
 
                     //ret.AllData[2].Add(ret.AllData[1][ret.AllData[1].Count - 1] / ret.AllData[0][ret.AllData[0].Count - 1]);
-
+                    debug_i--;
+                    if (debug_i == 0)
+                        debug_i = 10;
 
                     ars.SendCommand_1B(0);
 
@@ -272,8 +279,8 @@ namespace Physics_Project
 
                 tempGrapher.AddDataSet(ret.AllData[ret.AllData.Count - 2], ret.AllData[ret.AllData.Count - 1]);
 
-                tempTable.AddColumn(ret.AllData[ret.AllData.Count - 2]);
-                tempTable.AddColumn(ret.AllData[ret.AllData.Count - 1]);
+                //.AddColumn(ret.AllData[ret.AllData.Count - 2]);
+                //tempTable.AddColumn(ret.AllData[ret.AllData.Count - 1]);
             }
 
             //tempGrapher.RealTimeMode = true;
@@ -359,13 +366,13 @@ namespace Physics_Project
         private void Bgw_ProgressChanged(object sender, ProgressChangedEventArgs e)
         {
             tempGrapher.Update2();
-            tempTable.Update2();
+            //tempTable.Update2();
         }
         private void Bgw_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
             tempGrapher.RealTimeMode = false;
             tempGrapher.Update2();
-            tempTable.Update2();
+            //tempTable.Update2();
         }
         #endregion
 

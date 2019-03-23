@@ -96,7 +96,7 @@ namespace Physics_Project
 
                 byte[] tempBuffer = new byte[] { Convert.ToByte(sensor.Type), Convert.ToByte(sensor.ConnectionNumber), Convert.ToByte(byteCounter), Convert.ToByte(sensor.SampleRate - byteCounter * 255) };
                 Port.Write(tempBuffer, 0, tempBuffer.Length);
-                
+
             }
 
         }
@@ -124,14 +124,51 @@ namespace Physics_Project
         /// <returns></returns>
         public float ReadPortFloat()
         {
-            Thread.Sleep(20);
+            //Thread.Sleep(20);
+            //byte[] buffer = new byte[Port.BytesToRead];
+
+
+            //Port.Read(buffer, 0, buffer.Length);
+
+            //HasData = false;
+
+            //return float.Parse(Encoding.ASCII.GetString(buffer));
+            int index = 0;
+            byte tempVal;
             byte[] buffer = new byte[Port.BytesToRead];
+            
+            while (index < buffer.Length)
+            {
+                tempVal = (byte)Port.ReadByte();
+                if (tempVal != 9)
+                {
+                    buffer[index] = tempVal;
+                    index++;
+                }
+                else
+                {
+                    if (index > 0)
+                        break;
+                }
+            }
 
-            Port.Read(buffer, 0, buffer.Length);
+            if (Port.BytesToRead == 0)
+                HasData = false;
 
-            HasData = false;
+            return float.Parse(Encoding.ASCII.GetString(buffer, 0, index));
 
-            return float.Parse(Encoding.ASCII.GetString(buffer));
+        }
+
+
+        public void ReadPort_TimeAndData(ref float data, ref float time)
+        {
+            string[] sBuffer = Port.ReadLine().Split(',');
+            
+            data = float.Parse(sBuffer[0]);
+            time = float.Parse(sBuffer[1]);
+
+            if (Port.BytesToRead == 0)
+                HasData = false;
         }
         //
         /// <summary>
