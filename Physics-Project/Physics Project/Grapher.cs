@@ -954,6 +954,32 @@ namespace Physics_Project
             Update2();
         }
 
+        private void dataSetsTV_NodeMouseDoubleClick(object sender, TreeNodeMouseClickEventArgs e)
+        {
+            #region test
+            if (e.Button == MouseButtons.Left)
+            {
+                _AutoScale = true;
+                if (e.Node.Parent == null)
+                {
+                    DataSet tempDataSet = new DataSet();
+                    tempDataSet = DataSets[e.Node.Index];
+                    tempDataSet.Visible = e.Node.Checked;
+                    DataSets[e.Node.Index] = tempDataSet;
+                }
+                else
+                {
+                    Polynom tempPoly = new Polynom();
+                    tempPoly = DataSets[e.Node.Parent.Index].Polynoms[e.Node.Index];
+                    tempPoly.Visible = e.Node.Checked;
+                    DataSets[e.Node.Parent.Index].Polynoms[e.Node.Index] = tempPoly;
+                }
+                Update2();
+            }
+#endregion
+
+        }
+
         private void displayPB_MouseDoubleClick(object sender, MouseEventArgs e)
         {
             if (e.Button == MouseButtons.Left)

@@ -1,3 +1,5 @@
+int audioPin = A0;
+
 
 bool GettingData = false;
 byte commandNum;
@@ -6,14 +8,14 @@ byte arg2;
 byte arg3;
 byte arg4;
 
-const int trigPin = 2;
-const int echoPin = 4;
+const int trigPin = 4;
+const int echoPin = 2;
 
 void setup()
 {
   pinMode(trigPin, OUTPUT); // Sets the trigPin as an Output
   pinMode(echoPin, INPUT); // Sets the echoPin as an Input
-  
+  pinMode (audioPin, INPUT);
   Serial.begin(9600);
 }
 
@@ -94,6 +96,7 @@ void SendData()
     }*/
 
     // Clears the trigPin
+    /*
     digitalWrite(trigPin, LOW);
     digitalWrite(echoPin, LOW);
     delayMicroseconds(2);
@@ -107,7 +110,8 @@ void SendData()
     duration = pulseIn(echoPin, HIGH);
     
     Serial.print(duration*0.017);
-
+    */
+    Serial.print(analogRead(audioPin));
     
     while(Serial.available() == 0){delay(1);}
     commandNum = Serial.read();

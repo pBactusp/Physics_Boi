@@ -171,6 +171,7 @@
             this.dataSetsTV.AfterCheck += new System.Windows.Forms.TreeViewEventHandler(this.dataSetsTV_AfterCheck);
             this.dataSetsTV.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.dataSetsTV_AfterSelect);
             this.dataSetsTV.NodeMouseClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.dataSetsTV_NodeMouseClick);
+            this.dataSetsTV.NodeMouseDoubleClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.dataSetsTV_NodeMouseDoubleClick);
             // 
             // tableLayoutPanel1
             // 
@@ -288,19 +289,19 @@
             this.changeColorToolStripMenuItem,
             this.deleteToolStripMenuItem});
             this.treeViewMEST.Name = "treeViewMEST";
-            this.treeViewMEST.Size = new System.Drawing.Size(181, 70);
+            this.treeViewMEST.Size = new System.Drawing.Size(148, 48);
             // 
             // changeColorToolStripMenuItem
             // 
             this.changeColorToolStripMenuItem.Name = "changeColorToolStripMenuItem";
-            this.changeColorToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.changeColorToolStripMenuItem.Size = new System.Drawing.Size(147, 22);
             this.changeColorToolStripMenuItem.Text = "Change Color";
             this.changeColorToolStripMenuItem.Click += new System.EventHandler(this.changeColorToolStripMenuItem_Click);
             // 
             // deleteToolStripMenuItem
             // 
             this.deleteToolStripMenuItem.Name = "deleteToolStripMenuItem";
-            this.deleteToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.deleteToolStripMenuItem.Size = new System.Drawing.Size(147, 22);
             this.deleteToolStripMenuItem.Text = "Delete";
             this.deleteToolStripMenuItem.Click += new System.EventHandler(this.deleteToolStripMenuItem_Click);
             // 
