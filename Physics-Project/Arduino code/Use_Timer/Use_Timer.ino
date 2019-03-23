@@ -160,29 +160,31 @@ void loop()
       break;
       
       case 5:
-
-        //Serial.write("banana");
-
-        for (int i = 0; i < 6; i++)
-          sensors[i] = new Sensor(0, -1, 0);
-
-        sensor_num = arg1;
-        
-        //LedBlink(5);
-        for (int i = 0; i < sensor_num; i++)
-        {
-          //LedBlink(10);
-          sensors[i] = ReadSensor();
-        }
-        
-        //LedBlink(5);
-
-
-        StartMain();
-        
+        GettingData = true;
       break;
+      
     }
     
+  }
+
+  if (GettingData)
+  {
+    for (int i = 0; i < 6; i++)
+          sensors[i] = new Sensor(0, -1, 0);
+
+    sensor_num = arg1;
+    
+    //LedBlink(5);
+    for (int i = 0; i < sensor_num; i++)
+    {
+      //LedBlink(10);
+      sensors[i] = ReadSensor();
+    }
+    
+    //LedBlink(5);
+
+
+    StartMain();
   }
   
   delay(10);
@@ -215,8 +217,6 @@ void StartMain()
   for (int i = 0; i < 6; i++)
     sensor_has_input[i] = false;
   
-  LedBlink(2);
-
   Timer1.start();
 }
 

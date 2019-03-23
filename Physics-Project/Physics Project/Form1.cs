@@ -180,7 +180,7 @@ namespace Physics_Project
                     //ret.AllData[2].Add(ret.AllData[1][ret.AllData[1].Count - 1] / ret.AllData[0][ret.AllData[0].Count - 1]);
 
 
-                    ars.SendCommand_1B(0);
+                    //ars.SendCommand_1B(0);
 
                     updateIndex++;
                     if (updateIndex >= updateEvery)
