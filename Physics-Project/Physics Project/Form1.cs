@@ -279,19 +279,18 @@ namespace Physics_Project
             /*if (ars.HasData)
                 ars.ReadPortString();*/
 
+            int sensorIndex = -1;
+            float data = 0, time = 0;
             while (cd)
             {
                 if (ars.HasData)
                 {
                     // ret.AllData[0].AddData(runTime);
+                    ars.ReadPort_TimeAndData(ref data, ref time);
 
                     int index = (int)ars.ReadPortFloat();
-                    MessageBox.Show(index.ToString());
-                    ret.AllData[index].Add(ars.ReadPortFloat());
-                    MessageBox.Show(ret.AllData[index][ret.AllData[index].Count - 1].ToString());
-                    ret.AllData[index + 1].Add(ars.ReadPortFloat());
-
-                    MessageBox.Show(ret.AllData[index + 1][ret.AllData[index + 1].Count - 1].ToString());
+                    ret.AllData[index].Add(time);
+                    ret.AllData[index + 1].Add(data);
 
 
 

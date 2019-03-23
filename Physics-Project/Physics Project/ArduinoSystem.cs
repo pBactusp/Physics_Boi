@@ -136,6 +136,18 @@ namespace Physics_Project
 
             return float.Parse(Encoding.ASCII.GetString(buffer));
         }
+
+        public void ReadPort_TimeAndData(ref float data, ref float time)
+        {
+            string[] sBuffer = Port.ReadLine().Split(',');
+
+            data = float.Parse(sBuffer[0]);
+            time = float.Parse(sBuffer[1]);
+
+            if (Port.BytesToRead == 0)
+                HasData = false;
+        }
+
         //
         /// <summary>
         /// <para>Open the serial port.</para>
