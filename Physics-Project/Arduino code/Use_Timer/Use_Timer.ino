@@ -175,7 +175,7 @@ void loop()
           sensors[i] = ReadSensor();
         }
         
-        LedBlink(5);
+        //LedBlink(5);
 
 
         StartMain();
@@ -214,12 +214,16 @@ void StartMain()
   GettingData = true;
   for (int i = 0; i < 6; i++)
     sensor_has_input[i] = false;
+  
+  LedBlink(2);
+
   Timer1.start();
 }
 
 
 void Main()
 {
+  //LedBlink(2);
   for (int i = 0; i < 6; i++)
   {
     sensors[i]->SampleRateCounter++;
