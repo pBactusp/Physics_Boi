@@ -42,19 +42,19 @@ namespace Physics_Project
             sensorSetup = new SensorSetup();
             sensorSetup.Show();
 
-            //float[] tempFloatArr1 = new float[8] { -12, -2, 3, 4.6f, 9.1f, 13, 15.3f, 50 };
-            //float[] tempFloatArr2 = new float[8] { 0, -2, 3, 2.4f, 9.1f, 4, 2.7f, -50 };
-            //float[] tempFloatArr3 = new float[8] { -3, -1, 4, 9, 15.1f, 20, 24, 61 };
-            //float[] tempFloatArr4 = new float[8] { 0, -2, 3, 2.4f, 9.1f, 4, 2.7f, 3 };
+            float[] tempFloatArr1 = new float[8] { -12, -2, 3, 4.6f, 9.1f, 13, 15.3f, 50 };
+            float[] tempFloatArr2 = new float[8] { 0, -2, 3, 2.4f, 9.1f, 4, 2.7f, -50 };
+            float[] tempFloatArr3 = new float[8] { -3, -1, 4, 9, 15.1f, 20, 24, 61 };
+            float[] tempFloatArr4 = new float[8] { 0, -2, 3, 2.4f, 9.1f, 4, 2.7f, 3 };
 
-            //RunData runData = new RunData();
+            RunData runData = new RunData();
 
-            //runData.AddDataList("Temporary List 1", tempFloatArr1);
-            //runData.AddDataList("Temporary List 2", tempFloatArr2);
-            //runData.AddDataList("Temporary List 3", tempFloatArr3);
-            //runData.AddDataList("Temporary List 4", tempFloatArr4);
+            runData.AddDataList("Temporary List 1", tempFloatArr1);
+            runData.AddDataList("Temporary List 2", tempFloatArr2);
+            runData.AddDataList("Temporary List 3", tempFloatArr3);
+            runData.AddDataList("Temporary List 4", tempFloatArr4);
 
-            //GlobalData.allRuns.Add(runData);
+            GlobalData.allRuns.Add(runData);
 
             #region Visualize fake initial data
 

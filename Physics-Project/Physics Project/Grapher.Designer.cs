@@ -47,6 +47,7 @@
             this.treeViewMEST = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.changeColorToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.deleteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.copyNameToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.displayPB)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.powerValueNUD)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.polyResNUD)).BeginInit();
@@ -286,9 +287,10 @@
             // 
             this.treeViewMEST.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.changeColorToolStripMenuItem,
-            this.deleteToolStripMenuItem});
+            this.deleteToolStripMenuItem,
+            this.copyNameToolStripMenuItem});
             this.treeViewMEST.Name = "treeViewMEST";
-            this.treeViewMEST.Size = new System.Drawing.Size(181, 70);
+            this.treeViewMEST.Size = new System.Drawing.Size(181, 92);
             // 
             // changeColorToolStripMenuItem
             // 
@@ -303,6 +305,13 @@
             this.deleteToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.deleteToolStripMenuItem.Text = "Delete";
             this.deleteToolStripMenuItem.Click += new System.EventHandler(this.deleteToolStripMenuItem_Click);
+            // 
+            // copyNameToolStripMenuItem
+            // 
+            this.copyNameToolStripMenuItem.Name = "copyNameToolStripMenuItem";
+            this.copyNameToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.copyNameToolStripMenuItem.Text = "Copy Name";
+            this.copyNameToolStripMenuItem.Click += new System.EventHandler(this.copyNameToolStripMenuItem_Click);
             // 
             // Grapher
             // 
@@ -349,5 +358,6 @@
         private System.Windows.Forms.ToolStripMenuItem changeColorToolStripMenuItem;
         private System.Windows.Forms.Button addDatasetBU;
         private System.Windows.Forms.ToolStripMenuItem deleteToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem copyNameToolStripMenuItem;
     }
 }
