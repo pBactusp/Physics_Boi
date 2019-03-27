@@ -29,7 +29,6 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            this.displayPB = new System.Windows.Forms.PictureBox();
             this.label1 = new System.Windows.Forms.Label();
             this.fitLinB = new System.Windows.Forms.Button();
             this.powerValueNUD = new System.Windows.Forms.NumericUpDown();
@@ -37,45 +36,19 @@
             this.label2 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.dataSetsTV = new System.Windows.Forms.TreeView();
-            this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
-            this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
-            this.tableLayoutPanel3 = new System.Windows.Forms.TableLayoutPanel();
-            this.tableLayoutPanel4 = new System.Windows.Forms.TableLayoutPanel();
-            this.addDatasetBU = new System.Windows.Forms.Button();
-            this.tableLayoutPanel5 = new System.Windows.Forms.TableLayoutPanel();
             this.zoomModeCB = new System.Windows.Forms.ComboBox();
             this.treeViewMEST = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.changeColorToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.deleteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.copyNameToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            ((System.ComponentModel.ISupportInitialize)(this.displayPB)).BeginInit();
+            this.fourierBU = new System.Windows.Forms.Button();
+            this.adDatasetBU = new System.Windows.Forms.Button();
+            this.displayPB = new System.Windows.Forms.PictureBox();
             ((System.ComponentModel.ISupportInitialize)(this.powerValueNUD)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.polyResNUD)).BeginInit();
-            this.tableLayoutPanel1.SuspendLayout();
-            this.tableLayoutPanel2.SuspendLayout();
-            this.tableLayoutPanel3.SuspendLayout();
-            this.tableLayoutPanel4.SuspendLayout();
-            this.tableLayoutPanel5.SuspendLayout();
             this.treeViewMEST.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.displayPB)).BeginInit();
             this.SuspendLayout();
-            // 
-            // displayPB
-            // 
-            this.displayPB.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.displayPB.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
-            this.displayPB.Location = new System.Drawing.Point(3, 68);
-            this.displayPB.MinimumSize = new System.Drawing.Size(31, 21);
-            this.displayPB.Name = "displayPB";
-            this.displayPB.Size = new System.Drawing.Size(517, 355);
-            this.displayPB.TabIndex = 0;
-            this.displayPB.TabStop = false;
-            this.displayPB.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.displayPB_MouseDoubleClick);
-            this.displayPB.MouseDown += new System.Windows.Forms.MouseEventHandler(this.displayPB_MouseDown);
-            this.displayPB.MouseMove += new System.Windows.Forms.MouseEventHandler(this.displayPB_MouseMove);
-            this.displayPB.MouseUp += new System.Windows.Forms.MouseEventHandler(this.displayPB_MouseUp);
-            this.displayPB.Resize += new System.EventHandler(this.displayPB_Resize);
             // 
             // label1
             // 
@@ -83,9 +56,9 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Underline, System.Drawing.GraphicsUnit.Point, ((byte)(177)));
-            this.label1.Location = new System.Drawing.Point(3, 0);
+            this.label1.Location = new System.Drawing.Point(544, 124);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(241, 13);
+            this.label1.Size = new System.Drawing.Size(90, 13);
             this.label1.TabIndex = 2;
             this.label1.Text = "Selected dataset:";
             // 
@@ -93,9 +66,9 @@
             // 
             this.fitLinB.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.fitLinB.Location = new System.Drawing.Point(3, 3);
+            this.fitLinB.Location = new System.Drawing.Point(642, 349);
             this.fitLinB.Name = "fitLinB";
-            this.fitLinB.Size = new System.Drawing.Size(160, 25);
+            this.fitLinB.Size = new System.Drawing.Size(71, 25);
             this.fitLinB.TabIndex = 3;
             this.fitLinB.Text = "Fit polynom";
             this.fitLinB.UseVisualStyleBackColor = true;
@@ -105,7 +78,7 @@
             // 
             this.powerValueNUD.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.powerValueNUD.Location = new System.Drawing.Point(169, 3);
+            this.powerValueNUD.Location = new System.Drawing.Point(719, 353);
             this.powerValueNUD.Name = "powerValueNUD";
             this.powerValueNUD.Size = new System.Drawing.Size(69, 20);
             this.powerValueNUD.TabIndex = 4;
@@ -117,7 +90,7 @@
             // 
             // polyResNUD
             // 
-            this.polyResNUD.Location = new System.Drawing.Point(173, 3);
+            this.polyResNUD.Location = new System.Drawing.Point(731, 389);
             this.polyResNUD.Maximum = new decimal(new int[] {
             1000,
             0,
@@ -143,9 +116,9 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.label2.AutoSize = true;
             this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Underline, System.Drawing.GraphicsUnit.Point, ((byte)(177)));
-            this.label2.Location = new System.Drawing.Point(3, 0);
+            this.label2.Location = new System.Drawing.Point(627, 391);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(164, 13);
+            this.label2.Size = new System.Drawing.Size(98, 13);
             this.label2.TabIndex = 7;
             this.label2.Text = "Polynom resolution:";
             // 
@@ -153,7 +126,7 @@
             // 
             this.label3.AutoSize = true;
             this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Underline, System.Drawing.GraphicsUnit.Point, ((byte)(177)));
-            this.label3.Location = new System.Drawing.Point(3, 0);
+            this.label3.Location = new System.Drawing.Point(12, 9);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(66, 13);
             this.label3.TabIndex = 9;
@@ -165,111 +138,13 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.dataSetsTV.CheckBoxes = true;
-            this.dataSetsTV.Location = new System.Drawing.Point(3, 37);
+            this.dataSetsTV.Location = new System.Drawing.Point(547, 140);
             this.dataSetsTV.Name = "dataSetsTV";
-            this.dataSetsTV.Size = new System.Drawing.Size(241, 247);
+            this.dataSetsTV.Size = new System.Drawing.Size(241, 203);
             this.dataSetsTV.TabIndex = 16;
             this.dataSetsTV.AfterCheck += new System.Windows.Forms.TreeViewEventHandler(this.dataSetsTV_AfterCheck);
             this.dataSetsTV.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.dataSetsTV_AfterSelect);
             this.dataSetsTV.NodeMouseClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.dataSetsTV_NodeMouseClick);
-            // 
-            // tableLayoutPanel1
-            // 
-            this.tableLayoutPanel1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.tableLayoutPanel1.ColumnCount = 2;
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 67.52577F));
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 32.47423F));
-            this.tableLayoutPanel1.Controls.Add(this.tableLayoutPanel2, 1, 1);
-            this.tableLayoutPanel1.Controls.Add(this.displayPB, 0, 1);
-            this.tableLayoutPanel1.Controls.Add(this.addDatasetBU, 1, 0);
-            this.tableLayoutPanel1.Location = new System.Drawing.Point(12, 12);
-            this.tableLayoutPanel1.Name = "tableLayoutPanel1";
-            this.tableLayoutPanel1.RowCount = 2;
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 15.45189F));
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 84.5481F));
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(776, 426);
-            this.tableLayoutPanel1.TabIndex = 17;
-            // 
-            // tableLayoutPanel2
-            // 
-            this.tableLayoutPanel2.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.tableLayoutPanel2.ColumnCount = 1;
-            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel2.Controls.Add(this.label1, 0, 0);
-            this.tableLayoutPanel2.Controls.Add(this.dataSetsTV, 0, 1);
-            this.tableLayoutPanel2.Controls.Add(this.tableLayoutPanel3, 0, 2);
-            this.tableLayoutPanel2.Controls.Add(this.tableLayoutPanel4, 0, 3);
-            this.tableLayoutPanel2.Location = new System.Drawing.Point(526, 68);
-            this.tableLayoutPanel2.Name = "tableLayoutPanel2";
-            this.tableLayoutPanel2.RowCount = 4;
-            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 12.08791F));
-            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 87.91209F));
-            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 38F));
-            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 29F));
-            this.tableLayoutPanel2.Size = new System.Drawing.Size(247, 355);
-            this.tableLayoutPanel2.TabIndex = 17;
-            // 
-            // tableLayoutPanel3
-            // 
-            this.tableLayoutPanel3.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.tableLayoutPanel3.ColumnCount = 2;
-            this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 69.07895F));
-            this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 30.92105F));
-            this.tableLayoutPanel3.Controls.Add(this.fitLinB, 0, 0);
-            this.tableLayoutPanel3.Controls.Add(this.powerValueNUD, 1, 0);
-            this.tableLayoutPanel3.Location = new System.Drawing.Point(3, 290);
-            this.tableLayoutPanel3.Name = "tableLayoutPanel3";
-            this.tableLayoutPanel3.RowCount = 1;
-            this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel3.Size = new System.Drawing.Size(241, 32);
-            this.tableLayoutPanel3.TabIndex = 17;
-            // 
-            // tableLayoutPanel4
-            // 
-            this.tableLayoutPanel4.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.tableLayoutPanel4.ColumnCount = 2;
-            this.tableLayoutPanel4.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 70.83334F));
-            this.tableLayoutPanel4.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 29.16667F));
-            this.tableLayoutPanel4.Controls.Add(this.label2, 0, 0);
-            this.tableLayoutPanel4.Controls.Add(this.polyResNUD, 1, 0);
-            this.tableLayoutPanel4.Location = new System.Drawing.Point(3, 328);
-            this.tableLayoutPanel4.Name = "tableLayoutPanel4";
-            this.tableLayoutPanel4.RowCount = 1;
-            this.tableLayoutPanel4.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel4.Size = new System.Drawing.Size(241, 24);
-            this.tableLayoutPanel4.TabIndex = 18;
-            // 
-            // addDatasetBU
-            // 
-            this.addDatasetBU.Dock = System.Windows.Forms.DockStyle.Left;
-            this.addDatasetBU.Location = new System.Drawing.Point(526, 3);
-            this.addDatasetBU.Name = "addDatasetBU";
-            this.addDatasetBU.Size = new System.Drawing.Size(75, 59);
-            this.addDatasetBU.TabIndex = 18;
-            this.addDatasetBU.Text = "Add a dataset";
-            this.addDatasetBU.UseVisualStyleBackColor = true;
-            this.addDatasetBU.Click += new System.EventHandler(this.addDatasetBU_Click);
-            // 
-            // tableLayoutPanel5
-            // 
-            this.tableLayoutPanel5.ColumnCount = 1;
-            this.tableLayoutPanel5.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel5.Controls.Add(this.label3, 0, 0);
-            this.tableLayoutPanel5.Controls.Add(this.zoomModeCB, 0, 1);
-            this.tableLayoutPanel5.Location = new System.Drawing.Point(12, 12);
-            this.tableLayoutPanel5.Name = "tableLayoutPanel5";
-            this.tableLayoutPanel5.RowCount = 3;
-            this.tableLayoutPanel5.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel5.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel5.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.tableLayoutPanel5.Size = new System.Drawing.Size(100, 53);
-            this.tableLayoutPanel5.TabIndex = 18;
             // 
             // zoomModeCB
             // 
@@ -277,7 +152,7 @@
             this.zoomModeCB.Items.AddRange(new object[] {
             "To Mouse",
             "To Center"});
-            this.zoomModeCB.Location = new System.Drawing.Point(3, 19);
+            this.zoomModeCB.Location = new System.Drawing.Point(12, 25);
             this.zoomModeCB.Name = "zoomModeCB";
             this.zoomModeCB.Size = new System.Drawing.Size(94, 21);
             this.zoomModeCB.TabIndex = 8;
@@ -290,57 +165,93 @@
             this.deleteToolStripMenuItem,
             this.copyNameToolStripMenuItem});
             this.treeViewMEST.Name = "treeViewMEST";
-            this.treeViewMEST.Size = new System.Drawing.Size(181, 92);
+            this.treeViewMEST.Size = new System.Drawing.Size(148, 70);
             // 
             // changeColorToolStripMenuItem
             // 
             this.changeColorToolStripMenuItem.Name = "changeColorToolStripMenuItem";
-            this.changeColorToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.changeColorToolStripMenuItem.Size = new System.Drawing.Size(147, 22);
             this.changeColorToolStripMenuItem.Text = "Change Color";
             this.changeColorToolStripMenuItem.Click += new System.EventHandler(this.changeColorToolStripMenuItem_Click);
             // 
             // deleteToolStripMenuItem
             // 
             this.deleteToolStripMenuItem.Name = "deleteToolStripMenuItem";
-            this.deleteToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.deleteToolStripMenuItem.Size = new System.Drawing.Size(147, 22);
             this.deleteToolStripMenuItem.Text = "Delete";
             this.deleteToolStripMenuItem.Click += new System.EventHandler(this.deleteToolStripMenuItem_Click);
             // 
             // copyNameToolStripMenuItem
             // 
             this.copyNameToolStripMenuItem.Name = "copyNameToolStripMenuItem";
-            this.copyNameToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.copyNameToolStripMenuItem.Size = new System.Drawing.Size(147, 22);
             this.copyNameToolStripMenuItem.Text = "Copy Name";
             this.copyNameToolStripMenuItem.Click += new System.EventHandler(this.copyNameToolStripMenuItem_Click);
+            // 
+            // fourierBU
+            // 
+            this.fourierBU.Location = new System.Drawing.Point(547, 349);
+            this.fourierBU.Name = "fourierBU";
+            this.fourierBU.Size = new System.Drawing.Size(87, 25);
+            this.fourierBU.TabIndex = 19;
+            this.fourierBU.Text = "Fit fourier";
+            this.fourierBU.UseVisualStyleBackColor = true;
+            this.fourierBU.Click += new System.EventHandler(this.fourierBU_Click);
+            // 
+            // adDatasetBU
+            // 
+            this.adDatasetBU.Location = new System.Drawing.Point(689, 9);
+            this.adDatasetBU.Name = "adDatasetBU";
+            this.adDatasetBU.Size = new System.Drawing.Size(99, 48);
+            this.adDatasetBU.TabIndex = 20;
+            this.adDatasetBU.Text = "Add a dataset";
+            this.adDatasetBU.UseVisualStyleBackColor = true;
+            this.adDatasetBU.Click += new System.EventHandler(this.adDatasetBU_Click_1);
+            // 
+            // displayPB
+            // 
+            this.displayPB.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.displayPB.Location = new System.Drawing.Point(12, 52);
+            this.displayPB.Name = "displayPB";
+            this.displayPB.Size = new System.Drawing.Size(480, 386);
+            this.displayPB.TabIndex = 21;
+            this.displayPB.TabStop = false;
+            this.displayPB.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.displayPB_MouseDoubleClick);
+            this.displayPB.MouseDown += new System.Windows.Forms.MouseEventHandler(this.displayPB_MouseDown);
+            this.displayPB.MouseMove += new System.Windows.Forms.MouseEventHandler(this.displayPB_MouseMove);
+            this.displayPB.MouseUp += new System.Windows.Forms.MouseEventHandler(this.displayPB_MouseUp);
+            this.displayPB.Resize += new System.EventHandler(this.displayPB_Resize);
             // 
             // Grapher
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             this.ClientSize = new System.Drawing.Size(800, 450);
-            this.Controls.Add(this.tableLayoutPanel5);
-            this.Controls.Add(this.tableLayoutPanel1);
+            this.Controls.Add(this.displayPB);
+            this.Controls.Add(this.adDatasetBU);
+            this.Controls.Add(this.polyResNUD);
+            this.Controls.Add(this.label2);
+            this.Controls.Add(this.powerValueNUD);
+            this.Controls.Add(this.fitLinB);
+            this.Controls.Add(this.dataSetsTV);
+            this.Controls.Add(this.label1);
+            this.Controls.Add(this.label3);
+            this.Controls.Add(this.zoomModeCB);
+            this.Controls.Add(this.fourierBU);
             this.DoubleBuffered = true;
             this.Name = "Grapher";
             this.Text = "Grapher";
-            ((System.ComponentModel.ISupportInitialize)(this.displayPB)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.powerValueNUD)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.polyResNUD)).EndInit();
-            this.tableLayoutPanel1.ResumeLayout(false);
-            this.tableLayoutPanel2.ResumeLayout(false);
-            this.tableLayoutPanel2.PerformLayout();
-            this.tableLayoutPanel3.ResumeLayout(false);
-            this.tableLayoutPanel4.ResumeLayout(false);
-            this.tableLayoutPanel4.PerformLayout();
-            this.tableLayoutPanel5.ResumeLayout(false);
-            this.tableLayoutPanel5.PerformLayout();
             this.treeViewMEST.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.displayPB)).EndInit();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
         #endregion
-
-        private System.Windows.Forms.PictureBox displayPB;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Button fitLinB;
         private System.Windows.Forms.NumericUpDown powerValueNUD;
@@ -348,16 +259,13 @@
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.TreeView dataSetsTV;
-        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
-        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel2;
-        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel3;
-        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel4;
-        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel5;
         private System.Windows.Forms.ComboBox zoomModeCB;
         private System.Windows.Forms.ContextMenuStrip treeViewMEST;
         private System.Windows.Forms.ToolStripMenuItem changeColorToolStripMenuItem;
-        private System.Windows.Forms.Button addDatasetBU;
         private System.Windows.Forms.ToolStripMenuItem deleteToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem copyNameToolStripMenuItem;
+        private System.Windows.Forms.Button fourierBU;
+        private System.Windows.Forms.Button adDatasetBU;
+        private System.Windows.Forms.PictureBox displayPB;
     }
 }

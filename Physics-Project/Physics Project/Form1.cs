@@ -39,7 +39,7 @@ namespace Physics_Project
                     MessageBox.Show("The system is connected to: " + arSystem.GetPortName());
                 }
 
-            sensorSetup = new SensorSetup();
+            sensorSetup = new SensorSetup(arSystem);
             sensorSetup.Show();
 
             float[] tempFloatArr1 = new float[8] { -12, -2, 3, 4.6f, 9.1f, 13, 15.3f, 50 };
@@ -47,12 +47,27 @@ namespace Physics_Project
             float[] tempFloatArr3 = new float[8] { -3, -1, 4, 9, 15.1f, 20, 24, 61 };
             float[] tempFloatArr4 = new float[8] { 0, -2, 3, 2.4f, 9.1f, 4, 2.7f, 3 };
 
+
             RunData runData = new RunData();
 
             runData.AddDataList("Temporary List 1", tempFloatArr1);
             runData.AddDataList("Temporary List 2", tempFloatArr2);
             runData.AddDataList("Temporary List 3", tempFloatArr3);
             runData.AddDataList("Temporary List 4", tempFloatArr4);
+
+            float[] xsquared1 = new float[200];
+            float[] X1 = new float[200];
+
+            for (int x = -100; x < 100; x++)
+            {
+                X1[x + 100] = x;
+                xsquared1[x + 100] = -(float)Math.Pow(x, 2);
+            }
+            NamedList X = new NamedList("x", X1);
+            NamedList xSquared = new NamedList("y", xsquared1);
+            runData.AddDataList(X);
+            runData.AddDataList(xSquared);
+
 
             GlobalData.allRuns.Add(runData);
 
@@ -265,12 +280,18 @@ namespace Physics_Project
             bgw.RunWorkerAsync();
         }
 
-        private void DataCollectLoop_Better(ArduinoSystem ars, RunData ret, System.Timers.Timer t, int updateEvery = 10)
+        private void DataCollectLoop_Better(ArduinoSystem ars, RunData ret, System.Timers.Timer t, int updateEvery = 2)
         {
             int updateIndex = 0;
             //float countPoints = 0;
             ars.PortOpen();
+            ars.ReadPortString();
+
             //ars.SendSensor(sensorSetup.Sensors);
+            //foreach (Sensor sensor in sensorSetup.Sensors)
+            //{
+            //    ars.SendCommand(3, sensor.Type, sensor.ConnectionNumber);
+            //}
 
             ars.SendCommand(1);
 
@@ -298,17 +319,13 @@ namespace Physics_Project
             }
 
             if (ars.HasData)
-            {
                 ars.ReadPortString();
-
-                //Thread.Sleep(10);
-                //ret.AllData[0].Add(debug_i);
-                //debug_i += 0.1f;
-                //ret.AllData[1].Add(ars.ReadPortFloat());
-            }
             //t.Stop();
-            ars.SendCommand_1B(1);
+            //ars.SendCommand_1B(1);
+            ars.SendCommand(2);
             Thread.Sleep(10);
+            if (ars.HasData)
+                ars.ReadPortString();
             ars.PortClose();
         }
 

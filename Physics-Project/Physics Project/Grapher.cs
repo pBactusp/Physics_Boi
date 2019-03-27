@@ -163,6 +163,34 @@ namespace Physics_Project
             dataSetsTV.Nodes[DataSets.Count - 1].Checked = tempDataSet.Visible;
             dataSetsTV.SelectedNode = dataSetsTV.Nodes[DataSets.Count - 1];
         }
+        public void AddDataSet(DataSet dataset, string name = "", bool visible = true)
+        {
+            DataSet tempDataSet = new DataSet();
+            tempDataSet.Visible = visible;
+            tempDataSet.DataX = dataset.DataX;
+            tempDataSet.DataY = dataset.DataY;
+            tempDataSet.Polynoms = new List<Polynom>();
+            tempDataSet.LineColor = randomColor.GetColor();
+
+            if (name == "")
+                tempDataSet.Name = dataset.DataY.Name + "/" + dataset.DataX.Name;
+
+            short tempIndex = 0;
+            foreach (DataSet ds in DataSets)
+                if (ds.Name == tempDataSet.Name || ds.Name.Length > 3 && ds.Name.Substring(0, ds.Name.Length - 3) == tempDataSet.Name)
+                    tempIndex++;
+            if (tempIndex > 0)
+                tempDataSet.Name += "(" + tempIndex.ToString() + ")";
+
+            DataSets.Add(tempDataSet);
+
+            selectedDataSet = DataSets.Count - 1;
+
+            dataSetsTV.Nodes.Add(tempDataSet.Name);
+            dataSetsTV.Nodes[DataSets.Count - 1].Checked = tempDataSet.Visible;
+            dataSetsTV.SelectedNode = dataSetsTV.Nodes[DataSets.Count - 1];
+        }
+
         public void RemoveDataSet(string name)
         {
             int tempIndex = GetDataSetIndex(name);
@@ -978,6 +1006,17 @@ namespace Physics_Project
             Update2();
         }
 
+        private void fourierBU_Click(object sender, EventArgs e)
+        {
+            AddDataSet(fourierTransform.FFTcomplete(DataSets[selectedDataSet]));
+        }
+
+        private void adDatasetBU_Click_1(object sender, EventArgs e)
+        {
+            DatasetSelector ds = new DatasetSelector();
+            ds.ShowDialog();
+            AddDataSet(ds.hori, ds.vert);
+        }
 
         private void displayPB_MouseDoubleClick(object sender, MouseEventArgs e)
         {
@@ -1009,12 +1048,6 @@ namespace Physics_Project
         }
 
 
-        private void addDatasetBU_Click(object sender, EventArgs e)
-        {
-            DatasetSelector ds = new DatasetSelector();
-            ds.ShowDialog();
-            if (ds.hori != null && ds.vert != null)
-                AddDataSet(ds.hori, ds.vert);
-        }
+
     }
 }

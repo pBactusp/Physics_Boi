@@ -13,16 +13,18 @@ namespace Physics_Project
     {
         public Sensor[] Sensors = new Sensor[6];
         float divisionDistance { get { return selectionPA.Width / Sensors.Length; } }
+        ArduinoSystem ars;
 
         Bitmap bm;
         Graphics bmGraphics;
 
         int selectedDivision = 0;
 
-        public SensorSetup()
+        public SensorSetup(ArduinoSystem arduino_system)
         {
             InitializeComponent();
 
+            ars = arduino_system;
             for (int i = 0; i < Sensors.Length; i++)
                 Sensors[i] = new Sensor(0, i);
 
@@ -99,6 +101,9 @@ namespace Physics_Project
         private void sensorTypeLIBO_SelectedIndexChanged(object sender, EventArgs e)
         {
             Sensors[selectedDivision].SetType(sensorTypeLIBO.SelectedIndex);
+            ars.PortOpen();
+            ars.SendCommand(3, Sensors[selectedDivision].Type, selectedDivision);
+            ars.PortClose();
             DrawDivisions(bmGraphics);
             //MessageBox.Show(Sensors[selectedDivision].Type.ToString());
         }
