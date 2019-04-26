@@ -14,6 +14,7 @@ namespace Physics_Project
         #region Properties
         // Private
         //
+        private const int SERIAL_RATE = 500000; 
         private SerialPort Port;
         private byte[] bufferF = new byte[12];
         //
@@ -141,7 +142,7 @@ namespace Physics_Project
         {
             string[] sBuffer = Port.ReadLine().Split(',');
 
-            index = int.Parse(sBuffer[0]);
+            index = int.Parse(sBuffer[0]) * 2;
             data = float.Parse(sBuffer[1]);
             time = float.Parse(sBuffer[2]);
 
@@ -173,7 +174,7 @@ namespace Physics_Project
             string[] ports = SerialPort.GetPortNames();
             foreach (string port in ports)
             {
-                Port = new SerialPort(port, 9600);
+                Port = new SerialPort(port, SERIAL_RATE);
                 if (DetectArduino())
                 {
                     Port.PortName = port;

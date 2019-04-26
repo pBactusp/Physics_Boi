@@ -106,6 +106,7 @@ namespace Physics_Project
 
         }
 
+
         private void startB_Click(object sender, EventArgs e)
         {
             if (!arSystem.HasPort)
@@ -261,6 +262,7 @@ namespace Physics_Project
 
                 //tempTable.AddColumn(ret.AllData[ret.AllData.Count - 2]);
                 //tempTable.AddColumn(ret.AllData[ret.AllData.Count - 1]);
+ 
             }
 
             //tempGrapher.RealTimeMode = true;
@@ -268,7 +270,7 @@ namespace Physics_Project
             System.Timers.Timer t = new System.Timers.Timer();
             t.Interval = 10;
             t.Elapsed += T_Elapsed;
-
+            
 
             bgw = new BackgroundWorker();
             bgw.WorkerReportsProgress = true;
@@ -290,8 +292,12 @@ namespace Physics_Project
             //ars.SendSensor(sensorSetup.Sensors);
             //foreach (Sensor sensor in sensorSetup.Sensors)
             //{
-            //    ars.SendCommand(3, sensor.Type, sensor.ConnectionNumber);
+            //    if (sensor.Type != 0)
+            //        ars.SendCommand(3, sensor.Type, sensor.ConnectionNumber);
             //}
+            
+            // Sensors are sent on event;
+
 
             ars.SendCommand(1);
 

@@ -22,8 +22,8 @@ class Connection
         digPin3 = 6;
         interruptPin = 2;
         
-        anPin1 = 0;
-        anPin2 = 1;
+        anPin1 = A0;
+        anPin2 = A1;
         break;
         
         case 1:
@@ -32,8 +32,8 @@ class Connection
         digPin3 = 9;
         interruptPin = 3;
         
-        anPin1 = 2;
-        anPin2 = 3;
+        anPin1 = A2;
+        anPin2 = A3;
         break;
         
         case 2:
@@ -42,8 +42,8 @@ class Connection
         digPin3 = 12;
         interruptPin = 21;
         
-        anPin1 = 4;
-        anPin2 = 5;
+        anPin1 = A4;
+        anPin2 = A5;
         break;
         
         case 3:
@@ -52,8 +52,8 @@ class Connection
         digPin3 = 15;
         interruptPin = 20;
         
-        anPin1 = 6;
-        anPin2 = 7;
+        anPin1 = A6;
+        anPin2 = A7;
         break;
         
         case 4:
@@ -62,8 +62,8 @@ class Connection
         digPin3 = 25;
         interruptPin = 19;
         
-        anPin1 = 8;
-        anPin2 = 9;
+        anPin1 = A8;
+        anPin2 = A9;
         break;
         
         case 5:
@@ -72,8 +72,8 @@ class Connection
         digPin3 = 28;
         interruptPin = 18;
         
-        anPin1 = 10;
-        anPin2 = 11;
+        anPin1 = A10;
+        anPin2 = A11;
         break;
       }
 
@@ -96,7 +96,7 @@ class Sensor
       switch (Type)
       case 1:
         pinMode(Con->digPin1, OUTPUT);
-        pinMode(Con->interruptPin, INPUT);
+        pinMode(Con->interruptPin, INPUT_PULLUP);
     }
     
     Sensor(int type, int con) //, int sample_rate)
@@ -105,6 +105,8 @@ class Sensor
         //SampleRateCounter = 1;
         Con = new Connection(con);
         Type = type;
+
+        Initiate();
         
         switch(Type)
         {
@@ -113,15 +115,12 @@ class Sensor
             break;
           
           case 1:
-            Con->digPin1 = 1;
-            Con->interruptPin = 2;
-
+            
             digitalWrite(Con->digPin1, LOW);
             digitalWrite(Con->interruptPin, LOW);
           
             delayMicroseconds(2);
           
-            // Sets the trigPin1 on HIGH state for 10 micro seconds
             digitalWrite(Con->digPin1, HIGH);
             value = millis();
             delayMicroseconds(10);
