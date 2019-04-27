@@ -110,6 +110,7 @@ class Sensor
       case 2:
       case 3:
       case 4:
+      case 5:
         pinMode(Con->anPin1, INPUT);
         break;
         
@@ -163,6 +164,7 @@ class Sensor
         case 2:
         case 3:
         case 4:
+        case 5:
           Value = analogRead(Con->anPin1);
           LastSampleTime = micros();
           break;

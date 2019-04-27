@@ -97,6 +97,7 @@ void ReactivateInterruptedSensors()
         case 2:
         case 3:
         case 4:
+        case 5:
           Add_sBuffer(String(sensors[i]->Con->Num) + "," + String(sensors[i]->Value) + "," + String(millis() - start_millis));
         break;
 
