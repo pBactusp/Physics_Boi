@@ -10,9 +10,13 @@ class Connection
     
     int anPin1;
     int anPin2;
+
+    int Num;
+
     
     Connection(int connection_num)
     {
+      Num = connection_num;
       switch (connection_num)
       {
       // Interrupt Pins: 2, 3, 18, 19, 20, 21
@@ -87,16 +91,32 @@ class Sensor
 	public:
 		int Type;
 		Connection *Con;
-    float value;
-    //int SampleRate; // Sample every x ticks
-    //int SampleRateCounter;
+    float Value;
+    bool Interrupted;
+    unsigned long LastSampleTime;
+    float SampleRate;
+    unsigned long SamplePeriod;
 
-    void Initiate()
+        
+    void AttachPins()
     {
       switch (Type)
+      {
       case 1:
         pinMode(Con->digPin1, OUTPUT);
-        pinMode(Con->interruptPin, INPUT_PULLUP);
+        pinMode(Con->interruptPin, INPUT);
+        break;
+
+      case 2:
+      case 3:
+      case 4:
+        pinMode(Con->anPin1, INPUT);
+        break;
+        
+      default:
+      
+        break;
+      }
     }
     
     Sensor(int type, int con) //, int sample_rate)
@@ -105,34 +125,53 @@ class Sensor
         //SampleRateCounter = 1;
         Con = new Connection(con);
         Type = type;
+        Interrupted = true;
 
-        Initiate();
-        
-        switch(Type)
-        {
-          case 0:
-          
-            break;
-          
-          case 1:
-            
-            digitalWrite(Con->digPin1, LOW);
-            digitalWrite(Con->interruptPin, LOW);
-          
-            delayMicroseconds(2);
-          
-            digitalWrite(Con->digPin1, HIGH);
-            value = millis();
-            delayMicroseconds(10);
-            digitalWrite(Con->digPin1, LOW);
-            break;
-          
-          case 2:
-          
-            break;   
-        }
-      
+        if (Type != 0)
+          AttachPins();
       }
+	
+    void Set(int type, float sampleRate)
+    {
+      Type = type;
+      Interrupted = true;
+      SampleRate = sampleRate;
+
+      SamplePeriod = (unsigned long)(1000.0 / SampleRate);
+
+      if (Type != 0)
+          AttachPins();
+    }
+
+    
+    void Activate()
+    {
+      switch(Type)
+      {
+        case 0:
+        
+          break;
+        
+        case 1:
+          digitalWrite(Con->digPin1, HIGH);
+          delayMicroseconds(10);
+          digitalWrite(Con->digPin1, LOW);
+          Interrupted = false;
+          LastSampleTime = micros();
+          break;
+
+        case 2:
+        case 3:
+        case 4:
+          Value = analogRead(Con->anPin1);
+          LastSampleTime = micros();
+          break;
+        
+        default:
+          break;   
+      }
+    }
+	
 	private:
 	
 };

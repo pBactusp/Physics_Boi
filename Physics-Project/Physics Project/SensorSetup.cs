@@ -101,9 +101,6 @@ namespace Physics_Project
         private void sensorTypeLIBO_SelectedIndexChanged(object sender, EventArgs e)
         {
             Sensors[selectedDivision].SetType(sensorTypeLIBO.SelectedIndex);
-            ars.PortOpen();
-            ars.SendCommand(3, Sensors[selectedDivision].Type, selectedDivision);
-            ars.PortClose();
             DrawDivisions(bmGraphics);
             //MessageBox.Show(Sensors[selectedDivision].Type.ToString());
         }
