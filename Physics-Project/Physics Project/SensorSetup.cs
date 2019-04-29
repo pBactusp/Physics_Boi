@@ -62,24 +62,50 @@ namespace Physics_Project
 
         public TabPage CreateMeasurmantsTabPage()
         {
+            int index_y = 5;
             TabPage ret = new TabPage("Measurements");
 
             Label tempLabel = new Label();
             tempLabel.Text = GlobalData.DataNames[Sensors[selectedDivision].Type];
-            tempLabel.Dock = DockStyle.Left;
+            tempLabel.Location = new Point(5, index_y);
 
             ComboBox tempCOBO = new ComboBox();
             foreach (string s in GlobalData.MeasurmentsNames[Sensors[selectedDivision].Type])
                 tempCOBO.Items.Add(s);
             tempCOBO.SelectedIndex = 0;
-            tempCOBO.Dock = DockStyle.Right;
+            tempCOBO.Location = new Point(tempLabel.Size.Width + 5, index_y);
             tempCOBO.SelectedIndexChanged += TempCOBO_SelectedIndexChanged;
 
 
             ret.Controls.Add(tempLabel);
             ret.Controls.Add(tempCOBO);
 
+
+            index_y = tempCOBO.Size.Height + 5;
+
+            Label freqLabel = new Label();
+            freqLabel.Text = "Frequency";
+            freqLabel.Location = new Point(5, index_y);
+
+            TextBox tempTEBO = new TextBox();
+            tempTEBO.Text = Sensors[selectedDivision].SampleRate.ToString();
+            tempTEBO.Location = new Point(freqLabel.Size.Width + 5, index_y);
+            tempTEBO.TextChanged += TempTEBO_TextChanged;
+
+            
+            ret.Controls.Add(freqLabel);
+            ret.Controls.Add(tempTEBO);
+
             return ret;
+        }
+
+        private void TempTEBO_TextChanged(object sender, EventArgs e)
+        {
+            TextBox tempTEBO = (TextBox)sender;
+            if (float.TryParse(tempTEBO.Text, out float parsed))
+                Sensors[selectedDivision].SampleRate = float.Parse(tempTEBO.Text);
+            else if (tempTEBO.Text != "")
+                tempTEBO.Text = Sensors[selectedDivision].SampleRate.ToString();
         }
 
         private void TempCOBO_SelectedIndexChanged(object sender, EventArgs e)
@@ -104,6 +130,8 @@ namespace Physics_Project
             DrawDivisions(bmGraphics);
             //MessageBox.Show(Sensors[selectedDivision].Type.ToString());
         }
+
+
 
     }
 }

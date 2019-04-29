@@ -25,7 +25,6 @@ namespace Physics_Project
             "Null",
             "Distance",
             "Voltage",
-            "Force",
             "Newton",
             "Degrees",
             "Distance"

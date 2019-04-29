@@ -193,6 +193,14 @@ namespace Physics_Project
 
             //tempGrapher.RealTimeMode = true;
 
+            int updateInterval = 2;
+            int sensorNum = 0;
+            foreach (Sensor sensor in sensorSetup.Sensors)
+                if (sensor.Type != 0)
+                    sensorNum++;
+
+            updateInterval *= sensorNum;
+
             System.Timers.Timer t = new System.Timers.Timer();
             t.Interval = 10;
             t.Elapsed += T_Elapsed;
@@ -204,7 +212,7 @@ namespace Physics_Project
             bgw.ProgressChanged += Bgw_ProgressChanged;
             bgw.RunWorkerCompleted += Bgw_RunWorkerCompleted;
 
-            bgw.DoWork += (obj, ea) => DataCollectLoop_Better(arSystem, ret, t);
+            bgw.DoWork += (obj, ea) => DataCollectLoop_Better(arSystem, ret, t, updateInterval);
             bgw.RunWorkerAsync();
         }
 

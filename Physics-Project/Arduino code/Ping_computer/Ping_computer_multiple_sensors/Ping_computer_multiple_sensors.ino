@@ -191,8 +191,14 @@ void ReadCommand()
     {
       detachInterrupt(digitalPinToInterrupt(2));
       detachInterrupt(digitalPinToInterrupt(3));
+      detachInterrupt(digitalPinToInterrupt(18));
+      detachInterrupt(digitalPinToInterrupt(19));
+      detachInterrupt(digitalPinToInterrupt(20));
+      detachInterrupt(digitalPinToInterrupt(21));
       
       GettingData = false;
+
+      ClearSensors();
       digitalWrite(debug_pin, LOW);
     }
     else if (command.substring(0, 6) == "sensor")
@@ -212,6 +218,12 @@ void ReadCommand()
     Serial.println("ok");
 }
 
+
+void ClearSensors()
+{
+  for(int i = 0; i < SENSORS_NUM; i++)
+    sensors[i]->Type = 0;
+}
 
 Sensor* ReadSensor()
 {
