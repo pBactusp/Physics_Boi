@@ -19,7 +19,7 @@ namespace Physics_Project
         Table tempTable;
 
         BackgroundWorker bgw;
-        bool cd = false; // Collecting data
+        bool cd = false; // Collecting Data
 
 
         public mainForm()
@@ -89,12 +89,12 @@ namespace Physics_Project
             tempGrapher.Update2();*/
             tempGrapher.Show();
 
-            //tempTable = new Table();
-            /*tempTable.AddColumn(runData.AllData[0]);
-            tempTable.AddColumn(runData.AllData[1]);
-            tempTable.AddColumn(runData.AllData[2]);
-            tempTable.AddColumn(runData.AllData[3]);*/
-            //tempTable.Show();
+            tempTable = new Table();
+            //tempTable.AddColumn(runData.AllData[0]);
+            //tempTable.AddColumn(runData.AllData[1]);
+            //tempTable.AddColumn(runData.AllData[2]);
+            //tempTable.AddColumn(runData.AllData[3]);
+            tempTable.Show();
 
 
             //AllRunsTreeView tempARTV = new AllRunsTreeView();
@@ -184,7 +184,8 @@ namespace Physics_Project
                 ret.AddDataList(new NamedList("Time (s)" + ret.Index.ToString()));
                 ret.AddDataList(new NamedList(GlobalData.DataNames[sensor.Type] + " (" + GlobalData.MeasurmentsNames[sensor.Type][sensor.Measurement] + ")" + ret.Index.ToString()));
 
-                tempGrapher.AddDataSet(ret.AllData[ret.AllData.Count - 2], ret.AllData[ret.AllData.Count - 1]);
+                if (sensor.Type != 0)
+                    tempGrapher.AddDataSet(ret.AllData[ret.AllData.Count - 2], ret.AllData[ret.AllData.Count - 1]);
 
                 //tempTable.AddColumn(ret.AllData[ret.AllData.Count - 2]);
                 //tempTable.AddColumn(ret.AllData[ret.AllData.Count - 1]);
@@ -212,11 +213,11 @@ namespace Physics_Project
             bgw.ProgressChanged += Bgw_ProgressChanged;
             bgw.RunWorkerCompleted += Bgw_RunWorkerCompleted;
 
-            bgw.DoWork += (obj, ea) => DataCollectLoop_Better(arSystem, ret, t, updateInterval);
+            bgw.DoWork += (obj, ea) => DataCollectLoop_Better(arSystem, ret, sensorSetup.Sensors, updateInterval);
             bgw.RunWorkerAsync();
         }
 
-        private void DataCollectLoop_Better(ArduinoSystem ars, RunData ret, System.Timers.Timer t, int updateEvery = 2)
+        private void DataCollectLoop_Better(ArduinoSystem ars, RunData ret, Sensor[] sensors, int updateEvery = 2)
         {
             int updateIndex = 0;
 
@@ -235,7 +236,7 @@ namespace Physics_Project
                 {
                     ars.ReadPort_TimeAndData(ref sensorIndex, ref data, ref time);
 
-                    switch(sensorSetup.Sensors[sensorIndex / 2].Type)
+                    switch (sensorSetup.Sensors[sensorIndex / 2].Type)
                     {
                         case 1:
                             data *= 0.017f;
@@ -260,8 +261,19 @@ namespace Physics_Project
 
                 }
             }
+
+
             ars.SendCommand("stop");
             ars.ClearBuffer();
+
+            for (int i = sensors.Length - 1; i >= 0; i--)
+                if (sensors[i].Type == 0)
+                {
+                    ret.AllData.Remove(ret.AllData[i * 2 + 1]);
+                    ret.AllData.Remove(ret.AllData[i * 2]);
+                }
+
+
         }
 
 

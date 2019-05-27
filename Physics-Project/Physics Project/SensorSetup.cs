@@ -13,10 +13,12 @@ namespace Physics_Project
     {
         public Sensor[] Sensors = new Sensor[6];
         float divisionDistance { get { return selectionPA.Width / Sensors.Length; } }
-        ArduinoSystem ars;
 
         Bitmap bm;
         Graphics bmGraphics;
+
+
+        ArduinoSystem ars;
 
         int selectedDivision = 0;
 

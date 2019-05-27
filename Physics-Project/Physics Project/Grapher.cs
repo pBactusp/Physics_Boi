@@ -165,29 +165,32 @@ namespace Physics_Project
         }
         public void AddDataSet(DataSet dataset, string name = "", bool visible = true)
         {
-            DataSet tempDataSet = new DataSet();
-            tempDataSet.Visible = visible;
-            tempDataSet.DataX = dataset.DataX;
-            tempDataSet.DataY = dataset.DataY;
-            tempDataSet.Polynoms = new List<Polynom>();
-            tempDataSet.LineColor = randomColor.GetColor();
+            //DataSet tempDataSet = new DataSet();
+            //tempDataSet.Visible = visible;
+            //tempDataSet.DataX = dataset.DataX;
+            //tempDataSet.DataY = dataset.DataY;
+            //tempDataSet.Polynoms = new List<Polynom>();
+            //tempDataSet.LineColor = randomColor.GetColor();
+            //tempDataSet.Name = dataset.Name;
 
-            if (name == "")
-                tempDataSet.Name = dataset.DataY.Name + "/" + dataset.DataX.Name;
+            //if (tempDataSet.Name == "")
+            //    tempDataSet.Name = dataset.DataY.Name + "/" + dataset.DataX.Name;
 
-            short tempIndex = 0;
-            foreach (DataSet ds in DataSets)
-                if (ds.Name == tempDataSet.Name || ds.Name.Length > 3 && ds.Name.Substring(0, ds.Name.Length - 3) == tempDataSet.Name)
-                    tempIndex++;
-            if (tempIndex > 0)
-                tempDataSet.Name += "(" + tempIndex.ToString() + ")";
+            //short tempIndex = 0;
+            //foreach (DataSet ds in DataSets)
+            //    if (ds.Name == tempDataSet.Name || ds.Name.Length > 3 && ds.Name.Substring(0, ds.Name.Length - 3) == tempDataSet.Name)
+            //        tempIndex++;
+            //if (tempIndex > 0)
+            //    tempDataSet.Name += "(" + tempIndex.ToString() + ")";
 
-            DataSets.Add(tempDataSet);
+            //DataSets.Add(tempDataSet);
 
+            dataset.LineColor = randomColor.GetColor();
+            DataSets.Add(dataset);
             selectedDataSet = DataSets.Count - 1;
 
-            dataSetsTV.Nodes.Add(tempDataSet.Name);
-            dataSetsTV.Nodes[DataSets.Count - 1].Checked = tempDataSet.Visible;
+            dataSetsTV.Nodes.Add(dataset.Name);
+            dataSetsTV.Nodes[DataSets.Count - 1].Checked = dataset.Visible;
             dataSetsTV.SelectedNode = dataSetsTV.Nodes[DataSets.Count - 1];
         }
 
@@ -792,6 +795,8 @@ namespace Physics_Project
         }
 
 
+
+
         private void displayPB_Resize(object sender, EventArgs e)
         {
             if (backgroundBitmap != null)
@@ -1015,7 +1020,11 @@ namespace Physics_Project
         {
             DatasetSelector ds = new DatasetSelector();
             ds.ShowDialog();
-            AddDataSet(ds.hori, ds.vert);
+
+            GlobalData.allRuns[0].AddDataList(ds.DataSet.DataX);
+            GlobalData.allRuns[0].AddDataList(ds.DataSet.DataY);
+
+            AddDataSet(ds.DataSet);
         }
 
         private void displayPB_MouseDoubleClick(object sender, MouseEventArgs e)
