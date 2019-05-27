@@ -161,7 +161,7 @@ namespace Physics_Project__new_data_structure_
 
         private Point Get_Index_minmax(int min, int max, BinTreeNode<string> tree)
         {
-            if (tree.GetInfo() == null)
+            if (tree == null)
                 return new Point(min, max);
 
             //Point ret = new Point(min, max);

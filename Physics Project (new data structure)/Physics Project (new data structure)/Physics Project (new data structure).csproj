@@ -111,6 +111,12 @@
     <Compile Include="visualization Controls\Table.Designer.cs">
       <DependentUpon>Table.cs</DependentUpon>
     </Compile>
+    <Compile Include="Window_Grapher.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Window_Grapher.Designer.cs">
+      <DependentUpon>Window_Grapher.cs</DependentUpon>
+    </Compile>
     <Compile Include="Window_Table.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -155,6 +161,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="visualization Controls\Table.resx">
       <DependentUpon>Table.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Window_Grapher.resx">
+      <DependentUpon>Window_Grapher.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Window_Table.resx">
       <DependentUpon>Window_Table.cs</DependentUpon>

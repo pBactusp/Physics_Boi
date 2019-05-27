@@ -12,7 +12,6 @@ namespace Physics_Project__new_data_structure_
     public partial class Form1 : Form
     {
         Sensor_Manager sensor_Manager;
-        DataManager data_manager;
 
         bool cd = false; // "Collecting Data"
 
@@ -47,20 +46,6 @@ namespace Physics_Project__new_data_structure_
             fakeRun.AllData.Add(fakeDataList);
 
             GlobalData.All_Runs.Add(fakeRun);
-
-            grapher1.Add_DataList(GlobalData.All_Runs[0].AllData[0]);
-            grapher1.Update2();
-
-            tempTable.Add_NamedList(GlobalData.All_Runs[0].AllData[0].Value_Y);
-            tempTable.Add_NamedList(GlobalData.All_Runs[0].AllData[0].Value_X);
-            tempTable.Update2();
-
-
-            data_manager = new DataManager();
-            data_manager.Show();
-
-            Window_Table w_t = new Window_Table();
-            w_t.Show();
         }
 
 
@@ -217,9 +202,22 @@ namespace Physics_Project__new_data_structure_
             //tempTable.Update2();
         }
 
+        private void openGrapherBU_Click(object sender, EventArgs e)
+        {
+            Window_Grapher w_g = new Window_Grapher();
+            w_g.Show();
+        }
 
+        private void openTableBU_Click(object sender, EventArgs e)
+        {
+            Window_Table w_t = new Window_Table();
+            w_t.Show();
+        }
 
-
-
+        private void openDataManagerBU_Click(object sender, EventArgs e)
+        {
+            DataManager dm = new DataManager();
+            dm.Show();
+        }
     }
 }

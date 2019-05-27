@@ -73,7 +73,13 @@ namespace Physics_Project__new_data_structure_
             for (int i = dataTable.Columns.Count; i < NamedLists.Count; i++)
             {
                 if (dataTable.Columns.Contains(NamedLists[i].Name))
-                    dataTable.Columns.Add(NamedLists[i].Name + " 2#");
+                {
+                    int index = 1;
+                    while (dataTable.Columns.Contains(NamedLists[i].Name + " " + index + "#"))
+                        index++;
+                    dataTable.Columns.Add(NamedLists[i].Name + " " + index + "#");
+                }
+
                 else
                     dataTable.Columns.Add(NamedLists[i].Name);
 

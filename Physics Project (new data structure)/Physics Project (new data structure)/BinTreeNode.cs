@@ -202,6 +202,30 @@ namespace Physics_Project__new_data_structure_
                     }
                 }
             }
+            for (int i = 0; i < tempS.Length; i++)
+            {
+                if (tempS[i] == '(')
+                    bracketsCounter++;
+                else if (tempS[i] == ')')
+                    bracketsCounter--;
+
+                else if (bracketsCounter == 0)
+                {
+                    s = "";
+                    s += tempS[i];
+
+                    if (s == "*" || s == "/" || s == "^")
+                    {
+                        tree.SetLeft(new BinTreeNode<string>(tempS.Substring(0, i)));
+                        MakeTree_2(tree.GetLeft());
+                        tree.SetRight(new BinTreeNode<string>(tempS.Substring(i + 1)));
+                        MakeTree_2(tree.GetRight());
+
+                        tree.SetInfo(s);
+                        i = tempS.Length;
+                    }
+                }
+            }
 
             for (int i = 0; i < tempS.Length; i++)
             {
@@ -213,17 +237,7 @@ namespace Physics_Project__new_data_structure_
                 s = "";
                 s += tempS[i];
 
-                if (s == "*" || s == "/" || s == "^")
-                {
-                    tree.SetLeft(new BinTreeNode<string>(tempS.Substring(0, i)));
-                    MakeTree_2(tree.GetLeft());
-                    tree.SetRight(new BinTreeNode<string>(tempS.Substring(i + 1)));
-                    MakeTree_2(tree.GetRight());
-
-                    tree.SetInfo(s);
-                    i = tempS.Length;
-                }
-                else if (tempS.Length > i + 3)
+                if (tempS.Length > i + 3)
                 {
                     s = tempS.Substring(i, 3);
 
@@ -269,13 +283,27 @@ namespace Physics_Project__new_data_structure_
                             {
                                 s = tempS.Substring(i, 8);
 
-                                tree.SetLeft(new BinTreeNode<string>(tempS.Substring(i + 8)));
-                                if (tree.GetLeft().GetInfo() == "")
-                                    tree.GetLeft().SetInfo("0");
-                                MakeTree_2(tree.GetLeft());
+                                if (IsWrappedWithBrackets(tempS.Substring(i + 8)))
+                                {
+                                    tree.SetLeft(new BinTreeNode<string>(tempS.Substring(i + 8)));
+                                    if (tree.GetLeft().GetInfo() == "")
+                                        tree.GetLeft().SetInfo("0");
+                                    else
+                                        MakeTree_2(tree.GetLeft());
+                                    tree.SetInfo(s);
+                                    i = tempS.Length;
+                                }
+                                else if (tempS.Length == 8)
+                                {
+                                    tree.SetLeft(new BinTreeNode<string>("0"));
+                                    tree.SetInfo(s);
+                                    i = tempS.Length;
+                                }
+                                else
+                                    i += 8;
+                                
 
-                                tree.SetInfo(s);
-                                i = tempS.Length;
+
                             }
                         }
                     }
