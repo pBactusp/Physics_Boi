@@ -12,6 +12,7 @@ namespace Physics_Project__new_data_structure_
     public partial class AllRuns_Control : UserControl
     {
         public TreeNode Selected_TreeNode = null;
+        public bool Show_NamedLists = false;
 
         public event EventHandler Node_MouseDoubleClick = delegate { };
 
@@ -24,6 +25,35 @@ namespace Physics_Project__new_data_structure_
         }
 
 
+        //private TreeNode CreateChildren(DataList dl)
+        //{
+        //    TreeNode allRunsNode = new TreeNode(name);
+
+        //}
+
+
+        private TreeNode MakeTree(DataList dataList)
+        {
+            TreeNode DataListNode = new TreeNode(dataList.Get_FullName());
+            DataListNode.Tag = dataList;
+
+            if (Show_NamedLists)
+            {
+                DataListNode.Nodes.Add(dataList.Value_Y.Name);
+                DataListNode.Nodes[DataListNode.Nodes.Count - 1].Tag = dataList.Value_Y;
+                DataListNode.Nodes.Add(dataList.Value_X.Name);
+                DataListNode.Nodes[DataListNode.Nodes.Count - 1].Tag = dataList.Value_X;
+            }
+
+            foreach (Variable variable in dataList.Children)
+            {
+                DataListNode.Nodes.Add(MakeTree(variable));
+                DataListNode.Nodes[DataListNode.Nodes.Count - 1].Tag = variable;
+            }
+
+            return DataListNode;
+        }
+
         public void Update2()
         {
             mainTV.Nodes.Clear();
@@ -33,13 +63,16 @@ namespace Physics_Project__new_data_structure_
             {
                 TreeNode tempTreeNode = new TreeNode("Run " + i + "#");
                 foreach (DataList dataList in GlobalData.All_Runs[i].AllData)
-                {
-                    TreeNode DataListNode = new TreeNode(dataList.Get_FullName());
-                    foreach (Variable variable in dataList.Children)
-                        DataListNode.Nodes.Add(variable.Get_FullName());
+                    tempTreeNode.Nodes.Add(MakeTree(dataList));
+                //{
+                //    TreeNode DataListNode = new TreeNode(dataList.Get_FullName());
+                //    foreach (Variable variable in dataList.Children)
+                //        DataListNode.Nodes.Add(variable.Get_FullName());
 
-                    tempTreeNode.Nodes.Add(DataListNode);
-                }
+                    
+
+                //    tempTreeNode.Nodes.Add(DataListNode);
+                //}
 
                 allRunsNode.Nodes.Add(tempTreeNode);
             }

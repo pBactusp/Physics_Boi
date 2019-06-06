@@ -60,6 +60,8 @@
             this.dataListsTV.Name = "dataListsTV";
             this.dataListsTV.Size = new System.Drawing.Size(193, 299);
             this.dataListsTV.TabIndex = 1;
+            this.dataListsTV.AfterCheck += new System.Windows.Forms.TreeViewEventHandler(this.dataListsTV_AfterCheck);
+            this.dataListsTV.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.dataListsTV_AfterSelect);
             // 
             // label1
             // 

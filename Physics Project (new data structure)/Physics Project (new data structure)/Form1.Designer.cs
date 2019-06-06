@@ -56,6 +56,7 @@
             this.stopBU.TabIndex = 2;
             this.stopBU.Text = "Stop";
             this.stopBU.UseVisualStyleBackColor = true;
+            this.stopBU.Click += new System.EventHandler(this.stopBU_Click);
             // 
             // openGrapherBU
             // 

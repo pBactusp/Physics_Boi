@@ -16,18 +16,27 @@ namespace Physics_Project__new_data_structure_
             InitializeComponent();
         }
 
+        public void Update2()
+        {
+            grapher.Update2();
+        }
+
         private void addBU_Click(object sender, EventArgs e)
         {
+            NamedList_Selecter nl_s = new NamedList_Selecter();
+            nl_s.ShowDialog();
 
-            DataList_Selecter dl_s = new DataList_Selecter();
-            dl_s.ShowDialog();
-
-            if (dl_s.DataListIsSelected)
+            if (nl_s.HasSelectedLists)
             {
-                DataList temp_dl = dl_s.Selected_DataList;
+                DataList temp_dl = new DataList();
+                temp_dl.Value_Y = nl_s.Selected_NamedList_Y;
+                temp_dl.Value_X = nl_s.Selected_NamedList_X;
                 grapher.Add_DataList(temp_dl);
                 grapher.Update2();
             }
         }
+
+
     }
+
 }

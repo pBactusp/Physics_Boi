@@ -131,7 +131,7 @@ namespace Physics_Project__new_data_structure_
                 {
                     Sensors[i].RunData_Index = index;
                     DataList tempDataList = new DataList(GlobalData.DataNames[Sensors[i].Type] + " (" + GlobalData.MeasurmentsNames[Sensors[i].Type][Sensors[i].Units] + ")", "Time (s)");
-
+                    GlobalData.Next_RunData.AllData.Add(tempDataList);
                     string s = "sensor," + Sensors[i].Type + "," + i + "," + Sensors[i].SampleRate;
                     GlobalData.ArduinoSystem.SendCommand(s);
 

@@ -84,6 +84,12 @@
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
     <Compile Include="GlobalData.cs" />
+    <Compile Include="NamedList_Selecter.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="NamedList_Selecter.Designer.cs">
+      <DependentUpon>NamedList_Selecter.cs</DependentUpon>
+    </Compile>
     <Compile Include="visualization Controls\Grapher.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -140,6 +146,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="NamedList_Selecter.resx">
+      <DependentUpon>NamedList_Selecter.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="visualization Controls\Grapher.resx">
       <DependentUpon>Grapher.cs</DependentUpon>

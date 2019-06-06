@@ -23,10 +23,16 @@ namespace Physics_Project__new_data_structure_
 
             if (dl_s.DataListIsSelected)
             {
-                DataList temp_dl = dl_s.Selected_DataList;
-                table.Add_NamedList(temp_dl.Value_Y);
-                table.Add_NamedList(temp_dl.Value_X);
-                table.Update2();
+                if (dl_s.Selected_NamedList != null)
+                    table.Add_NamedList(dl_s.Selected_NamedList);
+                else
+                {
+                    DataList temp_dl = dl_s.Selected_DataList;
+                    table.Add_NamedList(temp_dl.Value_Y);
+                    table.Add_NamedList(temp_dl.Value_X);
+                    table.Update2();
+                }
+
             }
 
         }

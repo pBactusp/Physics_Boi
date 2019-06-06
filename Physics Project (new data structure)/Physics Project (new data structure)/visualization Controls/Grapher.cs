@@ -465,6 +465,33 @@ namespace Physics_Project__new_data_structure_
                 Update2();
             }
         }
+
+        private void dataListsTV_AfterSelect(object sender, TreeViewEventArgs e)
+        {
+
+        }
+
+        private void dataListsTV_AfterCheck(object sender, TreeViewEventArgs e)
+        {
+            if (e.Node.Parent == null)
+            {
+                //DataList tempDataSet = new DataList();
+                //tempDataSet = DataLists[e.Node.Index];
+                //tempDataSet.Visible = e.Node.Checked;
+                //DataSets[e.Node.Index] = tempDataSet;
+                DataLists[e.Node.Index].Visible = e.Node.Checked;
+            }
+            //else
+            //{
+            //    Polynom tempPoly = new Polynom();
+            //    tempPoly = DataSets[e.Node.Parent.Index].Polynoms[e.Node.Index];
+            //    tempPoly.Visible = e.Node.Checked;
+            //    DataSets[e.Node.Parent.Index].Polynoms[e.Node.Index] = tempPoly;
+            //}
+
+            Update2();
+        }
+
         private void displayPB_MouseUp(object sender, MouseEventArgs e)
         {
             _dragging = false;

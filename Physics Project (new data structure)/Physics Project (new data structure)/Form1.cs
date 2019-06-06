@@ -12,7 +12,7 @@ namespace Physics_Project__new_data_structure_
     public partial class Form1 : Form
     {
         Sensor_Manager sensor_Manager;
-
+        List<Window_Grapher> Graphers = new List<Window_Grapher>();
         bool cd = false; // "Collecting Data"
 
 
@@ -192,6 +192,8 @@ namespace Physics_Project__new_data_structure_
 
         private void Bgw_ProgressChanged(object sender, ProgressChangedEventArgs e)
         {
+            foreach (Window_Grapher gr in Graphers)
+                gr.Update2();
             //tempGrapher.Update2();
             //tempTable.Update2();
         }
@@ -205,6 +207,7 @@ namespace Physics_Project__new_data_structure_
         private void openGrapherBU_Click(object sender, EventArgs e)
         {
             Window_Grapher w_g = new Window_Grapher();
+            Graphers.Add(w_g);
             w_g.Show();
         }
 
@@ -218,6 +221,13 @@ namespace Physics_Project__new_data_structure_
         {
             DataManager dm = new DataManager();
             dm.Show();
+        }
+
+        private void stopBU_Click(object sender, EventArgs e)
+        {
+            cd = false;
+            startBU.Enabled = true;
+            stopBU.Enabled = false;
         }
     }
 }
