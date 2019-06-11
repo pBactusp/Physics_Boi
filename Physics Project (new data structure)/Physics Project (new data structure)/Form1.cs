@@ -11,6 +11,8 @@ namespace Physics_Project__new_data_structure_
 {
     public partial class Form1 : Form
     {
+        Winow_OpenProject window_openProject;
+
         Sensor_Manager sensor_Manager;
         List<Window_Grapher> Graphers = new List<Window_Grapher>();
         bool cd = false; // "Collecting Data"
@@ -20,32 +22,41 @@ namespace Physics_Project__new_data_structure_
         {
             InitializeComponent();
 
-            Init_ArduinoSystem();
-            Init_Sensor_Manager();
+            window_openProject = new Winow_OpenProject();
+            window_openProject.ShowDialog();
+            if (window_openProject.projectFile == null)
+                Close();
+            else
+            {
+                Init_ArduinoSystem();
+                Init_Sensor_Manager();
 
 
-            // Create fake data
-            float[] tempFloatArr1 = new float[8] { -12, -2, 3, 4.6f, 9.1f, 13, 15.3f, 50 };
-            float[] tempFloatArr2 = new float[8] { 0, -2, 3, 2.4f, 9.1f, 4, 2.7f, -50 };
-            float[] tempFloatArr3 = new float[8] { -3, -1, 4, 9, 15.1f, 20, 24, 61 };
-            float[] tempFloatArr4 = new float[8] { 0, -2, 3, 2.4f, 9.1f, 4, 2.7f, 3 };
+
+                // Create fake data
+                float[] tempFloatArr1 = new float[8] { -12, -2, 3, 4.6f, 9.1f, 13, 15.3f, 50 };
+                float[] tempFloatArr2 = new float[8] { 0, -2, 3, 2.4f, 9.1f, 4, 2.7f, -50 };
+                float[] tempFloatArr3 = new float[8] { -3, -1, 4, 9, 15.1f, 20, 24, 61 };
+                float[] tempFloatArr4 = new float[8] { 0, -2, 3, 2.4f, 9.1f, 4, 2.7f, 3 };
 
 
-            RunData fakeRun = new RunData();
+                RunData fakeRun = new RunData();
 
-            DataList fakeDataList = new DataList("Fakex1_Y", "Fake1_X");
+                DataList fakeDataList = new DataList("Fakex1_Y", "Fake1_X");
 
-            for (int i = 0; i < tempFloatArr1.Length; i++)
-                fakeDataList.Add_Data(tempFloatArr2[i], tempFloatArr1[i]);
-            fakeRun.AllData.Add(fakeDataList);
+                for (int i = 0; i < tempFloatArr1.Length; i++)
+                    fakeDataList.Add_Data(tempFloatArr2[i], tempFloatArr1[i]);
+                fakeRun.AllData.Add(fakeDataList);
 
-            fakeDataList = new DataList("Fakex2_Y", "Fake2_X");
+                fakeDataList = new DataList("Fakex2_Y", "Fake2_X");
 
-            for (int i = 0; i < tempFloatArr1.Length; i++)
-                fakeDataList.Add_Data(tempFloatArr4[i], tempFloatArr3[i]);
-            fakeRun.AllData.Add(fakeDataList);
+                for (int i = 0; i < tempFloatArr1.Length; i++)
+                    fakeDataList.Add_Data(tempFloatArr4[i], tempFloatArr3[i]);
+                fakeRun.AllData.Add(fakeDataList);
 
-            GlobalData.All_Runs.Add(fakeRun);
+                GlobalData.All_Runs.Add(fakeRun);
+            }
+
         }
 
 
@@ -125,7 +136,7 @@ namespace Physics_Project__new_data_structure_
                     sensorNum++;
 
             updateInterval *= sensorNum;
-;
+            ;
 
 
             BackgroundWorker bgw = new BackgroundWorker();
@@ -188,6 +199,8 @@ namespace Physics_Project__new_data_structure_
 
             GlobalData.All_Runs.Add(GlobalData.Next_RunData);
             GlobalData.Next_RunData = new RunData();
+
+            sensor_Manager.ApplyChanges();
         }
 
         private void Bgw_ProgressChanged(object sender, ProgressChangedEventArgs e)
@@ -228,6 +241,18 @@ namespace Physics_Project__new_data_structure_
             cd = false;
             startBU.Enabled = true;
             stopBU.Enabled = false;
+        }
+
+
+
+        private void saveAsIT_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void saveIT_Click(object sender, EventArgs e)
+        {
+            window_openProject.projectFile.Save();
         }
     }
 }

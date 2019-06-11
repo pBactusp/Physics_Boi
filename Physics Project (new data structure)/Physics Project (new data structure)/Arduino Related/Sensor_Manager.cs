@@ -46,6 +46,40 @@ namespace Physics_Project__new_data_structure_
                 Sensors[i] = new Sensor(0, i);
         }
 
+        public void ApplyChanges()
+        {
+            GlobalData.ArduinoSystem.ClearBuffer();
+            if (!GlobalData.ArduinoSystem.HasPort)
+            {
+                GlobalData.ArduinoSystem = new ArduinoSystem();
+
+                if (!GlobalData.ArduinoSystem.HasPort)
+                {
+                    MessageBox.Show("Please connect the arduino.");
+                    return;
+                }
+            }
+
+            GlobalData.Next_RunData.AllData.Clear();
+
+            int index = 0;
+            for (int i = 0; i < Sensors.Length; i++)
+                if (Sensors[i].Type != 0)
+                {
+                    Sensors[i].RunData_Index = index;
+                    DataList tempDataList = new DataList(GlobalData.DataNames[Sensors[i].Type] + " (" + GlobalData.MeasurmentsNames[Sensors[i].Type][Sensors[i].Units] + ")", "Time (s)");
+                    GlobalData.Next_RunData.AllData.Add(tempDataList);
+                    string s = "sensor," + Sensors[i].Type + "," + i + "," + Sensors[i].SampleRate;
+                    GlobalData.ArduinoSystem.SendCommand(s);
+
+                    index++;
+                }
+
+
+            ChangesApplied = true;
+            applyBU.Enabled = false;
+        }
+
         private void DrawDivisions(Graphics g)
         {
             g.Clear(GlobalData.ClearColor);
@@ -107,40 +141,18 @@ namespace Physics_Project__new_data_structure_
             applyBU.Enabled = true;
         }
 
-
-
         private void applyBU_Click(object sender, EventArgs e)
         {
-            GlobalData.ArduinoSystem.ClearBuffer();
-            if (!GlobalData.ArduinoSystem.HasPort)
+            if (GlobalData.ArduinoSystem != null &&
+                GlobalData.ArduinoSystem.HasPort)
+                ApplyChanges();
+            else
             {
                 GlobalData.ArduinoSystem = new ArduinoSystem();
 
                 if (!GlobalData.ArduinoSystem.HasPort)
-                {
                     MessageBox.Show("Please connect the arduino.");
-                    return;
-                }
             }
-
-            GlobalData.Next_RunData.AllData.Clear();
-
-            int index = 0;
-            for (int i = 0; i < Sensors.Length; i++)
-                if (Sensors[i].Type != 0)
-                {
-                    Sensors[i].RunData_Index = index;
-                    DataList tempDataList = new DataList(GlobalData.DataNames[Sensors[i].Type] + " (" + GlobalData.MeasurmentsNames[Sensors[i].Type][Sensors[i].Units] + ")", "Time (s)");
-                    GlobalData.Next_RunData.AllData.Add(tempDataList);
-                    string s = "sensor," + Sensors[i].Type + "," + i + "," + Sensors[i].SampleRate;
-                    GlobalData.ArduinoSystem.SendCommand(s);
-
-                    index++;
-                }
-
-
-            ChangesApplied = true;
-            applyBU.Enabled = false;
         }
 
 

@@ -90,6 +90,7 @@
     <Compile Include="NamedList_Selecter.Designer.cs">
       <DependentUpon>NamedList_Selecter.cs</DependentUpon>
     </Compile>
+    <Compile Include="ProjectFile.cs" />
     <Compile Include="visualization Controls\Grapher.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -128,6 +129,12 @@
     </Compile>
     <Compile Include="Window_Table.Designer.cs">
       <DependentUpon>Window_Table.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Winow_OpenProject.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Winow_OpenProject.Designer.cs">
+      <DependentUpon>Winow_OpenProject.cs</DependentUpon>
     </Compile>
     <EmbeddedResource Include="AllRuns_Control.resx">
       <DependentUpon>AllRuns_Control.cs</DependentUpon>
@@ -176,6 +183,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Window_Table.resx">
       <DependentUpon>Window_Table.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Winow_OpenProject.resx">
+      <DependentUpon>Winow_OpenProject.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>

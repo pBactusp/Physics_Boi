@@ -80,13 +80,7 @@ namespace Physics_Project__new_data_structure_
 
             TreeNode nextRunNode = new TreeNode("Next Run");
             foreach (DataList dataList in GlobalData.Next_RunData.AllData)
-            {
-                TreeNode DataListNode = new TreeNode(dataList.Get_FullName());
-                foreach (Variable variable in dataList.Children)
-                    DataListNode.Nodes.Add(variable.Get_FullName());
-
-                nextRunNode.Nodes.Add(DataListNode);
-            }
+                nextRunNode.Nodes.Add(MakeTree(dataList));
             mainTV.Nodes.Add(nextRunNode);
         }
 
