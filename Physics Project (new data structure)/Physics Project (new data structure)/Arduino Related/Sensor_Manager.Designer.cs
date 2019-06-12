@@ -84,7 +84,9 @@
             this.Controls.Add(this.sensorTypeLIBO);
             this.Controls.Add(this.selectionPA);
             this.Name = "Sensor_Manager";
-            this.Text = "Sensor_Manager";
+            this.Text = "Sensor manager";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Sensor_Manager_FormClosing);
+            this.Shown += new System.EventHandler(this.Sensor_Manager_Shown);
             this.ResumeLayout(false);
 
         }

@@ -28,10 +28,17 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.displayPB = new System.Windows.Forms.PictureBox();
             this.dataListsTV = new System.Windows.Forms.TreeView();
             this.label1 = new System.Windows.Forms.Label();
+            this.listCOMESC = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.removeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.changeColorToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.randomToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.colorPickerToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.displayPB)).BeginInit();
+            this.listCOMESC.SuspendLayout();
             this.SuspendLayout();
             // 
             // displayPB
@@ -56,6 +63,7 @@
             this.dataListsTV.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.dataListsTV.CheckBoxes = true;
+            this.dataListsTV.ContextMenuStrip = this.listCOMESC;
             this.dataListsTV.Location = new System.Drawing.Point(433, 19);
             this.dataListsTV.Name = "dataListsTV";
             this.dataListsTV.Size = new System.Drawing.Size(193, 299);
@@ -73,6 +81,44 @@
             this.label1.TabIndex = 2;
             this.label1.Text = "Data lists:";
             // 
+            // listCOMESC
+            // 
+            this.listCOMESC.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.removeToolStripMenuItem,
+            this.changeColorToolStripMenuItem});
+            this.listCOMESC.Name = "listCOMESC";
+            this.listCOMESC.Size = new System.Drawing.Size(181, 70);
+            // 
+            // removeToolStripMenuItem
+            // 
+            this.removeToolStripMenuItem.Name = "removeToolStripMenuItem";
+            this.removeToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.removeToolStripMenuItem.Text = "Remove";
+            this.removeToolStripMenuItem.Click += new System.EventHandler(this.removeToolStripMenuItem_Click);
+            // 
+            // changeColorToolStripMenuItem
+            // 
+            this.changeColorToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.colorPickerToolStripMenuItem,
+            this.randomToolStripMenuItem});
+            this.changeColorToolStripMenuItem.Name = "changeColorToolStripMenuItem";
+            this.changeColorToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.changeColorToolStripMenuItem.Text = "Change color";
+            // 
+            // randomToolStripMenuItem
+            // 
+            this.randomToolStripMenuItem.Name = "randomToolStripMenuItem";
+            this.randomToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.randomToolStripMenuItem.Text = "Random";
+            this.randomToolStripMenuItem.Click += new System.EventHandler(this.randomToolStripMenuItem_Click);
+            // 
+            // colorPickerToolStripMenuItem
+            // 
+            this.colorPickerToolStripMenuItem.Name = "colorPickerToolStripMenuItem";
+            this.colorPickerToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.colorPickerToolStripMenuItem.Text = "Color picker";
+            this.colorPickerToolStripMenuItem.Click += new System.EventHandler(this.colorPickerToolStripMenuItem_Click);
+            // 
             // Grapher
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
@@ -82,6 +128,7 @@
             this.Name = "Grapher";
             this.Size = new System.Drawing.Size(629, 321);
             ((System.ComponentModel.ISupportInitialize)(this.displayPB)).EndInit();
+            this.listCOMESC.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -92,5 +139,10 @@
         private System.Windows.Forms.PictureBox displayPB;
         private System.Windows.Forms.TreeView dataListsTV;
         private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.ContextMenuStrip listCOMESC;
+        private System.Windows.Forms.ToolStripMenuItem removeToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem changeColorToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem randomToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem colorPickerToolStripMenuItem;
     }
 }

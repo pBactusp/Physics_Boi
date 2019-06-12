@@ -27,8 +27,8 @@ namespace Physics_Project__new_data_structure_
             Name = name;
             Value = new List<float>(namedList.Value);
 
-            MinVal = 100000;
-            MaxVal = -100000;
+            MinVal = namedList.MinVal;
+            MaxVal = namedList.MaxVal;
         }
 
         public int Count { get { return Value.Count; } }
@@ -84,6 +84,15 @@ namespace Physics_Project__new_data_structure_
 
             Children = new List<Variable>();
         }
+        public DataList(DataList dataList)
+        {
+            Visible = true;
+
+            Value_Y = new NamedList(dataList.Value_Y.Name, dataList.Value_Y);
+            Value_X = new NamedList(dataList.Value_X.Name, dataList.Value_X);
+
+            Children = new List<Variable>(dataList.Children);
+        }
 
 
         public string Get_FullName()
@@ -94,6 +103,9 @@ namespace Physics_Project__new_data_structure_
         {
             Value_Y.Add_Value(value_y);
             Value_X.Add_Value(value_x);
+
+            foreach (Variable child in Children)
+                child.Add_Data();
         }
 
 
@@ -126,7 +138,11 @@ namespace Physics_Project__new_data_structure_
 
     public class Variable : DataList
     {
-        private BinTreeNode<string> function;
+        public DataList Parent = new DataList();
+
+        public BinTreeNode<string> function;
+        public int min;
+        public int max;
 
         public Variable()
         {
@@ -146,10 +162,33 @@ namespace Physics_Project__new_data_structure_
 
             Children = new List<Variable>();
         }
+        public Variable(DataList dataList)
+        {
+            Visible = true;
+
+            Value_Y = new NamedList(dataList.Value_Y.Name, dataList.Value_Y);
+            Value_X = new NamedList(dataList.Value_X.Name, dataList.Value_X);
+
+            Children = new List<Variable>(dataList.Children);
+        }
+
 
         public void Set_Function(BinTreeNode<string> function)
         {
             this.function = function;
+        }
+
+        public void Add_Data()
+        {
+            int index = Parent.Value_Y.Count - max - 1;
+            if (index + min >= 0) // && Value_Y.Count + max < Parent.Value_Y.Count)
+            {
+                Value_Y.Add_Value(BinTreeCommand.Solve_DataList(Parent, index, function));
+                Value_X.Add_Value(Parent.Value_X.Value[index]);
+
+                foreach (Variable child in Children)
+                    child.Add_Data();
+            }
         }
 
         //public Variable(string name, DataList dataList)

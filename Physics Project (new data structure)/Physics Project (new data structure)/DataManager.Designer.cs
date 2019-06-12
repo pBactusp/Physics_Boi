@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.label5 = new System.Windows.Forms.Label();
             this.parentBU = new System.Windows.Forms.Button();
             this.addVariableBU = new System.Windows.Forms.Button();
             this.label4 = new System.Windows.Forms.Label();
@@ -37,14 +38,13 @@
             this.variableFunctionTEBO = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
             this.variableNameTEBO = new System.Windows.Forms.TextBox();
-            this.label5 = new System.Windows.Forms.Label();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
-            this.constNameTEBO = new System.Windows.Forms.TextBox();
-            this.label6 = new System.Windows.Forms.Label();
-            this.label7 = new System.Windows.Forms.Label();
-            this.label8 = new System.Windows.Forms.Label();
-            this.constValueNUPDO = new System.Windows.Forms.NumericUpDown();
             this.constAddBU = new System.Windows.Forms.Button();
+            this.constValueNUPDO = new System.Windows.Forms.NumericUpDown();
+            this.label8 = new System.Windows.Forms.Label();
+            this.label7 = new System.Windows.Forms.Label();
+            this.label6 = new System.Windows.Forms.Label();
+            this.constNameTEBO = new System.Windows.Forms.TextBox();
             this.label9 = new System.Windows.Forms.Label();
             this.constCOLICO = new Physics_Project__new_data_structure_.ConstantList_Control();
             this.groupBox1.SuspendLayout();
@@ -71,6 +71,15 @@
             this.groupBox1.TabIndex = 1;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Add A Variable";
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(6, 50);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(17, 13);
+            this.label5.TabIndex = 9;
+            this.label5.Text = "Y:";
             // 
             // parentBU
             // 
@@ -145,15 +154,6 @@
             this.variableNameTEBO.Size = new System.Drawing.Size(67, 20);
             this.variableNameTEBO.TabIndex = 0;
             // 
-            // label5
-            // 
-            this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(6, 50);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(17, 13);
-            this.label5.TabIndex = 9;
-            this.label5.Text = "Y:";
-            // 
             // groupBox2
             // 
             this.groupBox2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
@@ -170,39 +170,16 @@
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Add A Constant";
             // 
-            // constNameTEBO
+            // constAddBU
             // 
-            this.constNameTEBO.Location = new System.Drawing.Point(6, 40);
-            this.constNameTEBO.Name = "constNameTEBO";
-            this.constNameTEBO.Size = new System.Drawing.Size(67, 20);
-            this.constNameTEBO.TabIndex = 0;
-            // 
-            // label6
-            // 
-            this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(79, 43);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(13, 13);
-            this.label6.TabIndex = 1;
-            this.label6.Text = "=";
-            // 
-            // label7
-            // 
-            this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(6, 24);
-            this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(35, 13);
-            this.label7.TabIndex = 2;
-            this.label7.Text = "Name";
-            // 
-            // label8
-            // 
-            this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(95, 24);
-            this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(34, 13);
-            this.label8.TabIndex = 3;
-            this.label8.Text = "Value";
+            this.constAddBU.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.constAddBU.Location = new System.Drawing.Point(6, 73);
+            this.constAddBU.Name = "constAddBU";
+            this.constAddBU.Size = new System.Drawing.Size(75, 23);
+            this.constAddBU.TabIndex = 5;
+            this.constAddBU.Text = "Add";
+            this.constAddBU.UseVisualStyleBackColor = true;
+            this.constAddBU.Click += new System.EventHandler(this.constAddBU_Click);
             // 
             // constValueNUPDO
             // 
@@ -222,16 +199,39 @@
             this.constValueNUPDO.Size = new System.Drawing.Size(108, 20);
             this.constValueNUPDO.TabIndex = 4;
             // 
-            // constAddBU
+            // label8
             // 
-            this.constAddBU.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.constAddBU.Location = new System.Drawing.Point(6, 73);
-            this.constAddBU.Name = "constAddBU";
-            this.constAddBU.Size = new System.Drawing.Size(75, 23);
-            this.constAddBU.TabIndex = 5;
-            this.constAddBU.Text = "Add";
-            this.constAddBU.UseVisualStyleBackColor = true;
-            this.constAddBU.Click += new System.EventHandler(this.constAddBU_Click);
+            this.label8.AutoSize = true;
+            this.label8.Location = new System.Drawing.Point(95, 24);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(34, 13);
+            this.label8.TabIndex = 3;
+            this.label8.Text = "Value";
+            // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.Location = new System.Drawing.Point(6, 24);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(35, 13);
+            this.label7.TabIndex = 2;
+            this.label7.Text = "Name";
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Location = new System.Drawing.Point(79, 43);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(13, 13);
+            this.label6.TabIndex = 1;
+            this.label6.Text = "=";
+            // 
+            // constNameTEBO
+            // 
+            this.constNameTEBO.Location = new System.Drawing.Point(6, 40);
+            this.constNameTEBO.Name = "constNameTEBO";
+            this.constNameTEBO.Size = new System.Drawing.Size(67, 20);
+            this.constNameTEBO.TabIndex = 0;
             // 
             // label9
             // 
@@ -261,7 +261,10 @@
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.groupBox1);
             this.Name = "DataManager";
-            this.Text = "DataManager";
+            this.Text = "Data manager";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.DataManager_FormClosing);
+            this.Load += new System.EventHandler(this.DataManager_Load);
+            this.Shown += new System.EventHandler(this.DataManager_Shown);
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             this.groupBox2.ResumeLayout(false);

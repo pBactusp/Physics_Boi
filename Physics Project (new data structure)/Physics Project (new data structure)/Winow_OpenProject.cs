@@ -38,6 +38,18 @@ namespace Physics_Project__new_data_structure_
             projectFile = null;
             Close();
         }
+
+        private void openProBU_Click(object sender, EventArgs e)
+        {
+            OpenFileDialog ofd = new OpenFileDialog();
+
+            if (ofd.ShowDialog() == DialogResult.OK)
+            {
+                MessageBox.Show(projectFile.Load(ofd.FileName));
+                Close();
+            }
+
+        }
     }
 
 }

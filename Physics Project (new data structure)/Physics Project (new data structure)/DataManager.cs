@@ -14,6 +14,8 @@ namespace Physics_Project__new_data_structure_
         DataList_Selecter dl_s;
         DataList Parent = null;
 
+        public bool IsShown;
+
 
         public DataManager()
         {
@@ -236,28 +238,14 @@ namespace Physics_Project__new_data_structure_
             BinTreeCommand.MakeTree_2(tree);
 
             Variable variable = new Variable(variableNameTEBO.Text, Parent.Value_X.Name);
+            variable.Parent = Parent;
             variable.Set_Function(tree);
 
 
             Point index_minmax = Get_Index_minmax(0, 0, tree);
 
-
-
-
-            //for (int i = 0; i < validFunc.Length; i++)
-            //{
-            //    if (validFunc[i] == 'p' && validFunc.Length >= i + 8)
-            //        if (validFunc.Substring(i, 6) == "parent")
-            //        {
-            //            i += 8;
-
-            //            short bracketsCounter = 0;
-            //            if (validFunc[i] == '(')
-            //            {
-                            
-            //            }
-            //        }
-            //}
+            variable.min = index_minmax.X;
+            variable.max = index_minmax.Y;
 
             for (int i = - index_minmax.X; i < Parent.Value_Y.Count - index_minmax.Y; i++)
                 variable.Add_Data(BinTreeCommand.Solve_DataList(Parent, i, tree), Parent.Value_X.Value[i]);
@@ -315,6 +303,24 @@ namespace Physics_Project__new_data_structure_
             constValueNUPDO.Value = 0;
         }
 
+        private void DataManager_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            IsShown = false;
+            Hide();
+            e.Cancel = true;
+        }
+
+        private void DataManager_Shown(object sender, EventArgs e)
+        {
+            IsShown = true;
+        }
+
+        private void DataManager_Load(object sender, EventArgs e)
+        {
+            //IsShown = true;
+        }
+
 
     }
+
 }

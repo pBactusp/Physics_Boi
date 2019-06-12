@@ -12,7 +12,6 @@ namespace Physics_Project__new_data_structure_
     public partial class Grapher : UserControl
     {
         #region Properties
-
         public bool AxiVisible = true;
         public bool GridVisible = true;
 
@@ -37,8 +36,8 @@ namespace Physics_Project__new_data_structure_
         private List<DataList> DataLists = new List<DataList>();
         //private DataSet selectedDataSet = new DataSet();
         private int selectedDataList;
-        private float minX = 0, maxX = 0;
-        private float minY = 0, maxY = 0;
+        private float minX = -1, maxX = 1;
+        private float minY = -1, maxY = 1;
         private float scaleX = 1;
         private float scaleY = 1;
         private PointF origin = new PointF();
@@ -142,9 +141,12 @@ namespace Physics_Project__new_data_structure_
             DataLists.Add(dataList);
             selectedDataList = DataLists.Count - 1;
 
-            dataListsTV.Nodes.Add(dataList.Get_FullName());
-            dataListsTV.Nodes[selectedDataList].Checked = dataList.Visible;
-            dataListsTV.SelectedNode = dataListsTV.Nodes[selectedDataList];
+            TreeNode tempNode = new TreeNode(dataList.Get_FullName());
+            tempNode.Tag = dataList;
+            tempNode.Checked = dataList.Visible;
+
+            dataListsTV.Nodes.Add(tempNode);
+            dataListsTV.SelectedNode = tempNode;
         }
 
         public void Remove_DataList(DataList dataList)
@@ -161,10 +163,10 @@ namespace Physics_Project__new_data_structure_
 
         private void SetScale(Size size)
         {
-            if (_AutoScale)
+            if (_AutoScale && DataLists.Count > 0)
             {
-                minX = 0; maxX = 0;
-                minY = 0; maxY = 0;
+                minX = DataLists[0].Value_X.MinVal; maxX = DataLists[0].Value_X.MaxVal;
+                minY = DataLists[0].Value_Y.MinVal; maxY = DataLists[0].Value_Y.MaxVal;
 
                 foreach (DataList dl in DataLists)
                     if (dl.Visible && dl.Value_X.Count > 0 && dl.Value_Y.Count > 0)
@@ -179,12 +181,13 @@ namespace Physics_Project__new_data_structure_
                             maxY = dl.Value_Y.MaxVal;
                     }
 
-                //float rangeX = maxX - minX, rangeY = maxY - minY;
-                minX -= 1; //rangeX / 10;
-                maxX += 1; //rangeX / 10;
-                minY -= 1; //rangeY / 10;
-                maxY += 1; //rangeY / 10;
+                minX -= 1;
+                maxX += 1;
+                minY -= 1;
+                maxY += 1;
             }
+
+
 
             scaleX = realWidth / (maxX - minX);
             scaleY = realHeight / (maxY - minY);
@@ -468,28 +471,58 @@ namespace Physics_Project__new_data_structure_
 
         private void dataListsTV_AfterSelect(object sender, TreeViewEventArgs e)
         {
+            if (e.Node.Parent == null &&
+                DataLists[e.Node.Index].Visible != e.Node.Checked)
+            {
+                DataLists[e.Node.Index].Visible = e.Node.Checked;
 
+                Update2();
+            }
         }
-
         private void dataListsTV_AfterCheck(object sender, TreeViewEventArgs e)
         {
             if (e.Node.Parent == null)
-            {
-                //DataList tempDataSet = new DataList();
-                //tempDataSet = DataLists[e.Node.Index];
-                //tempDataSet.Visible = e.Node.Checked;
-                //DataSets[e.Node.Index] = tempDataSet;
                 DataLists[e.Node.Index].Visible = e.Node.Checked;
-            }
-            //else
-            //{
-            //    Polynom tempPoly = new Polynom();
-            //    tempPoly = DataSets[e.Node.Parent.Index].Polynoms[e.Node.Index];
-            //    tempPoly.Visible = e.Node.Checked;
-            //    DataSets[e.Node.Parent.Index].Polynoms[e.Node.Index] = tempPoly;
-            //}
+
 
             Update2();
+        }
+
+        private void removeToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (dataListsTV.SelectedNode != null)
+            {
+                DataLists.Remove((DataList)dataListsTV.SelectedNode.Tag);
+                dataListsTV.Nodes.Remove(dataListsTV.SelectedNode);
+
+                Update2();
+            }
+        }
+        private void randomToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (dataListsTV.SelectedNode != null)
+            {
+                DataList tempDataList = (DataList)dataListsTV.SelectedNode.Tag;
+                tempDataList.LineColor = randomColor.GetColor();
+
+                Update2();
+            }
+        }
+
+        private void colorPickerToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (dataListsTV.SelectedNode != null)
+            {
+                DataList tempDataList = (DataList)dataListsTV.SelectedNode.Tag;
+                ColorDialog cd = new ColorDialog();
+
+                if (cd.ShowDialog() == DialogResult.OK)
+                {
+                    tempDataList.LineColor = cd.Color;
+
+                    Update2();
+                }
+            }
         }
 
         private void displayPB_MouseUp(object sender, MouseEventArgs e)

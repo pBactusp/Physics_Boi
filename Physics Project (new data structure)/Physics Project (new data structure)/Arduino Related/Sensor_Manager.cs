@@ -13,6 +13,7 @@ namespace Physics_Project__new_data_structure_
     {
         public Sensor[] Sensors = new Sensor[6];
 
+        public bool IsShown;
         public bool ChangesApplied = false;
 
         private int selectedDivision = 0;
@@ -153,6 +154,17 @@ namespace Physics_Project__new_data_structure_
                 if (!GlobalData.ArduinoSystem.HasPort)
                     MessageBox.Show("Please connect the arduino.");
             }
+        }
+
+        private void Sensor_Manager_Shown(object sender, EventArgs e)
+        {
+            IsShown = true;
+        }
+        private void Sensor_Manager_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            IsShown = false;
+            Hide();
+            e.Cancel = true;
         }
 
 

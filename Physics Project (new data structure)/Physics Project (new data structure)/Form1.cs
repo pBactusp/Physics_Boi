@@ -14,6 +14,8 @@ namespace Physics_Project__new_data_structure_
         Winow_OpenProject window_openProject;
 
         Sensor_Manager sensor_Manager;
+        DataManager data_Manager;
+
         List<Window_Grapher> Graphers = new List<Window_Grapher>();
         bool cd = false; // "Collecting Data"
 
@@ -24,15 +26,18 @@ namespace Physics_Project__new_data_structure_
 
             window_openProject = new Winow_OpenProject();
             window_openProject.ShowDialog();
+
             if (window_openProject.projectFile == null)
                 Close();
             else
             {
+                this.Text = window_openProject.projectFile.GetName();
+
                 Init_ArduinoSystem();
                 Init_Sensor_Manager();
+                Init_Data_Manager();
 
-
-
+                /*
                 // Create fake data
                 float[] tempFloatArr1 = new float[8] { -12, -2, 3, 4.6f, 9.1f, 13, 15.3f, 50 };
                 float[] tempFloatArr2 = new float[8] { 0, -2, 3, 2.4f, 9.1f, 4, 2.7f, -50 };
@@ -55,6 +60,7 @@ namespace Physics_Project__new_data_structure_
                 fakeRun.AllData.Add(fakeDataList);
 
                 GlobalData.All_Runs.Add(fakeRun);
+                */
             }
 
         }
@@ -82,7 +88,10 @@ namespace Physics_Project__new_data_structure_
         public void Init_Sensor_Manager()
         {
             sensor_Manager = new Sensor_Manager();
-            sensor_Manager.Show();
+        }
+        public void Init_Data_Manager()
+        {
+            data_Manager = new DataManager();
         }
 
 
@@ -123,6 +132,13 @@ namespace Physics_Project__new_data_structure_
             NewRun();
         }
 
+        private void stopBU_Click(object sender, EventArgs e)
+        {
+            cd = false;
+            startBU.Enabled = true;
+            stopBU.Enabled = false;
+        }
+
 
         public void NewRun()
         {
@@ -157,9 +173,6 @@ namespace Physics_Project__new_data_structure_
             ars.SendCommand("start");
             ars.ClearBuffer();
 
-            //Thread.Sleep(500);
-            //string s = ars.ReadLine();
-
             int sensorIndex = -1;
             float data = 0, time = 0;
             while (cd)
@@ -179,9 +192,16 @@ namespace Physics_Project__new_data_structure_
                             break;
                     }
 
-                    ret.AllData[sensors[sensorIndex].RunData_Index].Value_Y.Add_Value(data);
-                    ret.AllData[sensors[sensorIndex].RunData_Index].Value_X.Add_Value(time / 1000);
+                    ret.AllData[sensors[sensorIndex].RunData_Index].Add_Data(data, time / 1000);
 
+                    if (ret.AllData[sensors[sensorIndex].RunData_Index].Value_Y.Count == 1)
+                    {
+                        ret.AllData[sensors[sensorIndex].RunData_Index].Value_Y.MinVal = data;
+                        ret.AllData[sensors[sensorIndex].RunData_Index].Value_Y.MaxVal = data;
+
+                        ret.AllData[sensors[sensorIndex].RunData_Index].Value_X.MinVal = time / 1000;
+                        ret.AllData[sensors[sensorIndex].RunData_Index].Value_X.MaxVal = time / 1000;
+                    }
 
                     updateIndex++;
                     if (updateIndex >= updateEvery)
@@ -217,6 +237,7 @@ namespace Physics_Project__new_data_structure_
             //tempTable.Update2();
         }
 
+
         private void openGrapherBU_Click(object sender, EventArgs e)
         {
             Window_Grapher w_g = new Window_Grapher();
@@ -232,27 +253,75 @@ namespace Physics_Project__new_data_structure_
 
         private void openDataManagerBU_Click(object sender, EventArgs e)
         {
-            DataManager dm = new DataManager();
-            dm.Show();
+            if (data_Manager.IsShown)
+                MessageBox.Show("The data manager window is already open");
+            else
+                data_Manager.Show();
         }
 
-        private void stopBU_Click(object sender, EventArgs e)
+        private void openSensorManager_Click(object sender, EventArgs e)
         {
-            cd = false;
-            startBU.Enabled = true;
-            stopBU.Enabled = false;
+            if (sensor_Manager.IsShown)
+                MessageBox.Show("The sensor manager window is already open");
+            else
+                sensor_Manager.Show();
+        }
+
+        private void Form1_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            DialogResult dr = MessageBox.Show("Do you wish to save before closing?",
+                      "Save", MessageBoxButtons.YesNo);
+
+            if (dr == DialogResult.Yes)
+                window_openProject.projectFile.Save();
         }
 
 
 
         private void saveAsIT_Click(object sender, EventArgs e)
         {
+            SaveFileDialog sfd = new SaveFileDialog();
+            sfd.AddExtension = true;
+            sfd.DefaultExt = "txt";
 
+            if (sfd.ShowDialog() == DialogResult.OK)
+            {
+                window_openProject.projectFile.SaveAs(sfd.FileName);
+                this.Text = window_openProject.projectFile.GetName();
+            }
         }
 
         private void saveIT_Click(object sender, EventArgs e)
         {
             window_openProject.projectFile.Save();
+        }
+        private void openProIT_Click(object sender, EventArgs e)
+        {
+            DialogResult dr = MessageBox.Show("Do you wish to save the current project?",
+                      "Save", MessageBoxButtons.YesNo);
+
+            if (dr == DialogResult.Yes)
+                window_openProject.projectFile.Save();
+
+            OpenFileDialog ofd = new OpenFileDialog();
+
+            if (ofd.ShowDialog() == DialogResult.OK)
+            {
+                MessageBox.Show(window_openProject.projectFile.Load(ofd.FileName));
+                this.Text = window_openProject.projectFile.GetName();
+            }
+        }
+        private void newProIT_Click(object sender, EventArgs e)
+        {
+            SaveFileDialog sfd = new SaveFileDialog();
+            sfd.AddExtension = true;
+            sfd.DefaultExt = "txt";
+
+            if (sfd.ShowDialog() == DialogResult.OK)
+            {
+                window_openProject.projectFile.SaveAs(sfd.FileName);
+                this.Text = window_openProject.projectFile.GetName();
+            }
         }
     }
 }
