@@ -1,0 +1,22 @@
+D:\C#\Physics Project\Physics_Boi\Physics Project (new data structure)\Physics Project (new data structure)\bin\Debug\Physics Project (new data structure).exe
+D:\C#\Physics Project\Physics_Boi\Physics Project (new data structure)\Physics Project (new data structure)\bin\Debug\Physics Project (new data structure).pdb
+D:\C#\Physics Project\Physics_Boi\Physics Project (new data structure)\Physics Project (new data structure)\obj\Debug\Physics_Project__new_data_structure_.ArduinoSystem_Control.resources
+D:\C#\Physics Project\Physics_Boi\Physics Project (new data structure)\Physics Project (new data structure)\obj\Debug\Physics_Project__new_data_structure_.Form1.resources
+D:\C#\Physics Project\Physics_Boi\Physics Project (new data structure)\Physics Project (new data structure)\obj\Debug\Physics_Project__new_data_structure_.Properties.Resources.resources
+D:\C#\Physics Project\Physics_Boi\Physics Project (new data structure)\Physics Project (new data structure)\obj\Debug\Physics Project (new data structure).csproj.GenerateResource.cache
+D:\C#\Physics Project\Physics_Boi\Physics Project (new data structure)\Physics Project (new data structure)\obj\Debug\Physics Project (new data structure).csproj.CoreCompileInputs.cache
+D:\C#\Physics Project\Physics_Boi\Physics Project (new data structure)\Physics Project (new data structure)\obj\Debug\Physics Project (new data structure).exe
+D:\C#\Physics Project\Physics_Boi\Physics Project (new data structure)\Physics Project (new data structure)\obj\Debug\Physics Project (new data structure).pdb
+D:\C#\Physics Project\Physics_Boi\Physics Project (new data structure)\Physics Project (new data structure)\obj\Debug\Physics_Project__new_data_structure_.Sensor_Manager.resources
+D:\C#\Physics Project\Physics_Boi\Physics Project (new data structure)\Physics Project (new data structure)\obj\Debug\Physics_Project__new_data_structure_.SensorProperties_Control.resources
+D:\C#\Physics Project\Physics_Boi\Physics Project (new data structure)\Physics Project (new data structure)\obj\Debug\Physics_Project__new_data_structure_.AllRuns_Control.resources
+D:\C#\Physics Project\Physics_Boi\Physics Project (new data structure)\Physics Project (new data structure)\obj\Debug\Physics_Project__new_data_structure_.DataList_Selecter.resources
+D:\C#\Physics Project\Physics_Boi\Physics Project (new data structure)\Physics Project (new data structure)\obj\Debug\Physics_Project__new_data_structure_.Grapher.resources
+D:\C#\Physics Project\Physics_Boi\Physics Project (new data structure)\Physics Project (new data structure)\obj\Debug\Physics_Project__new_data_structure_.Table.resources
+D:\C#\Physics Project\Physics_Boi\Physics Project (new data structure)\Physics Project (new data structure)\obj\Debug\Physics_Project__new_data_structure_.DataManager.resources
+D:\C#\Physics Project\Physics_Boi\Physics Project (new data structure)\Physics Project (new data structure)\obj\Debug\Physics_Project__new_data_structure_.Window_Table.resources
+D:\C#\Physics Project\Physics_Boi\Physics Project (new data structure)\Physics Project (new data structure)\obj\Debug\Physics_Project__new_data_structure_.ConstantList_Control.resources
+D:\C#\Physics Project\Physics_Boi\Physics Project (new data structure)\Physics Project (new data structure)\obj\Debug\Physics Project (new data structure).csprojAssemblyReference.cache
+D:\C#\Physics Project\Physics_Boi\Physics Project (new data structure)\Physics Project (new data structure)\obj\Debug\Physics_Project__new_data_structure_.Window_Grapher.resources
+D:\C#\Physics Project\Physics_Boi\Physics Project (new data structure)\Physics Project (new data structure)\obj\Debug\Physics_Project__new_data_structure_.NamedList_Selecter.resources
+D:\C#\Physics Project\Physics_Boi\Physics Project (new data structure)\Physics Project (new data structure)\obj\Debug\Physics_Project__new_data_structure_.Winow_OpenProject.resources
