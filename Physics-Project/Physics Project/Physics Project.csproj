@@ -99,6 +99,7 @@
     <Compile Include="Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
+    <Compile Include="Fourier.cs" />
     <Compile Include="GlobalData.cs" />
     <Compile Include="Grapher.cs">
       <SubType>Form</SubType>

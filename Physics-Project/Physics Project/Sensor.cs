@@ -12,13 +12,13 @@ namespace Physics_Project
         public int ConnectionNumber;
         public Connection Con;
         public int Measurement = 0;
-        public float SampleRate = 300;
+        public float SampleRate;
         public float SampleRate_Seconds
         {
             get { return 16000000 / SampleRate; }
         }
 
-        public Sensor(int type, int connection_num, float sample_rate = 300)
+        public Sensor(int type, int connection_num, float sample_rate = 100)
         {
             _Type = type;
             ConnectionNumber = connection_num;
@@ -26,13 +26,13 @@ namespace Physics_Project
             Measurement = 0;
             SampleRate = sample_rate;
         }
-        public Sensor(int type, Connection connection, float sample_rate = 300)
-        {
-            _Type = type;
-            Con = new Connection(connection);
-            Measurement = 0;
-            SampleRate = sample_rate;
-        }
+        //public Sensor(int type, Connection connection, float sample_rate = 300)
+        //{
+        //    _Type = type;
+        //    Con = new Connection(connection);
+        //    Measurement = 0;
+        //    SampleRate = sample_rate;
+        //}
 
 
         public void SetType(int type)

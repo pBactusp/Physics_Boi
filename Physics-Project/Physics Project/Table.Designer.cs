@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
+            this.addDataBU = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -38,16 +39,27 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView1.Location = new System.Drawing.Point(12, 12);
+            this.dataGridView1.Location = new System.Drawing.Point(12, 64);
             this.dataGridView1.Name = "dataGridView1";
-            this.dataGridView1.Size = new System.Drawing.Size(311, 376);
+            this.dataGridView1.Size = new System.Drawing.Size(311, 324);
             this.dataGridView1.TabIndex = 0;
+            // 
+            // addDataBU
+            // 
+            this.addDataBU.Location = new System.Drawing.Point(12, 12);
+            this.addDataBU.Name = "addDataBU";
+            this.addDataBU.Size = new System.Drawing.Size(77, 46);
+            this.addDataBU.TabIndex = 1;
+            this.addDataBU.Text = "Add a NamedList";
+            this.addDataBU.UseVisualStyleBackColor = true;
+            this.addDataBU.Click += new System.EventHandler(this.addDataBU_Click);
             // 
             // Table
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(335, 400);
+            this.Controls.Add(this.addDataBU);
             this.Controls.Add(this.dataGridView1);
             this.Name = "Table";
             this.Text = "Table";
@@ -59,5 +71,6 @@
         #endregion
 
         private System.Windows.Forms.DataGridView dataGridView1;
+        private System.Windows.Forms.Button addDataBU;
     }
 }

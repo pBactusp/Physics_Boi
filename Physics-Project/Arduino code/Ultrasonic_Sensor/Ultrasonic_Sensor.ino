@@ -1,6 +1,6 @@
 // defines pins numbers
-const int trigPin = 23;
-const int echoPin = 22;
+const int trigPin = 4;
+const int echoPin = 2;
 
 // defines variables
 double duration;
@@ -28,7 +28,7 @@ void loop()
   duration = pulseIn(echoPin, HIGH);
   
   // Calculating the distance
-  distance = duration*0.017;
+  distance = duration * 0.017;
   
   // Prints the distance on the Serial Monitor
   Serial.print("Distance: ");

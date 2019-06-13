@@ -13,18 +13,30 @@ namespace Physics_Project
         public static string[] SensorTypes = new string[]
         {
             "Empty",
-            "Ultrasonic"
+            "Ultrasonic (Distance)",
+            "Microphone",
+            "Force",
+            "Temperature",
+            "InfraRed (Distance)"
         };
 
         public static string[] DataNames = new string[]
         {
             "Null",
+            "Distance",
+            "Voltage",
+            "Newton",
+            "Degrees",
             "Distance"
         };
 
         public static List<string>[] MeasurmentsNames = new List<string>[]
         {
             new List<string>() { "" },
+            new List<string>() { "m", "cm", "mm" },
+            new List<string>() { "v" },
+            new List<string>() { "N" },
+            new List<string>() { "c", "f" },
             new List<string>() { "m", "cm", "mm" }
         };
 

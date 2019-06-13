@@ -71,6 +71,8 @@ namespace Physics_Project
             dataGridView1.DataSource = DataT;
         }
 
+
+
         public void Update2()
         {
             for (int i = 0; i < AllData.Count; i++)
@@ -106,6 +108,7 @@ namespace Physics_Project
             }
         }
 
+
         public void Start()
         {
             for (int j = 0; j < AllData.Count; j++)
@@ -117,6 +120,24 @@ namespace Physics_Project
             // Make the DataGridView use the DataTable as its data source.
             dataGridView1.DataSource = DataT;
             Update2();
+        }
+
+        private void addDataBU_Click(object sender, EventArgs e)
+        {
+            DatasetSelector ds = new DatasetSelector();
+            ds.ShowDialog();
+
+
+            if (ds.vert != null && ds.hori != null)
+            {
+                GlobalData.allRuns[0].AddDataList(ds.DataSet.DataX);
+                GlobalData.allRuns[0].AddDataList(ds.DataSet.DataY);
+
+                AddColumn(ds.DataSet.DataX);
+                AddColumn(ds.DataSet.DataY);
+            }
+
+
         }
     }
 }

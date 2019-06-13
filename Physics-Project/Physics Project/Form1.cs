@@ -19,7 +19,7 @@ namespace Physics_Project
         Table tempTable;
 
         BackgroundWorker bgw;
-        bool cd = false; // Collecting data
+        bool cd = false; // Collecting Data
 
 
         public mainForm()
@@ -39,22 +39,37 @@ namespace Physics_Project
                     MessageBox.Show("The system is connected to: " + arSystem.GetPortName());
                 }
 
-            sensorSetup = new SensorSetup();
+            sensorSetup = new SensorSetup(arSystem);
             sensorSetup.Show();
 
-            //float[] tempFloatArr1 = new float[8] { -12, -2, 3, 4.6f, 9.1f, 13, 15.3f, 50 };
-            //float[] tempFloatArr2 = new float[8] { 0, -2, 3, 2.4f, 9.1f, 4, 2.7f, -50 };
-            //float[] tempFloatArr3 = new float[8] { -3, -1, 4, 9, 15.1f, 20, 24, 61 };
-            //float[] tempFloatArr4 = new float[8] { 0, -2, 3, 2.4f, 9.1f, 4, 2.7f, 3 };
+            float[] tempFloatArr1 = new float[8] { -12, -2, 3, 4.6f, 9.1f, 13, 15.3f, 50 };
+            float[] tempFloatArr2 = new float[8] { 0, -2, 3, 2.4f, 9.1f, 4, 2.7f, -50 };
+            float[] tempFloatArr3 = new float[8] { -3, -1, 4, 9, 15.1f, 20, 24, 61 };
+            float[] tempFloatArr4 = new float[8] { 0, -2, 3, 2.4f, 9.1f, 4, 2.7f, 3 };
 
-            //RunData runData = new RunData();
 
-            //runData.AddDataList("Temporary List 1", tempFloatArr1);
-            //runData.AddDataList("Temporary List 2", tempFloatArr2);
-            //runData.AddDataList("Temporary List 3", tempFloatArr3);
-            //runData.AddDataList("Temporary List 4", tempFloatArr4);
+            RunData runData = new RunData();
 
-            //GlobalData.allRuns.Add(runData);
+            runData.AddDataList("Temporary List 1", tempFloatArr1);
+            runData.AddDataList("Temporary List 2", tempFloatArr2);
+            runData.AddDataList("Temporary List 3", tempFloatArr3);
+            runData.AddDataList("Temporary List 4", tempFloatArr4);
+
+            float[] xsquared1 = new float[200];
+            float[] X1 = new float[200];
+
+            for (int x = -100; x < 100; x++)
+            {
+                X1[x + 100] = x;
+                xsquared1[x + 100] = -(float)Math.Pow(x, 2);
+            }
+            NamedList X = new NamedList("x", X1);
+            NamedList xSquared = new NamedList("y", xsquared1);
+            runData.AddDataList(X);
+            runData.AddDataList(xSquared);
+
+
+            GlobalData.allRuns.Add(runData);
 
             #region Visualize fake initial data
 
@@ -75,10 +90,10 @@ namespace Physics_Project
             tempGrapher.Show();
 
             tempTable = new Table();
-            /*tempTable.AddColumn(runData.AllData[0]);
-            tempTable.AddColumn(runData.AllData[1]);
-            tempTable.AddColumn(runData.AllData[2]);
-            tempTable.AddColumn(runData.AllData[3]);*/
+            //tempTable.AddColumn(runData.AllData[0]);
+            //tempTable.AddColumn(runData.AllData[1]);
+            //tempTable.AddColumn(runData.AllData[2]);
+            //tempTable.AddColumn(runData.AllData[3]);
             tempTable.Show();
 
 
@@ -91,8 +106,11 @@ namespace Physics_Project
 
         }
 
+
         private void startB_Click(object sender, EventArgs e)
         {
+            arSystem.ClearBuffer();
+
             if (!arSystem.HasPort)
             {
                 arSystem = new ArduinoSystem();
@@ -104,12 +122,23 @@ namespace Physics_Project
                 }
             }
 
+
+            for (int i = 0; i < sensorSetup.Sensors.Length; i++)
+            {
+                if (sensorSetup.Sensors[i].Type != 0)
+                {
+                    string s = "sensor," + sensorSetup.Sensors[i].Type + "," + i + "," + sensorSetup.Sensors[i].SampleRate;
+                    arSystem.SendCommand(s);
+                }
+            }
+
+            //string str = arSystem.ReadLine();
+
             cd = true; // cd = "Collecting Data"
 
             startB.Enabled = false;
             stopB.Enabled = true;
 
-            //NewRun(arSystem);
             NewRun_Better(arSystem);
         }
 
@@ -123,94 +152,6 @@ namespace Physics_Project
             runTime += 0.01f;
         }
 
-
-        public void NewRun(ArduinoSystem ars)
-        {
-            runTime = 0;
-
-            RunData ret = new RunData();
-            GlobalData.allRuns.Add(ret);
-
-            ret.AddDataList(new NamedList("Time (s)"));
-            ret.AddDataList(new NamedList("Distance (cm)"));
-            //tempGrapher.RealTimeMode = true;
-            tempGrapher.AddDataSet(ret.AllData[0], ret.AllData[1]);
-
-            tempTable.AddColumn(ret.AllData[0]);
-            tempTable.AddColumn(ret.AllData[1]);
-
-            System.Timers.Timer t = new System.Timers.Timer();
-            t.Interval = 10;
-            t.Elapsed += T_Elapsed;
-
-
-            bgw = new BackgroundWorker();
-            bgw.WorkerReportsProgress = true;
-            bgw.WorkerSupportsCancellation = true;
-            bgw.ProgressChanged += Bgw_ProgressChanged;
-            bgw.RunWorkerCompleted += Bgw_RunWorkerCompleted;
-
-            bgw.DoWork += (obj, ea) => DataCollectLoop(arSystem, ret, t);
-            bgw.RunWorkerAsync();
-        }
-
-        private void DataCollectLoop(ArduinoSystem ars, RunData ret, System.Timers.Timer t, int updateEvery = 10)
-        {
-            int updateIndex = 0;
-            //float countPoints = 0;
-            ars.PortOpen();
-            ars.SendCommand(1);
-            t.Start();
-
-            float debug_i = 0;
-
-            if (ars.HasData)
-                ars.ReadPortString();
-
-            while (cd)
-            {
-                if (ars.HasData)
-                {
-                    // ret.AllData[0].AddData(runTime);
-
-
-                    ret.AllData[0].Add(runTime);
-                    debug_i += 0.1f;
-                    ret.AllData[1].Add(ars.ReadPortFloat());
-
-                    //ret.AllData[2].Add(ret.AllData[1][ret.AllData[1].Count - 1] / ret.AllData[0][ret.AllData[0].Count - 1]);
-
-
-                    ars.SendCommand_1B(0);
-
-                    updateIndex++;
-                    if (updateIndex >= updateEvery)
-                    {
-                        updateIndex = 0;
-
-                        bgw.ReportProgress(0);
-                    }
-                }
-            }
-
-            if (ars.HasData)
-            {
-                Thread.Sleep(10);
-                ret.AllData[0].Add(runTime);
-                debug_i += 0.1f;
-                ret.AllData[1].Add(ars.ReadPortFloat());
-            }
-            t.Stop();
-            Thread.Sleep(10);
-            ars.SendCommand_1B(1);
-            Thread.Sleep(10);
-            ars.PortClose();
-
-            ret.AddDataList(Get_V(ret.AllData[1], ret.AllData[0]));
-            ret.AddDataList(Get_VCheat(ret.AllData[1], ret.AllData[0]));
-
-
-        }
 
         public NamedList Get_V(NamedList x, NamedList t)
         {
@@ -236,21 +177,30 @@ namespace Physics_Project
             RunData ret = new RunData();
             GlobalData.allRuns.Add(ret);
 
+            ret.Index = GlobalData.allRuns.Count;
+
             foreach (Sensor sensor in sensorSetup.Sensors)
             {
-                ret.AddDataList(new NamedList("Time (s)"));
-                ret.AddDataList(new NamedList(GlobalData.DataNames[sensor.Type] + " (" + GlobalData.MeasurmentsNames[sensor.Type][sensor.Measurement] + ")"));
+                ret.AddDataList(new NamedList("Time (s)" + ret.Index.ToString()));
+                ret.AddDataList(new NamedList(GlobalData.DataNames[sensor.Type] + " (" + GlobalData.MeasurmentsNames[sensor.Type][sensor.Measurement] + ")" + ret.Index.ToString()));
 
-                tempGrapher.AddDataSet(ret.AllData[ret.AllData.Count - 2], ret.AllData[ret.AllData.Count - 1]);
+                if (sensor.Type != 0)
+                    tempGrapher.AddDataSet(ret.AllData[ret.AllData.Count - 2], ret.AllData[ret.AllData.Count - 1]);
 
-                tempTable.AddColumn(ret.AllData[ret.AllData.Count - 2]);
-                tempTable.AddColumn(ret.AllData[ret.AllData.Count - 1]);
+                //tempTable.AddColumn(ret.AllData[ret.AllData.Count - 2]);
+                //tempTable.AddColumn(ret.AllData[ret.AllData.Count - 1]);
+
             }
 
             //tempGrapher.RealTimeMode = true;
 
+            int updateInterval = 2;
+            int sensorNum = 0;
+            foreach (Sensor sensor in sensorSetup.Sensors)
+                if (sensor.Type != 0)
+                    sensorNum++;
 
-
+            updateInterval *= sensorNum;
 
             System.Timers.Timer t = new System.Timers.Timer();
             t.Interval = 10;
@@ -263,40 +213,43 @@ namespace Physics_Project
             bgw.ProgressChanged += Bgw_ProgressChanged;
             bgw.RunWorkerCompleted += Bgw_RunWorkerCompleted;
 
-            bgw.DoWork += (obj, ea) => DataCollectLoop_Better(arSystem, ret, t);
+            bgw.DoWork += (obj, ea) => DataCollectLoop_Better(arSystem, ret, sensorSetup.Sensors, updateInterval);
             bgw.RunWorkerAsync();
         }
 
-        private void DataCollectLoop_Better(ArduinoSystem ars, RunData ret, System.Timers.Timer t, int updateEvery = 10)
+        private void DataCollectLoop_Better(ArduinoSystem ars, RunData ret, Sensor[] sensors, int updateEvery = 2)
         {
             int updateIndex = 0;
-            //float countPoints = 0;
-            ars.PortOpen();
-            ars.SendCommand(50);
-            ars.SendSensor(sensorSetup.Sensors);
-            //t.Start();
 
-            float debug_i = 0;
 
-            /*if (ars.HasData)
-                ars.ReadPortString();*/
+            ars.SendCommand("start");
+            ars.ClearBuffer();
 
+            //Thread.Sleep(500);
+            //string s = ars.ReadLine();
+
+            int sensorIndex = -1;
+            float data = 0, time = 0;
             while (cd)
             {
                 if (ars.HasData)
                 {
-                    // ret.AllData[0].AddData(runTime);
+                    ars.ReadPort_TimeAndData(ref sensorIndex, ref data, ref time);
 
-                    int index = (int)ars.ReadPortFloat();
-                    MessageBox.Show(index.ToString());
-                    ret.AllData[index].Add(ars.ReadPortFloat());
-                    MessageBox.Show(ret.AllData[index][ret.AllData[index].Count - 1].ToString());
-                    ret.AllData[index + 1].Add(ars.ReadPortFloat());
-                    MessageBox.Show(ret.AllData[index + 1][ret.AllData[index + 1].Count - 1].ToString());
-
+                    switch (sensorSetup.Sensors[sensorIndex / 2].Type)
+                    {
+                        case 1:
+                            data *= 0.017f;
+                            break;
 
 
-                    ars.SendCommand_1B(0);
+                        default:
+                            break;
+                    }
+
+                    ret.AllData[sensorIndex].Add(time / 1000);
+                    ret.AllData[sensorIndex + 1].Add(data);
+
 
                     updateIndex++;
                     if (updateIndex >= updateEvery)
@@ -305,23 +258,22 @@ namespace Physics_Project
 
                         bgw.ReportProgress(0);
                     }
+
                 }
             }
 
-            if (ars.HasData)
-            {
-                ars.ReadPortString();
 
-                //Thread.Sleep(10);
-                //ret.AllData[0].Add(debug_i);
-                //debug_i += 0.1f;
-                //ret.AllData[1].Add(ars.ReadPortFloat());
-            }
-            //t.Stop();
-            Thread.Sleep(10);
-            ars.SendCommand_1B(1);
-            Thread.Sleep(10);
-            ars.PortClose();
+            ars.SendCommand("stop");
+            ars.ClearBuffer();
+
+            for (int i = sensors.Length - 1; i >= 0; i--)
+                if (sensors[i].Type == 0)
+                {
+                    ret.AllData.Remove(ret.AllData[i * 2 + 1]);
+                    ret.AllData.Remove(ret.AllData[i * 2]);
+                }
+
+
         }
 
 
@@ -331,13 +283,13 @@ namespace Physics_Project
         private void Bgw_ProgressChanged(object sender, ProgressChangedEventArgs e)
         {
             tempGrapher.Update2();
-            tempTable.Update2();
+            //tempTable.Update2();
         }
         private void Bgw_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
             tempGrapher.RealTimeMode = false;
             tempGrapher.Update2();
-            tempTable.Update2();
+            //tempTable.Update2();
         }
         #endregion
 

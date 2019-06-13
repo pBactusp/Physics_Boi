@@ -163,6 +163,37 @@ namespace Physics_Project
             dataSetsTV.Nodes[DataSets.Count - 1].Checked = tempDataSet.Visible;
             dataSetsTV.SelectedNode = dataSetsTV.Nodes[DataSets.Count - 1];
         }
+        public void AddDataSet(DataSet dataset, string name = "", bool visible = true)
+        {
+            //DataSet tempDataSet = new DataSet();
+            //tempDataSet.Visible = visible;
+            //tempDataSet.DataX = dataset.DataX;
+            //tempDataSet.DataY = dataset.DataY;
+            //tempDataSet.Polynoms = new List<Polynom>();
+            //tempDataSet.LineColor = randomColor.GetColor();
+            //tempDataSet.Name = dataset.Name;
+
+            //if (tempDataSet.Name == "")
+            //    tempDataSet.Name = dataset.DataY.Name + "/" + dataset.DataX.Name;
+
+            //short tempIndex = 0;
+            //foreach (DataSet ds in DataSets)
+            //    if (ds.Name == tempDataSet.Name || ds.Name.Length > 3 && ds.Name.Substring(0, ds.Name.Length - 3) == tempDataSet.Name)
+            //        tempIndex++;
+            //if (tempIndex > 0)
+            //    tempDataSet.Name += "(" + tempIndex.ToString() + ")";
+
+            //DataSets.Add(tempDataSet);
+
+            dataset.LineColor = randomColor.GetColor();
+            DataSets.Add(dataset);
+            selectedDataSet = DataSets.Count - 1;
+
+            dataSetsTV.Nodes.Add(dataset.Name);
+            dataSetsTV.Nodes[DataSets.Count - 1].Checked = dataset.Visible;
+            dataSetsTV.SelectedNode = dataSetsTV.Nodes[DataSets.Count - 1];
+        }
+
         public void RemoveDataSet(string name)
         {
             int tempIndex = GetDataSetIndex(name);
@@ -764,6 +795,8 @@ namespace Physics_Project
         }
 
 
+
+
         private void displayPB_Resize(object sender, EventArgs e)
         {
             if (backgroundBitmap != null)
@@ -825,14 +858,31 @@ namespace Physics_Project
 
             Update2();
         }
-
         private void deleteToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            DataSets.Remove(DataSets[dataSetsTV.SelectedNode.Index]);
-            dataSetsTV.Nodes.Remove(dataSetsTV.Nodes[dataSetsTV.SelectedNode.Index]);
+            if (dataSetsTV.SelectedNode.Parent == null)
+            {
+                DataSets.Remove(DataSets[dataSetsTV.SelectedNode.Index]);
+                dataSetsTV.Nodes.Remove(dataSetsTV.Nodes[dataSetsTV.SelectedNode.Index]);
+            }
+            else
+            {
+                DataSets[dataSetsTV.SelectedNode.Parent.Index].Polynoms.RemoveAt(dataSetsTV.SelectedNode.Index);
+                dataSetsTV.Nodes[dataSetsTV.SelectedNode.Parent.Index].Nodes[dataSetsTV.SelectedNode.Index].Remove();
+            }
             Update2();
         }
-
+        private void copyNameToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (dataSetsTV.SelectedNode.Parent == null)
+            {
+                Clipboard.SetText(DataSets[dataSetsTV.SelectedNode.Index].Name);
+            }
+            else
+            {
+                Clipboard.SetText(dataSetsTV.Nodes[dataSetsTV.SelectedNode.Parent.Index].Nodes[dataSetsTV.SelectedNode.Index].Text);
+            }
+        }
         private void dataSetsTV_NodeMouseClick(object sender, TreeNodeMouseClickEventArgs e)
         {
             if (e.Button == MouseButtons.Right)
@@ -841,43 +891,36 @@ namespace Physics_Project
                 treeViewMEST.Show(Cursor.Position);
             }
         }
+        
 
         private void DisplayPB_Zoom(object sender, MouseEventArgs e)
         {
             float tempIntervalX = (float)(maxX - minX) / ZoomInterval,
                 tempIntervalY = (float)(maxY - minY) / ZoomInterval;
 
-            if (e.X < offsetW && e.X > 0)
-            {
-                if (e.Delta > 0 && minY + 2 * tempIntervalY < maxY)
-                {
-                    minY += tempIntervalY;
-                    maxY -= tempIntervalY;
-                }
-                else if (e.Delta > 0 && minY + 2 * tempIntervalY < maxY)
-                {
-                    minY += tempIntervalY;
-                    maxY -= tempIntervalY;
-                }
-            }
-            else if (e.Y > realHeight && e.Y <= backgroundBitmap.Height)
-            {
-                if (e.Delta < 0 && e.X > offsetW && e.Y < displayPB.Height - offsetH)
-                {
-                    minX -= tempIntervalX;
-                    maxX += tempIntervalX;
-                }
-            }
-            else if (e.Delta > 0)
+            if (e.Delta > 0)
             {
                 if (minX + 2 * tempIntervalX < maxX &&
                         minY + 2 * tempIntervalY < maxY)
                     if (zoomModeCB.Text == "To Center")
                     {
-                        minX += tempIntervalX;
-                        maxX -= tempIntervalX;
-                        minY += tempIntervalY;
-                        maxY -= tempIntervalY;
+                        if (e.X < offsetW)
+                        {
+                            minY += tempIntervalY;
+                            maxY -= tempIntervalY;
+                        }
+                        else if (e.Y > displayPB.Height - offsetH)
+                        {
+                            minX += tempIntervalX;
+                            maxX -= tempIntervalX;
+                        }
+                        else
+                        {
+                            minX += tempIntervalX;
+                            maxX -= tempIntervalX;
+                            minY += tempIntervalY;
+                            maxY -= tempIntervalY;
+                        }
                     }
                     else if (zoomModeCB.Text == "To Mouse")
                     {
@@ -914,10 +957,24 @@ namespace Physics_Project
             {
                 if (zoomModeCB.Text == "To Center")
                 {
-                    minX -= tempIntervalX;
-                    maxX += tempIntervalX;
-                    minY -= tempIntervalY;
-                    maxY += tempIntervalY;
+                    if (e.X < offsetW)
+                    {
+                        minY -= tempIntervalY;
+                        maxY += tempIntervalY;
+                        
+                    }
+                    else if (e.Y > displayPB.Height - offsetH)
+                    {
+                        minX -= tempIntervalX;
+                        maxX += tempIntervalX;
+                    }
+                    else
+                    {
+                        minX -= tempIntervalX;
+                        maxX += tempIntervalX;
+                        minY -= tempIntervalY;
+                        maxY += tempIntervalY;
+                    }
                 }
                 else if (zoomModeCB.Text == "To Mouse")
                 {
@@ -954,6 +1011,22 @@ namespace Physics_Project
             Update2();
         }
 
+        private void fourierBU_Click(object sender, EventArgs e)
+        {
+            AddDataSet(fourierTransform.FFTcomplete(DataSets[selectedDataSet]));
+        }
+
+        private void adDatasetBU_Click_1(object sender, EventArgs e)
+        {
+            DatasetSelector ds = new DatasetSelector();
+            ds.ShowDialog();
+
+            GlobalData.allRuns[0].AddDataList(ds.DataSet.DataX);
+            GlobalData.allRuns[0].AddDataList(ds.DataSet.DataY);
+
+            AddDataSet(ds.DataSet);
+        }
+
         private void displayPB_MouseDoubleClick(object sender, MouseEventArgs e)
         {
             if (e.Button == MouseButtons.Left)
@@ -984,12 +1057,6 @@ namespace Physics_Project
         }
 
 
-        private void addDatasetBU_Click(object sender, EventArgs e)
-        {
-            DatasetSelector ds = new DatasetSelector();
-            ds.ShowDialog();
-            if (ds.hori != null && ds.vert != null)
-                AddDataSet(ds.hori, ds.vert);
-        }
+
     }
 }

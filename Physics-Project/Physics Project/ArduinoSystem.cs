@@ -14,6 +14,7 @@ namespace Physics_Project
         #region Properties
         // Private
         //
+        private const int SERIAL_RATE = 1000000;
         private SerialPort Port;
         private byte[] bufferF = new byte[12];
         //
@@ -50,15 +51,21 @@ namespace Physics_Project
         /// <param name="arg2"></param>
         /// <param name="arg3"></param>
         /// <param name="arg4"></param>
-        public void SendCommand(int commandNum, int arg1 = 0, int arg2 = 0, int arg3 = 0, int arg4 = 0)
+        public bool SendCommand(string command)
         {
-            buffer_5BCommand[0] = Convert.ToByte(commandNum);
-            buffer_5BCommand[1] = Convert.ToByte(arg1);
-            buffer_5BCommand[2] = Convert.ToByte(arg2);
-            buffer_5BCommand[3] = Convert.ToByte(arg3);
-            buffer_5BCommand[4] = Convert.ToByte(arg4);
+            Port.Write(command);
 
-            Port.Write(buffer_5BCommand, 0, 5);
+            string ok = Port.ReadLine();
+
+            // For Debug:
+            //
+            //if (!ok.Contains("ok"))
+            //{
+            //    MessageBox.Show("Error at SendCommand! | command = " + command + " | ok = " + ok);
+            //    return false;
+            //}
+
+            return true;
         }
         //
         /// <summary>
@@ -67,55 +74,23 @@ namespace Physics_Project
         /// <param name="arg"></param>
         public void SendCommand_1B(int arg)
         {
-            buffer_1B[0] = Convert.ToByte(arg);
+            buffer_1B[0] = (byte)arg;
             Port.Write(buffer_1B, 0, 1);
-        }
-        //
-        public void SendSensor(params Sensor[] sensors)
-        {
-            SendCommand(3, sensors.Length);
-
-            foreach (Sensor sensor in sensors)
-            {
-                /*byte[] tempBuffer = new byte[]
-                    {
-                        Convert.ToByte(sensor.Type),
-                        Convert.ToByte(sensor.Con.digPin1),
-                        Convert.ToByte(sensor.Con.digPin2),
-                        Convert.ToByte(sensor.Con.digPin3),
-                        Convert.ToByte(sensor.Con.interruptPin),
-                        Convert.ToByte(sensor.Con.anPin1),
-                        Convert.ToByte(sensor.Con.anPin2)
-                    };
-                Port.Write(tempBuffer, 0, tempBuffer.Length);*/
-
-
-                int byteCounter = 0;
-                while ((byteCounter + 1) * 255 < sensor.SampleRate)
-                    byteCounter++;
-
-                byte[] tempBuffer = new byte[] { Convert.ToByte(sensor.Type), Convert.ToByte(sensor.ConnectionNumber), Convert.ToByte(byteCounter), Convert.ToByte(sensor.SampleRate - byteCounter * 255) };
-                Port.Write(tempBuffer, 0, tempBuffer.Length);
-                
-            }
-
         }
         //
         /// <summary>
         /// <para>Read data from port as a string.</para>
         /// </summary>
         /// <returns></returns>
-        public string ReadPortString()
+        public string ClearBuffer()
         {
-            int count = Port.BytesToRead;
-            string ret = "";
-            while (count > 0)
-            {
-                ret += Convert.ToChar(Port.ReadByte());
-                count--;
-            }
-            HasData = false;
-            return ret;
+            return Port.ReadExisting();
+        }
+        //
+        public string ReadLine()
+        {
+            string s = Port.ReadLine();
+            return s;
         }
         //
         /// <summary>
@@ -133,13 +108,36 @@ namespace Physics_Project
 
             return float.Parse(Encoding.ASCII.GetString(buffer));
         }
+
+        public void ReadPort_TimeAndData(ref int index, ref float data, ref float time)
+        {
+            string s = ReadLine();
+
+
+            string[] sBuffer = s.Split(',');
+
+            index = int.Parse(sBuffer[0]) * 2;
+            data = float.Parse(sBuffer[1]);
+            time = float.Parse(sBuffer[2]);
+
+            if (Port.BytesToRead == 0)
+                HasData = false;
+
+
+
+        }
+
         //
         /// <summary>
         /// <para>Open the serial port.</para>
         /// </summary>
         public void PortOpen()
         {
-            Port.Open();
+            if (!Port.IsOpen)
+            {
+                Port.Open();
+                //Thread.Sleep(1000);
+            }
         }
         //
         /// <summary>
@@ -147,7 +145,8 @@ namespace Physics_Project
         /// </summary>
         public void PortClose()
         {
-            Port.Close();
+            if (Port.IsOpen)
+                Port.Close();
         }
         //
         #endregion
@@ -157,12 +156,13 @@ namespace Physics_Project
             string[] ports = SerialPort.GetPortNames();
             foreach (string port in ports)
             {
-                Port = new SerialPort(port, 9600);
+                Port = new SerialPort(port, SERIAL_RATE);
                 if (DetectArduino())
                 {
                     Port.PortName = port;
                     HasPort = true;
                     Port.DataReceived += Port_DataReceived;
+                    PortOpen();
                     break;
                 }
                 else
@@ -173,18 +173,15 @@ namespace Physics_Project
         {
             try
             {
-                if (!Port.IsOpen)
-                    Port.Open();
-                SendCommand(0);
-                Thread.Sleep(1000);
+                PortOpen();
 
-                if (ReadPortString() == "boi")
+                if (SendCommand("marco"))
                 {
-                    Port.Close();
+                    PortClose();
                     return true;
                 }
 
-                Port.Close();
+                PortClose();
                 return false;
             }
             catch

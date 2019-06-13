@@ -39,12 +39,12 @@ namespace Physics_Project
 
         private void selectBU_Click(object sender, EventArgs e)
         {
-            if (tv.SelectedNode.Parent != null)
+            if (tv.SelectedNode != null && tv.SelectedNode.Parent != null)
             {
                 Selected_NamedList = GlobalData.allRuns[tv.SelectedNode.Parent.Index].AllData[tv.SelectedNode.Index];
                 Close();
             }
-
+            Close();
         }
 
         private void tv_NodeMouseDoubleClick(object sender, TreeNodeMouseClickEventArgs e)

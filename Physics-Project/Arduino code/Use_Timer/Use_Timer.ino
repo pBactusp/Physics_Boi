@@ -11,6 +11,7 @@ byte arg2;
 byte arg3;
 byte arg4;
 
+int debug_pin = 12;
 
 /*Sensor *first;
 Sensor *second;*/
@@ -22,39 +23,56 @@ float sensor_inputs[6];
 float time_stamps[6];
 
 
+void LedBlink(int x)
+{
+  for (; x > 0; x--)
+  {
+    digitalWrite(debug_pin, HIGH);
+    delay(100);
+    digitalWrite(debug_pin, LOW);
+    delay(100);
+  }
+}
+
 Sensor* ReadSensor()
 {
-  int type = Serial.read() - '0';
-  int con = Serial.read() - '0';
+  //LedBlink(5);
+  int type = Serial.read();
+  //LedBlink(5);
+  int con = Serial.read();
   
   int sample_rate = Serial.read() * 255;
   sample_rate += Serial.read();
   
+  //LedBlink(5);
+
   Sensor *ret = new Sensor(type, con, sample_rate);
 
-  pinMode(ret->Con->digPin1, INPUT);
+  pinMode(ret->Con->digPin1, OUTPUT);
   pinMode(ret->Con->digPin2, INPUT);
   pinMode(ret->Con->digPin3, INPUT);
   pinMode(ret->Con->interruptPin, INPUT);
   
   pinMode(ret->Con->anPin1, INPUT);
   pinMode(ret->Con->anPin2, INPUT);
-      
+
+  
   return ret;
 }
 
 
 void ReadCommand()
 {
-    commandNum = Serial.read();
+    commandNum = Serial.read() ;
+    //Serial.print(commandNum);
     delay(1);    
-    arg1 = Serial.read();
+    arg1 = Serial.read() ;
     delay(1);    
-    arg2 = Serial.read();
+    arg2 = Serial.read() ;
     delay(1);    
-    arg3 = Serial.read();
+    arg3 = Serial.read() ;
     delay(1);    
-    arg4 = Serial.read(); 
+    arg4 = Serial.read() ; 
 }
 
 void SendSensorData(int index)
@@ -110,15 +128,26 @@ void Interrupt_General(int num)
 
 void loop() 
 {
-  while(Serial.available() != 5){delay(5);}
+
+  //while(Serial.available() != 5){delay(5);}
   
-  if (Serial.available() == 5)
+  if (Serial.available() >= 5)
   {
-    ReadCommand(); 
-    
+    //Serial.print("Available");
+    ReadCommand();
+    //Serial.write(commandNum);
+    //Serial.print("\n");
+    //Serial.write(arg1);
+    //Serial.print("\n");
+    //Serial.write(arg2);
+    //Serial.print("\n");
+    //Serial.write(arg3);
+    //Serial.print("\n");
+    //Serial.write(arg4);
+
     switch (commandNum)
     {
-      case 0:
+      case 9:
         Serial.print("boi");
       break;
 
@@ -130,21 +159,32 @@ void loop()
         GettingData = false;
       break;
       
-      case 50:
-
-        for (int i = 0; i < 6; i++)
-          sensors[i] = new Sensor(0, -1, 0);
-
-        sensor_num = arg1 - '0';
-        
-        for (int i = 0; i < sensor_num; i++)
-          sensors[i] = ReadSensor();
-
-        StartMain();
-        
+      case 5:
+        GettingData = true;
       break;
+      
     }
     
+  }
+
+  if (GettingData)
+  {
+    for (int i = 0; i < 6; i++)
+          sensors[i] = new Sensor(0, -1, 0);
+
+    sensor_num = arg1;
+    
+    //LedBlink(5);
+    for (int i = 0; i < sensor_num; i++)
+    {
+      //LedBlink(10);
+      sensors[i] = ReadSensor();
+    }
+    
+    //LedBlink(5);
+
+
+    StartMain();
   }
   
   delay(10);
@@ -154,6 +194,7 @@ void loop()
 
 void setup()
 {
+  pinMode(debug_pin, OUTPUT);
   Serial.begin(9600);
 }
 
@@ -175,12 +216,14 @@ void StartMain()
   GettingData = true;
   for (int i = 0; i < 6; i++)
     sensor_has_input[i] = false;
+  
   Timer1.start();
 }
 
 
 void Main()
 {
+  //LedBlink(2);
   for (int i = 0; i < 6; i++)
   {
     sensors[i]->SampleRateCounter++;
@@ -204,14 +247,18 @@ void Main()
           break;
       }
       
-      
-      while(Serial.available() == 0){delay(1);}
-      commandNum = Serial.read();
-      if (commandNum == 1)
+
+      if (Serial.available() > 0)
       {
-        GettingData = false;
-        Timer1.stop();
+        commandNum = Serial.read();
+        if (commandNum == 1)
+        {
+          GettingData = false;
+          Timer1.stop();
+        }
       }
+      
+      
     }
   }
 
